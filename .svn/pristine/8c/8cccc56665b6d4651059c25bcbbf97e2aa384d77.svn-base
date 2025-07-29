@@ -1,0 +1,155 @@
+﻿using ScrapSystem.Api.Data.Repositories.IRepositories;
+using ScrapSystem.Api.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq.Expressions;
+using ScrapSystem.Api.Domain.Models;
+using Dapper;
+using System.Data;
+
+public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+{
+    private readonly AppDbContext _context;
+    private readonly DbSet<TEntity> _dbSet;
+
+    public GenericRepository(AppDbContext context)
+    {
+        _context = context;
+        _dbSet = context.Set<TEntity>();
+    }
+
+    public async Task<List<TEntity>> AddMultiEntities(List<TEntity> models)
+    {
+        await _dbSet.AddRangeAsync(models);
+
+        return models;
+    }
+
+    public async Task<TEntity> Add(TEntity entity)
+    {
+        await _dbSet.AddAsync(entity);
+        return entity;
+    }
+
+    public async Task<TEntity> Update(TEntity entity)
+    {
+        _dbSet.Update(entity);
+        return entity;
+    }
+
+    public async Task<TEntity> Delete(TEntity entity)
+    {
+        _dbSet.Remove(entity);
+        return entity;
+    }
+
+    public async Task<bool> Exists(int id)
+    {
+        return await _dbSet.FindAsync(id) != null;
+    }
+
+    public async Task<TEntity> Get(int id)
+    {
+        return await _dbSet.FindAsync(id);
+    }
+
+    public async Task<IReadOnlyList<TEntity>> GetAll()
+    {
+        return await _dbSet.ToListAsync();
+    }
+
+    public  async Task<(List<TItem>, TResult2)> ExecuteStoredProcedureAsync<TItem, TResult2>(
+        string storedProcedureName,
+        object parameters = null,
+        CommandType commandType = CommandType.StoredProcedure)
+    {
+        var connection = _context.Database.GetDbConnection();
+        try
+        {
+            if (connection.State != ConnectionState.Open)
+                await connection.OpenAsync();
+
+            using var multi = await connection.QueryMultipleAsync(
+                storedProcedureName,
+                parameters,
+                commandType: commandType);
+
+            var result1 = (await multi.ReadAsync<TItem>()).ToList();
+            var result2 = await multi.ReadFirstAsync<TResult2>();
+
+            return (result1, result2);
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+        finally
+        {
+            if (connection.State == ConnectionState.Open)
+                await connection.CloseAsync();
+        }
+    }
+
+    public  async Task<(List<TItem1>, List<TItem2>)> ExecuteStoredProcedureMultiDataAsync<TItem1, TItem2>(
+        string storedProcedureName,
+        object parameters = null,
+        CommandType commandType = CommandType.StoredProcedure)
+    {
+        var connection = _context.Database.GetDbConnection();
+        try
+        {
+            if (connection.State != ConnectionState.Open)
+                await connection.OpenAsync();
+
+            using var multi = await connection.QueryMultipleAsync(
+                storedProcedureName,
+                parameters,
+                commandType: commandType);
+
+            var result1 = (await multi.ReadAsync<TItem1>()).ToList();
+            var result2 = (await multi.ReadAsync<TItem2>()).ToList();
+
+            return (result1, result2);
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+        finally
+        {
+            if (connection.State == ConnectionState.Open)
+                await connection.CloseAsync();
+        }
+    }
+
+    public  async Task<List<T>> ExecuteStoredProcedureAsync<T>(
+        string storedProcedureName,
+        object parameters = null,
+        CommandType commandType = CommandType.StoredProcedure)
+    {
+        var connection = _context.Database.GetDbConnection();
+        try
+        {
+            if (connection.State != ConnectionState.Open)
+                await connection.OpenAsync();
+
+            var result = await connection.QueryAsync<T>(
+                storedProcedureName,
+                parameters,
+                commandType: commandType);
+
+            return result.ToList();
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+        finally
+        {
+            if (connection.State == ConnectionState.Open)
+                await connection.CloseAsync();
+        }
+    }
+
+
+}

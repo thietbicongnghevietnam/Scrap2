@@ -1,0 +1,9 @@
+﻿namespace ScrapSystem.Api.Application.Request
+{
+    public class VerifyRequest
+    {
+        public IFormFile File { get; set; }
+
+        public string Type { get; set; }
+    }
+}

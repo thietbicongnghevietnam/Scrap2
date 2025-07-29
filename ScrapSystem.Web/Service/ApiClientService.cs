@@ -1,0 +1,333 @@
+﻿using Azure.Core;
+using ScrapSystem.Api.Application.DTOs.ScrapDtos;
+using ScrapSystem.Api.Application.Request;
+using ScrapSystem.Api.Application.Response;
+using ScrapSystem.Api.Application.Response;
+using ScrapSystem.Web.Dtos;
+using ScrapSystem.Web.Service.Interface;
+using Serilog;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Text.Json;
+using X.PagedList;
+
+namespace ScrapSystem.Web.Service
+{
+    public class ApiClientService : IApiClientService
+    {
+        private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public ApiClientService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor, ILogger<ApiClientService> logger)
+        {
+            _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
+
+            var token = GetTokenFromSession();
+            if (!string.IsNullOrEmpty(token))
+            {
+                SetAuthToken(token);
+            }
+        }
+
+        public async Task<ApiResult<LoginResponse>> LoginAsync(Dtos.LoginRequest request)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/auth/login", request);
+                var result = await response.Content.ReadFromJsonAsync<ApiResult<LoginResponse>>();
+                if (response.IsSuccessStatusCode)
+                {
+                    
+                    _httpContextAccessor.HttpContext.Session.SetString("JWTToken", result.Item.AccessToken);
+                    _httpContextAccessor.HttpContext.Session.SetString("RefreshToken", result.Item.RefreshToken);
+                    _httpContextAccessor.HttpContext.Session.SetString("UserInfo", JsonSerializer.Serialize(result.Item.User));
+
+                    SetAuthToken(result.Item.AccessToken);
+
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                return result;
+            }
+            catch (HttpRequestException ex)
+            {
+                Log.Error(ex, "Network error during login");
+                throw new ApiException("Network error. Please check your connection.", 0, ex.Message);
+            }
+        }
+
+        public async Task<ApiResult<bool>> LogoutAsync()
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync("api/auth/logout", null);
+
+                var result = await response.Content.ReadFromJsonAsync<ApiResult<bool>>();
+
+                if (response.IsSuccessStatusCode && result?.IsSuccess == true)
+                {
+                    _httpContextAccessor.HttpContext.Session.Remove("JWTToken");
+                    _httpContextAccessor.HttpContext.Session.Remove("RefreshToken");
+                    _httpContextAccessor.HttpContext.Session.Remove("UserInfo");
+
+                    _httpClient.DefaultRequestHeaders.Authorization = null;
+                }
+
+                return result;
+            }
+            catch (HttpRequestException ex)
+            {
+                Log.Error(ex, "Network error during logout");
+                throw new ApiException("Network error. Please check your connection.", 0, ex.Message);
+            }
+        }
+
+
+        public async Task<T> GetAsync<T>(string endpoint)
+        {
+            await EnsureAuthenticatedAsync();
+
+            try
+            {
+                var response = await _httpClient.GetAsync(endpoint);
+                return await ProcessResponse<T>(response);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // Try refresh token
+                if (await RefreshTokenAsync())
+                {
+                    var response = await _httpClient.GetAsync(endpoint);
+                    return await ProcessResponse<T>(response);
+                }
+                throw;
+            }
+        }
+
+
+
+
+        public async Task<T> GetAsync<T>(string endpoint, Dictionary<string, string> queryParams)
+        {
+            await EnsureAuthenticatedAsync();
+
+            var uriBuilder = new UriBuilder(_httpClient.BaseAddress)
+            {
+                Path = endpoint  
+            };
+
+            var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+
+            if (queryParams != null)
+            {
+                foreach (var param in queryParams)
+                {
+                    query[param.Key] = param.Value;
+                }
+            }
+
+            uriBuilder.Query = query.ToString();
+            var fullEndpoint = uriBuilder.ToString();
+
+            try
+            {
+                var response = await _httpClient.GetAsync(fullEndpoint);
+                return await ProcessResponse<T>(response);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                throw;
+            }
+        }
+
+
+        public async Task<T> PostAsync<T>(string endpoint, object data)
+        {
+            await EnsureAuthenticatedAsync();
+
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync(endpoint, data);
+                return await ProcessResponse<T>(response);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                if (await RefreshTokenAsync())
+                {
+                    var response = await _httpClient.PostAsJsonAsync(endpoint, data);
+                    return await ProcessResponse<T>(response);
+                }
+                throw;
+            }
+        }
+
+        public async Task<T> PutAsync<T>(string endpoint, object data)
+        {
+            await EnsureAuthenticatedAsync();
+
+            var response = await _httpClient.PutAsJsonAsync(endpoint, data);
+            return await ProcessResponse<T>(response);
+        }
+
+        public async Task DeleteAsync(string endpoint)
+        {
+            await EnsureAuthenticatedAsync();
+
+            var response = await _httpClient.DeleteAsync(endpoint);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApiException($"Delete failed: {response.StatusCode}", (int)response.StatusCode, await response.Content.ReadAsStringAsync());
+            }
+        }
+
+        public void SetAuthToken(string token)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        }
+
+        public async Task<bool> RefreshTokenAsync()
+        {
+            try
+            {
+                var refreshToken = _httpContextAccessor.HttpContext.Session.GetString("RefreshToken");
+                var accessToken = _httpContextAccessor.HttpContext.Session.GetString("JWTToken");
+                var request = new RefreshTokenRequest { AccessToken = accessToken, RefreshToken = refreshToken };
+                var response = await _httpClient.PostAsJsonAsync("api/auth/refresh", request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<ApiResult<AuthResponse>>();
+
+                    _httpContextAccessor.HttpContext.Session.SetString("JWTToken", result.Item.AccessToken);
+                    SetAuthToken(result.Item.AccessToken);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Token refresh failed");
+            }
+
+            // Clear session if refresh fails
+            ClearSession();
+            return false;
+        }
+
+        private async Task<T> ProcessResponse<T>(HttpResponseMessage response)
+        {
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException();
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<T>(content, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+        }
+
+        private async Task EnsureAuthenticatedAsync()
+        {
+            var token = GetTokenFromSession();
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new UnauthorizedAccessException("No authentication token found");
+            }
+
+            // Check if token is expired (optional)
+            if (IsTokenExpired(token))
+            {
+                if (!await RefreshTokenAsync())
+                {
+                    throw new UnauthorizedAccessException("Token expired and refresh failed");
+                }
+            }
+        }
+
+        private string GetTokenFromSession()
+        {
+            return _httpContextAccessor.HttpContext?.Session.GetString("JWTToken");
+        }
+
+        private bool IsTokenExpired(string token)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jsonToken = tokenHandler.ReadJwtToken(token);
+                return jsonToken.ValidTo < DateTime.UtcNow.AddMinutes(-5); 
+            }
+            catch
+            {
+                return true; 
+            }
+        }
+
+        private void ClearSession()
+        {
+            _httpContextAccessor.HttpContext?.Session.Remove("JWTToken");
+            _httpContextAccessor.HttpContext?.Session.Remove("UserInfo");
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+        }
+
+        public async Task<ApiResult<object>> PostFileAsync(string endPoint, Dictionary<string, IFormFile> files, Dictionary<string, string> contents)
+        {
+            try
+            {
+                using var content = new MultipartFormDataContent();
+                foreach (var kvp in files)
+                {
+                    var formKey = kvp.Key;
+                    var file = kvp.Value;
+                    if (file != null)
+                    {
+                        content.Add(new StreamContent(file.OpenReadStream()), formKey, file.FileName);
+                    }
+                }
+
+                foreach (var kvp in contents)
+                {
+                    var formKey = kvp.Key;
+                    var value = kvp.Value;
+
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        content.Add(new StringContent(value), formKey);
+                    }
+                }
+
+                var response = await _httpClient.PostAsync(endPoint, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<ApiResult<object>>();
+                    return result;
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ApiException($"Import failed: {response.StatusCode}", (int)response.StatusCode, errorContent);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApiException("Network error. Please check your connection.", 0, ex.Message);
+            }
+        }
+
+        public async Task<IPagedList<ScrapViewDto>> LoadScrapList(ScrapRequest request)
+        {
+            var rs = await PostAsync<ApiResult<ScrapViewDto>>("api/Scrap/load-data", request);
+
+            if (rs == null || rs.PagedResult?.Records == null)
+            {
+                return new StaticPagedList<ScrapViewDto>(new List<ScrapViewDto>(), request.Page, request.PageSize, 0);
+            }
+
+            return new StaticPagedList<ScrapViewDto>(rs.PagedResult.Records, request.Page, request.PageSize, rs.PagedResult.TotalCount);
+        }
+
+    }
+}

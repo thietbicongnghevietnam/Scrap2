@@ -1,0 +1,28 @@
+2025-05-22 08:41:30.471 [ERR] An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure' to the 'UseSqlServer' call.
+2025-05-22 08:41:30.561 [ERR] An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure' to the 'UseSqlServer' call.
+2025-05-22 08:46:18.106 [ERR] The maximum number of retries (6) was exceeded while executing database operations with 'SqlServerRetryingExecutionStrategy'. See the inner exception for the most recent failure.
+2025-05-22 08:46:18.179 [ERR] The maximum number of retries (6) was exceeded while executing database operations with 'SqlServerRetryingExecutionStrategy'. See the inner exception for the most recent failure.
+2025-05-22 08:47:20.381 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-05-22 08:47:20.478 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-05-22 08:50:00.243 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-05-22 08:50:00.316 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-05-22 11:14:26.712 [ERR] Missing type map configuration or unsupported mapping.
+
+Mapping types:
+CreateUserDto -> User
+BaseLayedArchitecture.Services.DTOs.CreateUserDto -> BaseLayedArchitecture.Data.Models.User
+2025-05-22 11:14:26.784 [ERR] Missing type map configuration or unsupported mapping.
+
+Mapping types:
+CreateUserDto -> User
+BaseLayedArchitecture.Services.DTOs.CreateUserDto -> BaseLayedArchitecture.Data.Models.User
+2025-05-22 11:14:58.212 [ERR] Missing type map configuration or unsupported mapping.
+
+Mapping types:
+CreateUserDto -> User
+BaseLayedArchitecture.Services.DTOs.CreateUserDto -> BaseLayedArchitecture.Data.Models.User
+2025-05-22 11:14:58.252 [ERR] Missing type map configuration or unsupported mapping.
+
+Mapping types:
+CreateUserDto -> User
+BaseLayedArchitecture.Services.DTOs.CreateUserDto -> BaseLayedArchitecture.Data.Models.User

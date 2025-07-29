@@ -1,0 +1,269 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using ScrapSystem.Api.Application.DTOs.UserDtos;
+using ScrapSystem.Api.Application.Service.IServices;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.Data;
+using ScrapSystem.Api.Application.Response;
+using ScrapSystem.Api.Application.Response;
+using System.Security.Claims;
+using Serilog;
+
+namespace ScrapSystem.Api.Controllers
+{
+
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
+    {
+        private readonly IAuthService _authService;
+
+        public AuthController(IAuthService authService, ILogger<AuthController> logger)
+        {
+            _authService = authService;
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginDto request)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new ApiResult<object>
+                    {
+                        IsSuccess = false,
+                        Message = "Invalid input",
+                        Errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList()
+                    });
+                }
+
+                var response = await _authService.LoginAsync(request);
+
+                return Ok(new ApiResult<AuthResponse>
+                {
+                    IsSuccess = true,
+                    Message = "Login successful",
+                    Item = response
+                });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new ApiResult<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResult<object>
+                {
+                    IsSuccess = false,
+                    Message = "An error occurred during login"
+                });
+            }
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new ApiResult<object>
+                    {
+                        IsSuccess = false,
+                        Message = "Invalid input"
+                    });
+                }
+
+                var response = await _authService.RefreshTokenAsync(request);
+
+                return Ok(new ApiResult<AuthResponse>
+                {
+                    IsSuccess = true,
+                    Message = "Token refreshed successfully",
+                    Item = response
+                });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new ApiResult<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Token refresh error");
+                return StatusCode(500, new ApiResult<object>
+                {
+                    IsSuccess = false,
+                    Message = "An error occurred during token refresh"
+                });
+            }
+        }
+
+        [HttpPost("revoke")]
+        [Authorize]
+        public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenRequest request)
+        {
+            try
+            {
+                var result = await _authService.RevokeTokenAsync(request.RefreshToken);
+
+                if (result)
+                {
+                    return Ok(new ApiResult<object>
+                    {
+                        IsSuccess = true,
+                        Message = "Token revoked successfully"
+                    });
+                }
+
+                return BadRequest(new ApiResult<object>
+                {
+                    IsSuccess = false,
+                    Message = "Token not found or already revoked"
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Token revoke error");
+                return StatusCode(500, new ApiResult<object>
+                {
+                    IsSuccess = false,
+                    Message = "An error occurred during token revocation"
+                });
+            }
+        }
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] UserChangePasswordDto request)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new ApiResult<object>
+                    {
+                        IsSuccess = false,
+                        Message = "Invalid input"
+                    });
+                }
+
+                var userId = User.FindFirst("uid")?.Value;
+                var result = await _authService.ChangePasswordAsync(userId, request);
+
+                if (result)
+                {
+                    return Ok(new ApiResult<object>
+                    {
+                        IsSuccess = true,
+                        Message = "Password changed successfully"
+                    });
+                }
+
+                return BadRequest(new ApiResult<object>
+                {
+                    IsSuccess = false,
+                    Message = "Current password is incorrect"
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Change password error");
+                return StatusCode(500, new ApiResult<object>
+                {
+                    IsSuccess = false,
+                    Message = "An error occurred while changing password"
+                });
+            }
+        }
+
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            var authHeader = Request.Headers["Authorization"].FirstOrDefault();
+
+            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+            {
+                return BadRequest(new ApiResult<object>
+                {
+                    IsSuccess = false,
+                    Message = "No token provided"
+                });
+            }
+
+            var token = authHeader.Substring("Bearer ".Length).Trim();
+            var result = await _authService.LogoutAsync(token);
+
+            return Ok(result);
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] UserRegisterDto request)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ApiResult<object>
+                {
+                    IsSuccess = false,
+                    Message = "Invalid input",
+                    Errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList()
+                });
+            }
+
+            var result = await _authService.RegisterAsync(request);
+
+            return Ok(result);
+        }
+
+        //[HttpGet("me")]
+        //[Authorize]
+        //public async Task<IActionResult> GetCurrentUser()
+        //{
+        //    try
+        //    {
+        //        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+        //        var user = await _userService.GetUserByIdAsync(userId);
+
+        //        if (user == null)
+        //        {
+        //            return NotFound(new ApiResponse<object>
+        //            {
+        //                Success = false,
+        //                Message = "User not found"
+        //            });
+        //        }
+
+        //        return Ok(new ApiResponse<UserDto>
+        //        {
+        //            Success = true,
+        //            Data = new UserDto
+        //            {
+        //                UserId = user.Id,
+        //                Email = user.Email,
+        //                FullName = user.FullName,
+        //                Roles = user.UserRoles?.Select(ur => ur.Role.Name).ToList() ?? new List<string>()
+        //            }
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Get current user error");
+        //        return StatusCode(500, new ApiResponse<object>
+        //        {
+        //            Success = false,
+        //            Message = "An error occurred while getting user information"
+        //        });
+        //    }
+        //}
+    }
+
+}

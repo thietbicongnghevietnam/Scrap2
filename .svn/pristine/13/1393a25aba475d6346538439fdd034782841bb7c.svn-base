@@ -1,0 +1,24 @@
+﻿@model Tuple<IEnumerable<object>, List<string>> 
+
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+        <tr>
+            @foreach (var col in Model.Item2)
+            {
+                <th>@col</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model.Item1)
+        {
+            <tr>
+                @foreach (var col in Model.Item2)
+                {
+                    var value = row?.GetType().GetProperty(col)?.GetValue(row, null) ?? "";
+                    <td>@value</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

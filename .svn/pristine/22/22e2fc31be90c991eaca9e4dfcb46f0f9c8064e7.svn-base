@@ -1,0 +1,36 @@
+2025-06-11 09:37:35.792 [ERR] The entity type 'MaterialName' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'. For more information on keyless entity types, see https://go.microsoft.com/fwlink/?linkid=2141943.
+2025-06-11 09:37:42.634 [ERR] The entity type 'MaterialName' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'. For more information on keyless entity types, see https://go.microsoft.com/fwlink/?linkid=2141943.
+2025-06-11 09:39:18.684 [INF] User 2015561 logged in successfully
+2025-06-11 09:45:28.138 [ERR] The instance of entity type 'MaterialName' cannot be tracked because another instance with the same key value for {'PartNo'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+2025-06-11 10:09:53.496 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-11 10:10:03.520 [INF] User 2015561 logged in successfully
+2025-06-11 10:10:16.483 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-11 10:13:20.575 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-11 10:13:20.997 [INF] User 2015561 logged in successfully
+2025-06-11 10:14:27.554 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-11 10:14:41.338 [ERR] The instance of entity type 'MaterialName' cannot be tracked because another instance with the same key value for {'PartNo'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+2025-06-11 10:16:32.309 [ERR] The instance of entity type 'MaterialName' cannot be tracked because another instance with the same key value for {'PartNo'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+2025-06-11 10:17:25.411 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-11 10:23:20.665 [INF] User 2015561 logged in successfully
+2025-06-11 10:23:42.643 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-11 10:39:52.908 [INF] User 2015561 logged in successfully
+2025-06-11 13:57:02.230 [INF] User 2015561 logged in successfully
+2025-06-11 13:57:49.855 [ERR] Object reference not set to an instance of an object.
+2025-06-11 14:08:22.213 [INF] User 2015561 logged in successfully
+2025-06-11 14:11:44.864 [INF] User 2015561 logged in successfully
+2025-06-11 14:35:58.942 [INF] User 2015561 logged in successfully
+2025-06-11 14:38:00.131 [INF] User 2015561 logged in successfully
+2025-06-11 14:38:51.804 [INF] User 2015561 logged in successfully
+2025-06-11 14:40:09.222 [INF] User 2015561 logged in successfully
+2025-06-11 14:41:48.005 [INF] User 2015561 logged in successfully
+2025-06-11 14:53:49.517 [INF] User 2015561 logged in successfully
+2025-06-11 15:02:59.316 [INF] User 2015561 logged in successfully
+2025-06-11 15:14:33.859 [INF] User 2015561 logged in successfully
+2025-06-11 15:44:51.174 [INF] User 2015561 logged in successfully
+2025-06-11 15:52:06.911 [INF] User 2015561 logged in successfully
+2025-06-11 15:56:17.593 [INF] User 2015561 logged in successfully
+2025-06-11 16:02:41.666 [INF] User 2015561 logged in successfully
+2025-06-11 16:03:32.561 [INF] User 2015561 logged in successfully
+2025-06-11 16:04:13.328 [INF] User 2015561 logged in successfully
+2025-06-11 16:07:37.849 [INF] User 2015561 logged in successfully
+2025-06-11 16:09:17.065 [INF] User 2015561 logged in successfully

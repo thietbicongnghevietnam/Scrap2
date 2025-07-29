@@ -1,0 +1,790 @@
+﻿@using ScrapSystem.Api.Application.DTOs.LabelListDtos
+@using ScrapSystem.Api.Application.Response
+@model MasterDetailDto<LabelListMasterDto, LabelListDetailDto>
+
+@{
+    ViewData["Title"] = "Scrap Label List";
+    var types = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "1", Text = "SAP + Hệ thống" },
+        new SelectListItem { Value = "2", Text = "File tool + Hệ thống" },
+        new SelectListItem { Value = "3", Text = "Label List + Hệ thống" }
+    };
+}
+<style>
+    .table-selected,
+    .table-selected > th,
+    .table-selected > td {
+        background-color: #4091e5;
+    }
+
+    .edit-btn, .delete-btn {
+        color: black;
+        border: none;
+        margin-right: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        .edit-btn:hover {
+            color: dodgerblue;
+        }
+
+        .delete-btn:hover {
+            color: red;
+        }
+
+</style>
+
+<h3>@ViewData["Title"]</h3>
+<div class=" grid-margin ">
+    <div class="card p-4">
+        <div class="card-title"> search </div>
+        <div class="card-body p-0">
+            <form class="row" id="filterForm">
+                <div class="col-md-3">
+                    <label>Ngày bắt đầu</label>
+                    <input type="date" name="startDate" value="@ViewBag.StartDate" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Ngày kết thúc</label>
+                    <input type="date" name="endDate" value="@ViewBag.EndDate" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Sanction</label>
+                    <input type="text" name="sanction" value="@ViewBag.Sanction" class="form-control" />
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary mr-3" asp-action="Index" asp-controller="Scrap">Tìm kiếm</button>
+                    <a class="btn btn-primary" onclick="printSelectedBarcodes()">
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-printer me-2" viewBox="0 0 16 16">
+                            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+                            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+                        </svg>
+                        Print
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+<div>
+    <div class=" card p-4">
+        <div class="card-body p-0 d-flex flex-row gap-3">
+            <div class="table-responsive col-md-5">
+                <div class="card-title"> master sanction </div>
+                <table class="table table-hover table-bordered mb-2" id="notExistTable">
+                    <thead class="table-header">
+                        <tr>
+                            <th><input type="checkbox" id="selectAllCheckbox" onclick="toggleAllCheckboxes()" /></th>
+                            <th>STT</th>
+                            <th>Sanction</th>
+                            <th>Section</th>
+                            <th>Pallet</th>
+                            <th>Barcode</th>
+                        </tr>
+                    </thead>
+                    <tbody id="masterTbody">
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center" id="pagination1">
+                    </ul>
+                </nav>
+            </div>
+            <div class="table-responsive ">
+                <div class="card-title"> details </div>
+                <table class="table table-hover table-bordered mb-2" id="conflictTable">
+                    <thead class="table-header">
+                        <tr>
+                            <th>STT</th>
+                            <th>Material</th>
+                            <th>EnglishName</th>
+                            <th>Qty</th>
+                            <th>QtyActual</th>
+                            <th>Barcode</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailTbody">
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center" id="pagination2">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal edit -->
+<div class="modal fade" id="editQtyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h4 class="modal-title fw-bold" id="material"></h4>
+                    <input type="number" class="d-none" id="idScrapDetail" />
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-12">
+                        <h5>Số lượng thực tế : <span id="qtyActual"></span></h5>
+                    </div>
+                    <div class="col-md-12">
+                        <label>Số lượng</label>
+                        <input type="number" id="qty" class="form-control" />
+                    </div>
+
+                    <div class="col-md-3 d-flex align-items-end">
+                        <a class="btn btn-primary" onclick="UpdateScrapDetail( document.getElementById('idScrapDetail').value);">Update</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/JsBarcode.code128.min.js"></script>
+
+<script>
+
+
+    const notExist = @(Model != null && Model.Masters != null ? Html.Raw(Json.Serialize(Model.Masters)) : "[]");
+    let existConflictQty = @(Model != null && Model.Details != null ? Html.Raw(Json.Serialize(Model.Details)) : "[]");
+
+
+    const editQtyModal = new bootstrap.Modal(document.getElementById('editQtyModal'));
+    const rowsPerPage = 25;
+    let currentPageNotExist = 1;
+    let currentPageConflictQty = 1;
+    let filteredConflictData = existConflictQty;
+    let selectedBarcodes = new Set();
+
+    const tableMaster = document.getElementById('notExistTable');
+
+
+    function renderNotExistTable(page) {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginatedNotExist = notExist.slice(start, end);
+        const masterTbody = document.getElementById('masterTbody');
+        masterTbody.innerHTML = '';
+
+        if (paginatedNotExist.length == 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = '<td colspan = 6 >Không có dữ liệu hiển thị.</td>';
+            masterTbody.appendChild(row);
+        }
+
+        paginatedNotExist.forEach((item, i) => {
+            const row = document.createElement('tr');
+            row.onclick = (e) => {
+                if (e.target.type !== 'checkbox') {
+                    filteredConflictData = existConflictQty.filter(x => x.barcode === item.barcode);
+                    currentPageConflictQty = 1;
+                    renderConflictQtyTable(1);
+                    let rows = tableMaster.querySelectorAll('tbody tr');
+                    rows.forEach(r => r.classList.remove('table-selected'));
+                    row.classList.toggle('table-selected');
+                }
+            };
+            const isChecked = selectedBarcodes.has(item.barcode) ? 'checked' : '';
+            row.innerHTML = `
+                                                                                                        <td><input type="checkbox" class="row-checkbox" data-barcode="${item.barcode}" ${isChecked} onclick="updateCheckboxState(this)"></td>
+                                                                                                        <td>${start + i + 1}</td>
+                                                                                                        <td>${item.sanction}</td>
+                                                                                                        <td>${item.section.toUpperCase()}</td>
+                                                                                                        <td>${item.pallet}</td>
+                                                                                                        <td>${item.barcode}</td>`;
+            masterTbody.appendChild(row);
+        });
+        updateSelectAllCheckbox();
+        renderNotExistPagination();
+    }
+
+    function renderConflictQtyTable(page) {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginatedConflict = filteredConflictData.slice(start, end);
+        const detailTbody = document.getElementById('detailTbody');
+        detailTbody.innerHTML = '';
+        if (paginatedConflict.length == 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = '<td colspan = 7 >Không có dữ liệu hiển thị.</td>';
+            detailTbody.appendChild(row);
+        }
+        paginatedConflict.forEach((item, i) => {
+            const row = document.createElement('tr');
+            if (parseFloat(item.qty) !== parseFloat(item.qtyActual))
+                row.className = "table-danger";
+            row.innerHTML = `
+                                                                                                        <td>${start + i + 1}</td>
+                                                                                                        <td>${item.material}</td>
+                                                                                                        <td>${item.englishName}</td>
+                                                                                                        <td>${item.qty}</td>
+                                                                                                        <td>${item.qtyActual}</td>
+                                                                                                        <td>${item.barcode}</td>
+                                                                                                        <td>
+                                                                                                                        <button class="edit-btn" onclick="showEditScrapDetail(${item.id}, '${item.material}', ${item.qtyActual}, ${item.qty})" > <i class="fas fa-edit"></i>  </button>
+                                                                                                                        <button class="delete-btn" onclick="DeleteScrapDetail(${item.id})"> <i class="fas fa-trash"></i>  </button>
+                                                                                                        </td>`;
+            detailTbody.appendChild(row);
+        });
+        renderConflictQtyPagination();
+    }
+
+    async function DeleteScrapDetail(id) {
+
+
+        try {
+            const response = await fetch(`DeleteScrapDetail/${id.toString()}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                alert('Có lỗi đã xảy ra !');
+            }
+            filteredConflictData = filteredConflictData.filter(x => x.id !== id);
+            renderConflictQtyTable(currentPageConflictQty);
+
+        } catch (error) {
+
+            return null;
+        }
+    }
+
+    async function UpdateScrapDetail(id) {
+
+        let newQty = document.getElementById('qty').value;
+        const formData = new FormData();
+        formData.append('qty', newQty);
+        try {
+            const response = await fetch(`UpdateScrapDetail/${id.toString()}`, {
+                method: 'Put',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                alert('update thất bại, có lỗi đã xảy ra !');
+                return;
+            }
+            editQtyModal.hide();
+
+            filteredConflictData = filteredConflictData.map(item =>
+                item.id == id ? { ...item, qty: newQty } : item
+            );
+
+            existConflictQty = existConflictQty.map(item =>
+                item.id == id ? { ...item, qty: newQty } : item
+            );
+
+            renderConflictQtyTable(currentPageConflictQty);
+
+        } catch (error) {
+
+            return null;
+        }
+    }
+
+    function showEditScrapDetail(id, material, qtyActual, qty) {
+        document.getElementById('idScrapDetail').value = id;
+        document.getElementById('material').innerHTML = material;
+        document.getElementById('qtyActual').innerHTML = qtyActual;
+        let qtyInput = document.getElementById('qty')
+        qtyInput.value = qty;
+
+        editQtyModal.show();
+    }
+
+
+    function renderNotExistPagination() {
+        const totalPages = Math.ceil(notExist.length / rowsPerPage);
+        const pagination = document.getElementById('pagination1');
+        pagination.innerHTML = '';
+
+        // << button
+        if (notExist.length > 0) {
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPageNotExist === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#" onclick="setNotExistPage(${currentPageNotExist - 1}); return false;"> << </a>`;
+            pagination.appendChild(prevLi);
+        }
+
+
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPageNotExist - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        if (startPage > 1) {
+            const firstPage = document.createElement('li');
+            firstPage.className = `page-item`;
+            firstPage.innerHTML = `<a class="page-link" href="#" onclick="setNotExistPage(1); return false;">1</a>`;
+            pagination.appendChild(firstPage);
+
+            if (startPage > 2) {
+                const dots = document.createElement('li');
+                dots.className = `page-item disabled`;
+                dots.innerHTML = `<a class="page-link" href="#">...</a>`;
+                pagination.appendChild(dots);
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('li');
+            pageBtn.className = `page-item ${i === currentPageNotExist ? 'active' : ''}`;
+            pageBtn.innerHTML = `<a class="page-link" href="#" onclick="setNotExistPage(${i}); return false;">${i}</a>`;
+            pagination.appendChild(pageBtn);
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const dots = document.createElement('li');
+                dots.className = `page-item disabled`;
+                dots.innerHTML = `<a class="page-link" href="#">...</a>`;
+                pagination.appendChild(dots);
+            }
+
+            const lastPage = document.createElement('li');
+            lastPage.className = `page-item`;
+            lastPage.innerHTML = `<a class="page-link" href="#" onclick="setNotExistPage(${totalPages}); return false;">${totalPages}</a>`;
+            pagination.appendChild(lastPage);
+        }
+
+        // Next button
+        if (notExist.length > 0) {
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPageNotExist === totalPages ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#" onclick="setNotExistPage(${currentPageNotExist + 1}); return false;"> >> </a>`;
+            pagination.appendChild(nextLi);
+        }
+    }
+
+    function renderConflictQtyPagination() {
+        const totalPages = Math.ceil(filteredConflictData.length / rowsPerPage);
+        const pagination = document.getElementById('pagination2');
+        pagination.innerHTML = '';
+
+        // << button
+        if (notExist.length > 0) {
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPageConflictQty === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#" onclick="setConflictQtyPage(${currentPageConflictQty - 1}); return false;"><<</a>`;
+            pagination.appendChild(prevLi);
+        }
+
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPageConflictQty - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        if (startPage > 1) {
+            const firstPage = document.createElement('li');
+            firstPage.className = `page-item`;
+            firstPage.innerHTML = `<a class="page-link" href="#" onclick="setConflictQtyPage(1); return false;">1</a>`;
+            pagination.appendChild(firstPage);
+
+            if (startPage > 2) {
+                const dots = document.createElement('li');
+                dots.className = `page-item disabled`;
+                dots.innerHTML = `<a class="page-link" href="#">...</a>`;
+                pagination.appendChild(dots);
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('li');
+            pageBtn.className = `page-item ${i === currentPageConflictQty ? 'active' : ''}`;
+            pageBtn.innerHTML = `<a class="page-link" href="#" onclick="setConflictQtyPage(${i}); return false;">${i}</a>`;
+            pagination.appendChild(pageBtn);
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const dots = document.createElement('li');
+                dots.className = `page-item disabled`;
+                dots.innerHTML = `<a class="page-link" href="#">...</a>`;
+                pagination.appendChild(dots);
+            }
+
+            const lastPage = document.createElement('li');
+            lastPage.className = `page-item`;
+            lastPage.innerHTML = `<a class="page-link" href="#" onclick="setConflictQtyPage(${totalPages}); return false;">${totalPages}</a>`;
+            pagination.appendChild(lastPage);
+        }
+
+        // Next button
+        if (notExist.length > 0) {
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPageConflictQty === totalPages ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#" onclick="setConflictQtyPage(${currentPageConflictQty + 1}); return false;"> >> </a>`;
+            pagination.appendChild(nextLi);
+        }
+    }
+
+    function setNotExistPage(page) {
+        if (page < 1 || page > Math.ceil(notExist.length / rowsPerPage)) return;
+        currentPageNotExist = page;
+        renderNotExistTable(page);
+    }
+
+    function setConflictQtyPage(page) {
+        if (page < 1 || page > Math.ceil(filteredConflictData.length / rowsPerPage)) return;
+        currentPageConflictQty = page;
+        renderConflictQtyTable(page);
+    }
+
+    function toggleAllCheckboxes() {
+        const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+        const checkboxes = document.querySelectorAll('#masterTbody .row-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+            const barcode = checkbox.getAttribute('data-barcode');
+            if (checkbox.checked) {
+                selectedBarcodes.add(barcode);
+            } else {
+                selectedBarcodes.delete(barcode);
+            }
+        });
+    }
+
+    function updateCheckboxState(checkbox) {
+        const barcode = checkbox.getAttribute('data-barcode');
+        if (checkbox.checked) {
+            selectedBarcodes.add(barcode);
+        } else {
+            selectedBarcodes.delete(barcode);
+            document.getElementById('selectAllCheckbox').checked = false;
+        }
+        updateSelectAllCheckbox();
+    }
+
+    function updateSelectAllCheckbox() {
+        const allChecked = notExist.every(item => selectedBarcodes.has(item.barcode));
+        document.getElementById('selectAllCheckbox').checked = allChecked;
+    }
+
+    function checkActivePrint() {
+        let barcodeError = '';
+        selectedBarcodes.forEach(item => {
+            let conflictData = existConflictQty.find(x => x.qty != x.qtyActual && x.barcode == item)
+            if (conflictData != null) {
+                barcodeError += conflictData.barcode;
+            }
+        });
+        if (barcodeError == '')
+            return true;
+
+        alert('Số lượng thực tế khác với số lượng trên hệ thống, Không được phép in phiếu !');
+        return false;
+    }
+
+    function printSelectedBarcodes() {
+        const selected = Array.from(selectedBarcodes);
+        if (selected.length === 0) {
+            alert('Chọn label list cần in ! ');
+            return;
+        }
+        if (!checkActivePrint()) return;
+
+
+        const baseUrl = window.location.origin;
+        let printContent = `
+                                                                                        <html>
+                                                                                        <head>
+                                                                                            <script src="${baseUrl}/js/JsBarcode.code128.min.js"><\/script>
+                                                                                <style>
+                                                                                    @@media print {
+                                                                                        @@page {
+                                                                                            margin: 0;
+                                                                                            size: A4 portrait;
+                                                                                        }
+
+                                                                                        html, body {
+                                                                                            margin: 0 !important;
+                                                                                            padding: 0 !important;
+                                                                                            -webkit-print-color-adjust: exact !important;
+                                                                                            color-adjust: exact !important;
+                                                                                            font-family: Arial, sans-serif;
+                                                                                        }
+
+                                                                                        .page-container {
+                                                                                            page-break-after: always;
+                                                                                            page-break-inside: avoid;
+                                                                                            min-height: calc(100vh - 4cm);
+                                                                                            padding: 0;
+                                                                                            margin: 0;
+                                                                                            display: flex;
+                                                                                            flex-direction: column;
+                                                                                            padding: 20px;
+                                                                                        }
+
+                                                                                        .page-container:last-child {
+                                                                                            page-break-after: avoid;
+                                                                                        }
+
+                                                                                        .label-container {
+                                                                                            flex: 1;
+                                                                                            padding: 20px 0;
+                                                                                        }
+
+                                                                                        .table {
+                                                                                            width: 100%;
+                                                                                            border-collapse: collapse;
+                                                                                            margin-top: 20px;
+                                                                                        }
+
+                                                                                        .table th, .table td {
+                                                                                            border: 1px solid black;
+                                                                                            padding: 8px;
+                                                                                            text-align: left;
+                                                                                        }
+
+                                                                                        .table th {
+                                                                                            background-color: #f5f5f5;
+                                                                                            font-weight: bold;
+                                                                                        }
+
+                                                                                        .header-section {
+                                                                                            margin-bottom: 20px;
+                                                                                            display: flex;
+                                                                                            align-items: flex-start;
+                                                                                            gap: 20px;
+                                                                                        }
+
+                                                                                        .barcode-container {
+                                                                                            flex-shrink: 0;
+                                                                                            width: 120px;
+                                                                                        }
+
+                                                                                        .header-content {
+                                                                                            flex: 1;
+                                                                                        }
+
+                                                                                        .text-center { text-align: center; }
+                                                                                        .fw-bold { font-weight: bold; }
+
+                                                                                        .info-row {
+                                                                                            display: flex;
+                                                                                            justify-content: center;
+                                                                                            gap: 40px;
+                                                                                            margin: 10px 0;
+                                                                                        }
+
+                                                                                        .info-item {
+                                                                                            font-size: 14px;
+                                                                                        }
+
+                                                                                        .title {
+                                                                                            font-size: 18px;
+                                                                                            font-weight: bold;
+                                                                                            text-align: center;
+                                                                                            margin-bottom: 15px;
+                                                                                        }
+
+                                                                                        .pallet-info {
+                                                                                            text-align: center;
+                                                                                            font-size: 14px;
+                                                                                            font-weight: bold;
+                                                                                            margin-top: 10px;
+                                                                                        }
+                                                                                    }
+
+                                                                                    @@media screen {
+                                                                                        .page-container {
+                                                                                            border: 1px solid #ddd;
+                                                                                            margin-bottom: 30px;
+                                                                                            padding: 20px;
+                                                                                            background: white;
+                                                                                            min-height: 800px;
+                                                                                        }
+
+                                                                                        .label-container {
+                                                                                            padding: 0;
+                                                                                        }
+
+                                                                                        .table {
+                                                                                            width: 100%;
+                                                                                            border-collapse: collapse;
+                                                                                            margin-top: 20px;
+                                                                                        }
+
+                                                                                        .table th, .table td {
+                                                                                            border: 1px solid #ddd;
+                                                                                            padding: 8px;
+                                                                                            text-align: left;
+                                                                                        }
+
+                                                                                        .table th {
+                                                                                            background-color: #f5f5f5;
+                                                                                            font-weight: bold;
+                                                                                        }
+
+                                                                                        .header-section {
+                                                                                            margin-bottom: 20px;
+                                                                                            display: flex;
+                                                                                            align-items: flex-start;
+                                                                                            gap: 20px;
+                                                                                        }
+
+                                                                                        .barcode-container {
+                                                                                            flex-shrink: 0;
+                                                                                            width: 120px;
+                                                                                        }
+
+                                                                                        .header-content {
+                                                                                            flex: 1;
+                                                                                        }
+
+                                                                                        .text-center { text-align: center; }
+                                                                                        .fw-bold { font-weight: bold; }
+
+                                                                                        .info-row {
+                                                                                            display: flex;
+                                                                                            justify-content: center;
+                                                                                            gap: 40px;
+                                                                                            margin: 10px 0;
+                                                                                        }
+
+                                                                                        .info-item {
+                                                                                            font-size: 14px;
+                                                                                        }
+
+                                                                                        .title {
+                                                                                            font-size: 18px;
+                                                                                            font-weight: bold;
+                                                                                            text-align: center;
+                                                                                            margin-bottom: 15px;
+                                                                                        }
+
+                                                                                        .pallet-info {
+                                                                                            text-align: center;
+                                                                                            font-size: 14px;
+                                                                                            font-weight: bold;
+                                                                                            margin-top: 10px;
+                                                                                        }
+                                                                                    }
+                                                                                </style>
+                                                                            </head>
+                                                                            <body>`;
+
+        const selectedMasters = notExist.filter(item => selectedBarcodes.has(item.barcode));
+        const currentMonthYear = new Date().toLocaleString('default', { month: '2-digit', year: 'numeric' }).toUpperCase();
+
+        selectedMasters.forEach((master, index) => {
+            const details = existConflictQty.filter(item => item.barcode == master.barcode);
+
+            printContent += `
+                                                                                <div class="page-container">
+                                                                                    <div class="label-container">
+                                                                                        <div class="header-section">
+                                                                                            <div class="barcode-container">
+                                                                                                <svg class="barcode" data-code="${master.barcode}"></svg>
+                                                                                            </div>
+
+                                                                                            <div class="header-content">
+                                                                                                <div class="title">LABEL HÀNG HỦY THÁNG ${currentMonthYear}</div>
+
+                                                                                                <div class="info-row">
+                                                                                                    <div class="info-item">
+                                                                                                        <strong>Section:</strong> ${master.section.toUpperCase() || 'N/A'}
+                                                                                                    </div>
+                                                                                                    <div class="info-item">
+                                                                                                        <strong>Sanction:</strong> ${master.sanction || 'N/A'}
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="pallet-info">
+                                                                                                    <strong>Pallet No: ${master.pallet || 'N/A'}</strong>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="table-section">
+                                                                                            <table class="table">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th style="width: 8%; text-align: center;">STT No.</th>
+                                                                                                        <th style="width: 30%;">Part number</th>
+                                                                                                        <th style="width: 35%;">Part name<br>(English name)</th>
+                                                                                                        <th style="width: 10%; text-align: center;">Qty</th>
+                                                                                                        <th style="width: 17%; text-align: center;">Pallet</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>`;
+
+            details.forEach((detail, i) => {
+                printContent += `
+                                                                                                    <tr>
+                                                                                                        <td style="text-align: center;">${i + 1}</td>
+                                                                                                        <td>${detail.material || 'N/A'}</td>
+                                                                                                        <td>${detail.englishName || 'N/A'}</td>
+                                                                                                        <td style="text-align: center;">${detail.qty || 'N/A'}</td>
+                                                                                                        <td style="text-align: center;">${master.pallet || 'N/A'}</td>
+                                                                                                    </tr>`;
+            });
+
+            printContent += `
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>`;
+        });
+
+        printContent += `
+                                                                                <script>
+                                                                                    if (typeof JsBarcode !== 'undefined') {
+                                                                                        document.querySelectorAll(".barcode").forEach(svg => {
+                                                                                            JsBarcode(svg, svg.dataset.code, {
+                                                                                                width: 1.5,
+                                                                                                height: 50,
+                                                                                                fontSize: 12,
+                                                                                                margin: 5,
+                                                                                                displayValue: true
+                                                                                            });
+                                                                                        });
+                                                                                    } else {
+                                                                                        console.error('JsBarcode library not loaded!');
+                                                                                    }
+
+                                                                                    window.onload = function() {
+                                                                                        document.title = '';
+                                                                                        setTimeout(function() {
+                                                                                            window.print();
+                                                                                            window.onafterprint = function() {
+                                                                                                window.close();
+                                                                                            };
+                                                                                        }, 500);
+                                                                                    };
+                                                                                <\/script>
+                                                                            <\/body>
+                                                                            <\/html>`;
+
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(printContent);
+        printWindow.document.close();
+    }
+    renderNotExistTable(currentPageNotExist);
+    // renderConflictQtyTable(currentPageConflictQty);
+</script>

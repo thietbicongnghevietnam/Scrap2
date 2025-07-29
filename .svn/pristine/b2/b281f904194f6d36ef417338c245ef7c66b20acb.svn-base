@@ -1,0 +1,46 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Serilog;
+
+namespace ScrapSystem.Api.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize]
+    public class ProtectedController : ControllerBase
+    {
+        [HttpGet("name")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Get()
+        {
+            try
+            {
+                var user = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+                return Ok(user);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                throw;
+            }
+        }
+
+        [HttpGet("role")]
+        [Authorize(Roles = "User")]
+        public IActionResult GetRole()
+        {
+            try
+            {
+                var user = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+                return Ok(user);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                throw;
+            }
+        }
+    }
+}

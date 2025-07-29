@@ -1,0 +1,27 @@
+2025-06-19 08:23:47.967 [INF] User 2015561 logged in successfully
+2025-06-19 08:24:00.644 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-19 08:27:50.627 [INF] User 2015561 logged in successfully
+2025-06-19 08:36:24.100 [ERR] The instance of entity type 'Scrap' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+2025-06-19 08:39:12.145 [ERR] The instance of entity type 'Scrap' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+2025-06-19 08:39:13.547 [ERR] Procedure or function LoadDataScrap has too many arguments specified.
+2025-06-19 08:40:59.177 [ERR] Procedure or function LoadDataScrap has too many arguments specified.
+2025-06-19 08:41:02.328 [ERR] Procedure or function LoadDataScrap has too many arguments specified.
+2025-06-19 08:43:40.169 [INF] User 2015561 logged in successfully
+2025-06-19 08:43:42.088 [ERR] Procedure or function LoadDataScrap has too many arguments specified.
+2025-06-19 08:56:28.340 [INF] User 2015561 logged in successfully
+2025-06-19 09:04:13.895 [INF] User 2015561 logged in successfully
+2025-06-19 09:04:38.249 [ERR] Unable to cast object of type 'System.String' to type 'System.Int32'.
+2025-06-19 09:30:39.882 [INF] User 2015561 logged in successfully
+2025-06-19 10:02:45.363 [INF] User 2015561 logged in successfully
+2025-06-19 10:03:09.208 [ERR] Unable to cast object of type 'System.String' to type 'System.Int32'.
+2025-06-19 10:03:59.975 [ERR] Unable to cast object of type 'System.String' to type 'System.Int32'.
+2025-06-19 10:43:38.931 [INF] User 2015561 logged in successfully
+2025-06-19 10:45:02.871 [ERR] Invalid username or password
+2025-06-19 10:45:07.445 [INF] User 2015561 logged in successfully
+2025-06-19 11:09:09.581 [INF] User 2015561 logged in successfully
+2025-06-19 11:11:53.790 [INF] User 2015561 logged in successfully
+2025-06-19 11:14:00.915 [INF] User 2015561 logged in successfully
+2025-06-19 11:49:02.548 [INF] User 2015561 logged in successfully
+2025-06-19 13:01:27.050 [INF] User 2015561 logged in successfully
+2025-06-19 16:42:01.395 [INF] User 2015561 logged in successfully
+2025-06-19 17:23:47.953 [INF] User 2015561 logged in successfully

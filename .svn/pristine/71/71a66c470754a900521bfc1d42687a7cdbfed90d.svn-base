@@ -1,0 +1,93 @@
+﻿@model ScrapSystem.Api.Application.DTOs.UserDtos.UserLoginDto
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login-ScrapSystem</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-shape shape1"></div>
+        <div class="floating-shape shape2"></div>
+        <div class="floating-shape shape3"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h1 class="login-title">Chào mừng</h1>
+            <p class="login-subtitle">Đăng nhập để tiếp tục</p>
+        </div>
+        <form class="login-form" asp-controller="Account" asp-action="Login" asp-model="UserLoginDto">
+          
+            <div class="form-group">
+                <input type="text" id="pid" class="form-input" asp-for="UserId" placeholder=" " required>
+                <label for="pid" class="form-label">PID</label>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" class="form-input" asp-for="Password" placeholder=" " required>
+                <label for="password" class="form-label">Mật khẩu</label>
+                <span class="password-toggle" onclick="togglePassword()"></span>
+            </div>
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="remember">
+                    Ghi nhớ đăng nhập
+                </label>
+                <a href="#" class="forgot-password" onclick="showSignup()">Quên mật khẩu?</a>
+            </div>
+            <button type="submit" class="login-btn">Đăng nhập</button>
+        </form>
+        <div class="signup-link">
+            Chưa có tài khoản? <a href="#" onclick="showSignup()">Đăng ký ngay</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.password-toggle');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '👁️';
+            }
+        };
+
+        function showSignup() {
+            alert('Chức năng này sẽ được triển khai sớm!');
+        }
+
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function () {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+
+            input.addEventListener('blur', function () {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+
+        const container = document.querySelector('.login-container');
+        container.addEventListener('mouseenter', function () {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+
+        container.addEventListener('mouseleave', function () {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    </script>
+</body>
+</html>

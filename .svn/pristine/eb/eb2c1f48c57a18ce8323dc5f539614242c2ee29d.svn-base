@@ -1,0 +1,112 @@
+﻿using ScrapSystem.Api.Data;
+using ScrapSystem.Api.Data.Repositories.IRepositories;
+using System.Data;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Serilog;
+using ScrapSystem.Api.Utilities;
+using ScrapSystem.Api.Application.DTOs.VerifyDataDtos;
+using ScrapSystem.Api.Application.Service.IServices;
+using ScrapSystem.Api.Application.Response;
+using ScrapSystem.Api.Application.DTOs.AppendixDtos;
+
+namespace ScrapSystem.Api.Application.Service
+{
+    public class VerifyDataService : IVerifyDataService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ExcelHelper _excelHelper;
+
+        public VerifyDataService(IUnitOfWork unitOfWork, ExcelHelper excelHelper)
+        {
+            _unitOfWork = unitOfWork;
+            _excelHelper = excelHelper;
+        }
+
+        public async Task<ApiResult<List<object>>> VerifyDataAsync(IFormFile file, string type)
+        {
+            var resultNotExist = new List<VerificationResult>();
+            var resultExistConflictQy = new List<VerificationResult>();
+            var data = new List<VerificationResult>();
+            try
+            {
+                switch (type)
+                {
+                    case "1":
+                        data = _excelHelper.ExcelSAPToDataTable(file);
+                        break;
+                    case "2":
+                        data = _excelHelper.ExcelFileToolToDataTable(file);
+                        break;
+                    default:
+                        break;
+                }
+
+                var list = data.Select(item => item.Material).ToList();
+
+                var systemData = await _unitOfWork.ScrapDetailRepository.GetScrapDetailsWithMaterial(list);
+
+                foreach (var sapItem in data)
+                {
+                    var systemMatchWithoutQty = systemData.FirstOrDefault(sys => sys.Material == sapItem.Material && sys.Sloc == sapItem.Sloc);
+
+                    if (systemMatchWithoutQty != null && systemMatchWithoutQty.Qty != sapItem.Qty)
+                    {
+                        resultExistConflictQy.Add(systemMatchWithoutQty);
+                    }
+                    else 
+                    {
+                        resultNotExist.Add(sapItem);
+                    }
+
+                }
+
+                //foreach (var toolItem in fileToolData)
+                //{
+                //    var systemMatch = systemData.FirstOrDefault(sys => sys.Material == toolItem.Material && sys.Sloc == toolItem.Sloc && sys.Qty == toolItem.Qty);
+
+                //    if (systemMatch == null)
+                //    {
+                //        resultFileToolWithSystem.Add(toolItem);
+                //    }
+                //}
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error verifying data between Excel and DB");
+                throw;
+            }
+
+            return new ApiResult<List<object>>
+            {
+                MasterDetail = new List<List<VerificationResult>>
+                {
+                    resultNotExist,
+                    resultExistConflictQy,
+                }
+            };
+        }
+        public async Task<ApiResult<byte[]>> GenarateAppendix(DateTime startDate, DateTime endDate, int appendix)
+        {
+            var excelFile = new byte[] { };
+            try
+            {
+                var parameters = new { StartDate = startDate, EndDate = endDate };
+                var data = await _unitOfWork.ScrapDetailRepository.ExecuteStoredProcedureAsync<AppendixDto>("GetDataScrapByMonth", parameters);
+
+                excelFile = await _excelHelper.ExportDataTableToExcel(data, appendix);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message, "Error generating appendix data for scrap details");
+            }
+            return new ApiResult<byte[]>
+            {
+                IsSuccess = true,
+                Item = excelFile
+            };
+
+        }
+    }
+}

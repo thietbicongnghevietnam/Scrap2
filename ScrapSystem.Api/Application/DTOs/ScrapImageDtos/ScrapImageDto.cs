@@ -1,0 +1,14 @@
+﻿namespace ScrapSystem.Api.Application.DTOs.ScrapImageDtos
+{
+    public class ScrapImageDto
+    {
+        public string Sanction { get; set; }
+        public string ImagePath { get; set; }
+        public string ImageType { get; set; }
+        public string Pallet { get; set; }
+        public string Section { get; set; }
+        public int Status { get; set; }
+        public DateTime IssueOutDate { get; set; }
+        public string CreatedId { get; set; }
+    }
+}

@@ -1,0 +1,23 @@
+2025-06-05 10:00:56.417 [ERR] The type initializer for 'ScrapSystem.Utilities.ExcelHelper' threw an exception.
+2025-06-05 10:01:03.492 [ERR] The type initializer for 'ScrapSystem.Utilities.ExcelHelper' threw an exception.
+2025-06-05 10:01:22.722 [ERR] The type initializer for 'ScrapSystem.Utilities.ExcelHelper' threw an exception.
+2025-06-05 10:18:50.217 [ERR] Cannot find column 1.
+2025-06-05 10:25:58.841 [ERR] Cannot find column 0.
+2025-06-05 10:30:03.354 [ERR] Cannot find column 10.
+2025-06-05 10:30:18.804 [ERR] Cannot find column 10.
+2025-06-05 10:30:50.251 [ERR] A column named 'No.' already belongs to this DataTable.
+2025-06-05 10:39:46.351 [ERR] Row out of range
+2025-06-05 10:39:54.536 [ERR] Row out of range
+2025-06-05 10:40:16.160 [ERR] Column out of range
+2025-06-05 10:40:53.810 [ERR] Column out of range
+2025-06-05 10:42:39.931 [ERR] Unable to track an entity of type 'Scrap' because its primary key property 'SanctionID' is null.
+2025-06-05 10:51:46.425 [ERR] Unable to track an entity of type 'Scrap' because its primary key property 'SanctionID' is null.
+2025-06-05 10:51:51.516 [ERR] Unable to track an entity of type 'Scrap' because its primary key property 'SanctionID' is null.
+2025-06-05 13:16:25.471 [ERR] A column named 'Plan' already belongs to this DataTable.
+2025-06-05 13:32:49.032 [ERR] The instance of entity type 'Scrap' cannot be tracked because another instance with the same key value for {'SanctionID', 'STT'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+2025-06-05 13:32:51.585 [ERR] The instance of entity type 'Scrap' cannot be tracked because another instance with the same key value for {'SanctionID', 'STT'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+2025-06-05 13:33:08.732 [ERR] The instance of entity type 'Scrap' cannot be tracked because another instance with the same key value for {'SanctionID', 'STT'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+2025-06-05 13:33:52.971 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-05 13:34:46.523 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-05 13:37:33.551 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-05 13:38:18.683 [ERR] An error occurred while saving the entity changes. See the inner exception for details.

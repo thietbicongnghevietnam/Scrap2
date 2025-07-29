@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "MQoUWpQ2jpT0ZX0wUk3cq9ct1xRKfHvAPdn0JhFbQ04=",
+  "Source": "ScrapSystem.Api",
+  "BasePath": "_content/ScrapSystem.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

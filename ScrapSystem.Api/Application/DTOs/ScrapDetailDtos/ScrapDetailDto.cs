@@ -1,0 +1,18 @@
+﻿namespace ScrapSystem.Api.Application.DTOs.ScrapDetailDtos
+{
+    public class ScrapDetailDto
+    {
+        public int SanctionId { get; set; }
+        public string Material { get; set; }
+        public float Qty { get; set; }
+        public float QtyActual { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal Amount { get; set; }
+        public string CostCenter { get; set; }
+        public string Reason { get; set; }
+        public string Plant { get; set; }
+        public string Sloc { get; set; }
+        public string NameCost { get; set; }
+        public string Pallet { get; set; }
+    }
+}

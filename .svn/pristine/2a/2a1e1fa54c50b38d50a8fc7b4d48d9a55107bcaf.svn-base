@@ -1,0 +1,40 @@
+2025-06-06 08:29:26.526 [ERR] Cannot find column 17.
+2025-06-06 09:00:41.078 [ERR] Error mapping types.
+
+Mapping types:
+List`1 -> List`1
+System.Collections.Generic.List`1[[ScrapSystem.Application.DTOs.ScrapDtos.ScrapDto, ScrapSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.List`1[[ScrapSystem.Domain.Models.Scrap, ScrapSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+2025-06-06 09:01:54.722 [ERR] Error mapping types.
+
+Mapping types:
+List`1 -> List`1
+System.Collections.Generic.List`1[[ScrapSystem.Application.DTOs.ScrapDtos.ScrapDto, ScrapSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.List`1[[ScrapSystem.Domain.Models.Scrap, ScrapSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+2025-06-06 09:03:44.275 [ERR] Error mapping types.
+
+Mapping types:
+List`1 -> List`1
+System.Collections.Generic.List`1[[ScrapSystem.Application.DTOs.ScrapDtos.ScrapDto, ScrapSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.List`1[[ScrapSystem.Domain.Models.Scrap, ScrapSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+2025-06-06 09:07:36.921 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-06 09:08:00.788 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-06 09:08:07.014 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-06 09:30:37.547 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-06-06 16:30:03.789 [ERR] The entity type 'UserRole' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'. For more information on keyless entity types, see https://go.microsoft.com/fwlink/?linkid=2141943.
+2025-06-06 16:30:27.006 [ERR] The entity type 'UserRole' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'. For more information on keyless entity types, see https://go.microsoft.com/fwlink/?linkid=2141943.
+2025-06-06 16:31:21.712 [ERR] Unable to determine the relationship represented by navigation 'UserRole.Role' of type 'Role'. Either manually configure the relationship, or ignore this property using the '[NotMapped]' attribute or by using 'EntityTypeBuilder.Ignore' in 'OnModelCreating'.
+2025-06-06 16:33:30.667 [ERR] Unable to track an instance of type 'UserRefreshToken' because it does not have a primary key. Only entity types with a primary key may be tracked.
+2025-06-06 16:34:52.235 [ERR] The entity type 'ImageScrap' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'. For more information on keyless entity types, see https://go.microsoft.com/fwlink/?linkid=2141943.
+2025-06-06 16:34:55.495 [ERR] The entity type 'ImageScrap' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'. For more information on keyless entity types, see https://go.microsoft.com/fwlink/?linkid=2141943.
+2025-06-06 16:35:05.966 [ERR] The entity type 'ImageScrap' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'. For more information on keyless entity types, see https://go.microsoft.com/fwlink/?linkid=2141943.
+2025-06-06 16:36:31.821 [ERR] Unable to track an entity of type 'UserRefreshToken' because its primary key property 'Id' is null.
+2025-06-06 16:38:46.334 [INF] User 2015561 logged in successfully
+2025-06-06 17:01:48.458 [INF] User 2015561 logged in successfully
+2025-06-06 17:02:26.440 [INF] User 2015561 logged in successfully
+2025-06-06 17:03:14.297 [INF] User 2015561 logged in successfully
+2025-06-06 17:07:02.691 [INF] User 2015561 logged in successfully
+2025-06-06 17:16:24.076 [INF] User 2015561 logged in successfully
+2025-06-06 17:16:44.005 [INF] User 2015561 logged in successfully
+2025-06-06 17:18:11.538 [INF] User 2015561 logged in successfully
+2025-06-06 17:20:59.860 [INF] User 2015561 logged in successfully
+2025-06-06 17:21:32.363 [INF] User 2015561 logged in successfully
+2025-06-06 17:24:49.774 [INF] User 2015561 logged in successfully
+2025-06-06 17:28:12.766 [INF] User 2015561 logged in successfully

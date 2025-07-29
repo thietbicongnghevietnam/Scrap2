@@ -1,0 +1,82 @@
+﻿using ScrapSystem.Api.Data.Repositories;
+using ScrapSystem.Api.Data.Repositories.IRepositories;
+using ScrapSystem.Api.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using ScrapSystem.Api.Services.Profiles;
+using ScrapSystem.Api.Domain.Models;
+using ScrapSystem.Api.Application.Service;
+using ScrapSystem.Api.Application.Service.IServices;
+using ScrapSystem.Api.Application.Common;
+using ScrapSystem.Api.Infrastructure.Repositories.IRepositories;
+using ScrapSystem.Api.Infrastructure.Repositories;
+using ScrapSystem.Api.Utilities;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace ScrapSystem.Api.Infrastructure.Configuration
+{
+    public static class ServiceResgistation
+    {
+        public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
+        {
+
+
+            services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), 
+                    sqlServerOptions => sqlServerOptions.EnableRetryOnFailure());
+                options.AddInterceptors(serviceProvider.GetRequiredService<AuditInterceptor>());
+            });
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<AuditInterceptor>();
+
+            // Registering the repositories
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IScrapRepository, ScrapRepository>();
+
+            // Registering the services
+            services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IImportScrapService, ImportSrcapService>();
+            services.AddScoped<IVerifyDataService, VerifyDataService>();
+
+            services.AddSingleton<ExcelHelper>();
+            // Registering AutoMapper
+            services.AddAutoMapper(builder =>
+                builder.AddProfile(new MappingProfile())
+            );
+
+            //Registering Authentication and JWT
+            services.Configure<JwtConfig>(configuration.GetSection("JWT"));
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidAudience = configuration["JWT:ValidAudience"],
+                        ValidIssuer = configuration["JWT:ValidIssuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+                    };
+                });
+
+            return services;
+        }
+    }
+}

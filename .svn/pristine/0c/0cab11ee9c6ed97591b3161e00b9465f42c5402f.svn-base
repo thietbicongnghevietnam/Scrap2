@@ -1,0 +1,7 @@
+﻿namespace ScrapSystem.Web.Dtos
+{
+    public class ImportRequest
+    {
+        public IFormFile File { get; set; }
+    }
+}

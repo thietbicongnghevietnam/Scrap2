@@ -1,0 +1,130 @@
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using ScrapSystem.Api.Application.DTOs.ScrapDtos;
+using ScrapSystem.Api.Application.DTOs.ScrapImageDtos;
+using ScrapSystem.Api.Application.DTOs.VerifyDataDtos;
+using ScrapSystem.Api.Application.Request;
+using ScrapSystem.Api.Application.Response;
+using ScrapSystem.Web.Dtos;
+using ScrapSystem.Web.Service.Interface;
+using Serilog;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text.Json;
+using X.PagedList;
+
+namespace ScrapSystem.Web.Controllers
+{
+    [AuthorizeApi]
+    public class ScrapController : BaseController
+    {
+        private readonly IApiClientService _apiClientService;
+        public ScrapController(IApiClientService apiClientService)
+        {
+            _apiClientService = apiClientService;
+        }
+
+        //[HttpGet]
+        //public IActionResult Index()
+        //{
+
+        //    return View();
+        //}
+
+        [HttpGet]
+        public IActionResult Import()
+        {
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Verify()
+        {
+           
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Verify(VerifyRequest request)
+        {
+            Dictionary<string, IFormFile> files = new Dictionary<string, IFormFile>();
+            Dictionary<string, string> param = new Dictionary<string, string>();
+            files.Add("File", request.File);
+            param.Add("Type", request.Type);
+            var res = await _apiClientService.PostFileAsync("api/Verify/data", files, param);
+            var rs = JsonConvert.DeserializeObject<List<List<VerificationResult>>>(res.MasterDetail.ToString());
+            return View(rs);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Report([FromQuery] ScrapRequest request)
+        {
+            request.StartDate = request.StartDate == default ? DateTime.Now.AddMonths(-5) : request.StartDate;
+            request.EndDate = request.EndDate == default ? DateTime.Now : request.EndDate;
+            request.Status = request.Status == 0 ? -1 : request.Status;
+            request.Page = request.Page <= 0 ? 1 : request.Page;
+            request.PageSize = request.PageSize <= 0 ? 25 : request.PageSize;
+
+            var result = await _apiClientService.LoadScrapList(request);
+
+            ViewBag.StartDate = request.StartDate.ToString("yyyy-MM-dd");
+            ViewBag.EndDate = request.EndDate.ToString("yyyy-MM-dd");
+            ViewBag.Status = request.Status;
+            ViewBag.PageSize = request.PageSize;
+
+            return View(result);
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> Import(ImportRequest request)
+        {
+            var rs = await _apiClientService.ImportAsync(request);
+            return Ok(rs.MasterDetail);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ImportFileName(ImportRequest request)
+        {
+            var rs = await _apiClientService.PostAsync<ApiResult<ScrapViewDto>>("api/Scrap/import-material-name", request);
+            return Ok(rs.Items);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LoadImage(string sanctionId, string pallet)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data.Add("sanctionId", sanctionId);
+            data.Add("pallet", pallet);
+            var rs = await _apiClientService.GetAsync<ApiResult<ScrapImageDto>>("api/Scrap/load-image", data);
+            return Ok(rs);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GenerateAppendix(DateTime startDate, DateTime endDate, string appendix)
+        {
+            Dictionary<string, string> param = new Dictionary<string, string>();
+            param.Add("startDate", startDate.ToString("yyyy-MM-dd"));
+            param.Add("endDate", endDate.ToString("yyyy-MM-dd"));
+            param.Add("appendix", appendix);
+            var rs = await _apiClientService.GetAsync<ApiResult<byte[]>>("api/Scrap/generate-appendix", param);
+
+            var fileBytes = rs.Item; 
+            var fileName = $"Appendix_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+
+            return File(fileBytes,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View();
+        }
+    }
+}

@@ -1,0 +1,645 @@
+{
+  "Files": [
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\ScrapSystem.Web.bundle.scp.css",
+      "PackagePath": "staticwebassets\\ScrapSystem.Web.bundle.scp.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\Panasonic.svg",
+      "PackagePath": "staticwebassets\\Panasonic.svg"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\Login.css",
+      "PackagePath": "staticwebassets\\css\\Login.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\feather\\feather.css",
+      "PackagePath": "staticwebassets\\css\\feather\\feather.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\feather\\fonts\\feather-webfont.eot",
+      "PackagePath": "staticwebassets\\css\\feather\\fonts\\feather-webfont.eot"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\feather\\fonts\\feather-webfont.svg",
+      "PackagePath": "staticwebassets\\css\\feather\\fonts\\feather-webfont.svg"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\feather\\fonts\\feather-webfont.ttf",
+      "PackagePath": "staticwebassets\\css\\feather\\fonts\\feather-webfont.ttf"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\feather\\fonts\\feather-webfont.woff",
+      "PackagePath": "staticwebassets\\css\\feather\\fonts\\feather-webfont.woff"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\sidebars.css",
+      "PackagePath": "staticwebassets\\css\\sidebars.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\style.css",
+      "PackagePath": "staticwebassets\\css\\style.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\ti-icons\\css\\themify-icons.css",
+      "PackagePath": "staticwebassets\\css\\ti-icons\\css\\themify-icons.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\ti-icons\\fonts\\themify.eot",
+      "PackagePath": "staticwebassets\\css\\ti-icons\\fonts\\themify.eot"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\ti-icons\\fonts\\themify.svg",
+      "PackagePath": "staticwebassets\\css\\ti-icons\\fonts\\themify.svg"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\ti-icons\\fonts\\themify.ttf",
+      "PackagePath": "staticwebassets\\css\\ti-icons\\fonts\\themify.ttf"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\css\\ti-icons\\fonts\\themify.woff",
+      "PackagePath": "staticwebassets\\css\\ti-icons\\fonts\\themify.woff"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\database.svg",
+      "PackagePath": "staticwebassets\\database.svg"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\filter.svg",
+      "PackagePath": "staticwebassets\\filter.svg"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\Chart.roundedBarCharts.js",
+      "PackagePath": "staticwebassets\\js\\Chart.roundedBarCharts.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\Vendors\\vendor.bundle.base.js",
+      "PackagePath": "staticwebassets\\js\\Vendors\\vendor.bundle.base.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\ace.js",
+      "PackagePath": "staticwebassets\\js\\ace.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\alerts.js",
+      "PackagePath": "staticwebassets\\js\\alerts.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\avgrund.js",
+      "PackagePath": "staticwebassets\\js\\avgrund.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\bootstrap-table.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap-table.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\bt-maxLength.js",
+      "PackagePath": "staticwebassets\\js\\bt-maxLength.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\c3.js",
+      "PackagePath": "staticwebassets\\js\\c3.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\calendar.js",
+      "PackagePath": "staticwebassets\\js\\calendar.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\chart.js",
+      "PackagePath": "staticwebassets\\js\\chart.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\chartist.js",
+      "PackagePath": "staticwebassets\\js\\chartist.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\circle-progress.js",
+      "PackagePath": "staticwebassets\\js\\circle-progress.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\clipboard.js",
+      "PackagePath": "staticwebassets\\js\\clipboard.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\codeEditor.js",
+      "PackagePath": "staticwebassets\\js\\codeEditor.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\codemirror.js",
+      "PackagePath": "staticwebassets\\js\\codemirror.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\context-menu.js",
+      "PackagePath": "staticwebassets\\js\\context-menu.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\cropper.js",
+      "PackagePath": "staticwebassets\\js\\cropper.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\dashboard.js",
+      "PackagePath": "staticwebassets\\js\\dashboard.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\data-table.js",
+      "PackagePath": "staticwebassets\\js\\data-table.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\data.txt",
+      "PackagePath": "staticwebassets\\js\\data.txt"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\dataTables.select.min.js",
+      "PackagePath": "staticwebassets\\js\\dataTables.select.min.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\db.js",
+      "PackagePath": "staticwebassets\\js\\db.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\demo.js",
+      "PackagePath": "staticwebassets\\js\\demo.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\desktop-notification.js",
+      "PackagePath": "staticwebassets\\js\\desktop-notification.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\dragula.js",
+      "PackagePath": "staticwebassets\\js\\dragula.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\dropify.js",
+      "PackagePath": "staticwebassets\\js\\dropify.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\dropzone.js",
+      "PackagePath": "staticwebassets\\js\\dropzone.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\editorDemo.js",
+      "PackagePath": "staticwebassets\\js\\editorDemo.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\file-upload.js",
+      "PackagePath": "staticwebassets\\js\\file-upload.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\flot-chart.js",
+      "PackagePath": "staticwebassets\\js\\flot-chart.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\form-addons.js",
+      "PackagePath": "staticwebassets\\js\\form-addons.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\form-repeater.js",
+      "PackagePath": "staticwebassets\\js\\form-repeater.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\form-validation.js",
+      "PackagePath": "staticwebassets\\js\\form-validation.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\formpickers.js",
+      "PackagePath": "staticwebassets\\js\\formpickers.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\google-charts.js",
+      "PackagePath": "staticwebassets\\js\\google-charts.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\google-maps.js",
+      "PackagePath": "staticwebassets\\js\\google-maps.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\hoverable-collapse.js",
+      "PackagePath": "staticwebassets\\js\\hoverable-collapse.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\iCheck.js",
+      "PackagePath": "staticwebassets\\js\\iCheck.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\inputmask.js",
+      "PackagePath": "staticwebassets\\js\\inputmask.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\ion-range-slider.js",
+      "PackagePath": "staticwebassets\\js\\ion-range-slider.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\jq.tablesort.js",
+      "PackagePath": "staticwebassets\\js\\jq.tablesort.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\jquery-file-upload.js",
+      "PackagePath": "staticwebassets\\js\\jquery-file-upload.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\js-grid.js",
+      "PackagePath": "staticwebassets\\js\\js-grid.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\just-gage.js",
+      "PackagePath": "staticwebassets\\js\\just-gage.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\light-gallery.js",
+      "PackagePath": "staticwebassets\\js\\light-gallery.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\listify.js",
+      "PackagePath": "staticwebassets\\js\\listify.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\mapael.js",
+      "PackagePath": "staticwebassets\\js\\mapael.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\mapael_example_1.js",
+      "PackagePath": "staticwebassets\\js\\mapael_example_1.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\mapael_example_2.js",
+      "PackagePath": "staticwebassets\\js\\mapael_example_2.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\maps.js",
+      "PackagePath": "staticwebassets\\js\\maps.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\modal-demo.js",
+      "PackagePath": "staticwebassets\\js\\modal-demo.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\morris.js",
+      "PackagePath": "staticwebassets\\js\\morris.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\no-ui-slider.js",
+      "PackagePath": "staticwebassets\\js\\no-ui-slider.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\off-canvas.js",
+      "PackagePath": "staticwebassets\\js\\off-canvas.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\owl-carousel.js",
+      "PackagePath": "staticwebassets\\js\\owl-carousel.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\paginate.js",
+      "PackagePath": "staticwebassets\\js\\paginate.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\popover.js",
+      "PackagePath": "staticwebassets\\js\\popover.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\profile-demo.js",
+      "PackagePath": "staticwebassets\\js\\profile-demo.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\progress-bar.js",
+      "PackagePath": "staticwebassets\\js\\progress-bar.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\rickshaw.js",
+      "PackagePath": "staticwebassets\\js\\rickshaw.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\select.dataTables.min.css",
+      "PackagePath": "staticwebassets\\js\\select.dataTables.min.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\select2.js",
+      "PackagePath": "staticwebassets\\js\\select2.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\settings.js",
+      "PackagePath": "staticwebassets\\js\\settings.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\sidebars.js",
+      "PackagePath": "staticwebassets\\js\\sidebars.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\sparkline.js",
+      "PackagePath": "staticwebassets\\js\\sparkline.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\tablesorter.js",
+      "PackagePath": "staticwebassets\\js\\tablesorter.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\tabs.js",
+      "PackagePath": "staticwebassets\\js\\tabs.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\tailwindcss.js",
+      "PackagePath": "staticwebassets\\js\\tailwindcss.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\template.js",
+      "PackagePath": "staticwebassets\\js\\template.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\tight-grid.js",
+      "PackagePath": "staticwebassets\\js\\tight-grid.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\toastDemo.js",
+      "PackagePath": "staticwebassets\\js\\toastDemo.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\todolist.js",
+      "PackagePath": "staticwebassets\\js\\todolist.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\tooltips.js",
+      "PackagePath": "staticwebassets\\js\\tooltips.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\typeahead.js",
+      "PackagePath": "staticwebassets\\js\\typeahead.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\wizard.js",
+      "PackagePath": "staticwebassets\\js\\wizard.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\js\\x-editable.js",
+      "PackagePath": "staticwebassets\\js\\x-editable.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\logo.png",
+      "PackagePath": "staticwebassets\\logo.png"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\search.svg",
+      "PackagePath": "staticwebassets\\search.svg"
+    },
+    {
+      "Id": "E:\\10. Projects\\Scrap\\ScrapSystem\\ScrapSystem.Web\\wwwroot\\warning.svg",
+      "PackagePath": "staticwebassets\\warning.svg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ScrapSystem.Web.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.ScrapSystem.Web.props",
+      "PackagePath": "build\\ScrapSystem.Web.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.ScrapSystem.Web.props",
+      "PackagePath": "buildMultiTargeting\\ScrapSystem.Web.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.ScrapSystem.Web.props",
+      "PackagePath": "buildTransitive\\ScrapSystem.Web.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

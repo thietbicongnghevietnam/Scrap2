@@ -1,0 +1,88 @@
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ScrapSystem.Api.Application.Request;
+using ScrapSystem.Api.Application.Service.IServices;
+
+namespace ScrapSystem.Api.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize]
+    public class ScrapController : ControllerBase
+    {
+        private readonly IImportScrapService _importScrapService;
+        private readonly IVerifyDataService _verifyDataService;
+
+        public ScrapController(IImportScrapService importScrapService, IVerifyDataService verifyDataService)
+        {
+            _importScrapService = importScrapService;
+            _verifyDataService = verifyDataService;
+        }
+
+        [HttpPost("import")]
+        public async Task<IActionResult> ImportFile(IFormFile file)
+        {
+            var rs = await _importScrapService.ImportScrapAsync(file);
+
+            if (!rs.IsSuccess)
+            {
+                return BadRequest(rs);
+            }
+
+            return Ok(rs);
+        }
+
+        [HttpPost("import-material-name")]
+        public async Task<IActionResult> ImportMaterialName(IFormFile file)
+        {
+            var rs = await _importScrapService.ImportMaterialNameAsync(file);
+
+            if (!rs.IsSuccess)
+            {
+                return BadRequest(rs);
+            }
+
+            return Ok(rs);
+        }
+
+        [HttpPost("load-data")]
+        public async Task<IActionResult> LoadData(ScrapRequest request)
+        {
+            var rs = await _importScrapService.LoadData(request);
+
+            if (!rs.IsSuccess)
+            {
+                return BadRequest(rs);
+            }
+
+            return Ok(rs);
+        }
+
+        [HttpGet("load-image")]
+        public async Task<IActionResult> LoadImage(string sanctionId, string? pallet)
+        {
+            var rs = await _importScrapService.LoadImage(sanctionId, pallet);
+
+            if (!rs.IsSuccess)
+            {
+                return BadRequest(rs);
+            }
+
+            return Ok(rs);
+        }
+
+        [HttpGet("generate-appendix")]
+        public async Task<IActionResult> GenerateAppendix(DateTime startDate, DateTime endDate, string appendix)
+        {
+            var rs = await _verifyDataService.GenarateAppendix(startDate, endDate, Convert.ToInt32(appendix));
+
+            if (!rs.IsSuccess)
+            {
+                return BadRequest(rs);
+            }
+
+            return Ok(rs);
+        }
+    }
+}

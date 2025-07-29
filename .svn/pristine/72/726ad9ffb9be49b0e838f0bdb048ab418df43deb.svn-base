@@ -1,0 +1,8 @@
+2025-05-29 14:50:19.241 [ERR] Missing type map configuration or unsupported mapping.
+
+Mapping types:
+UserRegisterDto -> UserInfor
+ScrapSystem.Services.DTOs.UserDtos.UserRegisterDto -> ScrapSystem.Domain.Models.UserInfor
+2025-05-29 14:55:58.310 [ERR] An error occurred while saving the entity changes. See the inner exception for details.
+2025-05-29 15:09:55.071 [ERR] Data is Null. This method or property cannot be called on Null values.
+2025-05-29 15:10:09.990 [ERR] Data is Null. This method or property cannot be called on Null values.

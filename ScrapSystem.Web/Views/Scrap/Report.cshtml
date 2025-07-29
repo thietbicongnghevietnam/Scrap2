@@ -1,0 +1,719 @@
+﻿@using ScrapSystem.Api.Application.DTOs.ScrapDtos
+@using ScrapSystem.Web.Models
+@using X.PagedList.Mvc.Core
+@model ReportViewModel<ScrapViewDto>
+
+@{
+    ViewData["Title"] = "Danh sách hàng hủy";
+    var stt = (Model.PageLists.PageNumber - 1) * Model.PageLists.PageSize + 1;
+
+    var today = DateTime.Now.ToString("yyyy-MM-dd");
+
+    var listItems = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "-1", Text = "Tất cả" },
+        new SelectListItem { Value = "0", Text = "Chưa xử lý" },
+        new SelectListItem { Value = "1", Text = "Đã xử lý" }
+    };
+
+    var appendixItems = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "1", Text = "Phụ lục 01" },
+        new SelectListItem { Value = "2", Text = "Phụ lục 02" },
+        new SelectListItem { Value = "3", Text = "Phụ lục 03" }
+    };
+}
+<style>
+    .table-selected,
+    .table-selected > th,
+    .table-selected > td {
+        background-color: #4091e5;
+    }
+</style>
+<h3>@ViewData["Title"]</h3>
+
+<div class="card grid-margin">
+    <div class=" card-body">
+        <form class="row "  id="filterForm">
+            <div class="col-md-2">
+                <label for="startDate">Ngày bắt đầu</label>
+                <input type="date" id="startDate" name="startDate" value="@ViewBag.StartDate" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label for="endDate">Ngày kết thúc</label>
+                <input type="date" id="endDate" name="endDate" value="@ViewBag.EndDate" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label for="status">Trạng thái</label>
+                <select asp-for="SelectedStatus" name="status" id="status" asp-items="listItems" value="" class="form-select"></select>
+            </div>
+            <div class="col-md-3">
+                <label for="sanction">Sanction</label>
+                <input type="text" name="sanction" id="sanction" value="@ViewBag.Sanction" class="form-control" />
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary mr-3" asp-action="Report" asp-controller="Scrap">Tìm kiếm</button>
+                <a class="btn btn-primary" onclick="appendixModal.show();">Phụ lục</a> &nbsp;&nbsp;&nbsp;&nbsp;
+
+                @* <button asp-action="Pheduyet" asp-controller="Scrap" type="submit" class="btn btn-primary">Appovel</button> *@
+
+                <a class="btn btn-primary" onclick="approve()">Appovel</a>
+
+
+
+            </div>            
+
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover w-max-content table-light table-bordered">
+                <thead class="table-header">
+                    <tr>
+                        <th></th>
+                        <th>STT</th>
+                        <th>Status</th>
+                        <th>Sanction</th>
+                        <th>Pallet</th>
+                        <th>Material</th>
+                        <th>English Name</th>
+                        <th>Vietnamese Name</th>
+                        <th>Sub Type</th>
+                        <th>Section</th>
+                        <th>Move Type</th>
+                        <th>Reason</th>
+                        <th>Cost Center</th>
+                        <th>Name Cost</th>
+                        <th>Sloc</th>
+                        <th>Plant</th>
+                        <th>Unit</th>
+                        <th>Quantity</th>
+                        <th>Qty Actual</th>
+                        <th>Unit Price</th>
+                        <th>Amount</th>
+                        <th>Issue Out Date</th>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th></th>
+                        <th></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="2"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="3"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="4"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="5"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="6"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="7"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="8"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="9"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="10"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="11"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="12"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="13"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="14"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="15"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="16"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="17"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="18"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="19"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="20"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="21"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.PageLists.Count > 0)
+                        @foreach (var item in Model.PageLists)
+                        {
+                            <tr>
+                                <td>
+                                    <p>
+                                        <a href="javascript:void(0)" onclick="loadImage('@item.SanctionId', '@item.Pallet')">Chi tiết</a>
+                                    </p>
+
+                                </td>
+                                <td>@stt</td>
+                                <td><div class="badge @(item.Status == 1 ? "badge-success": "badge-warning")">@(item.Status == 1 ? "Compeleted" : "Pending")</div></td>
+                                <td>@item.Sanction</td>
+                                <td>@item.Pallet</td>
+                                <td>@item.Material</td>
+                                <td>@item.EnglishName</td>
+                                <td>@item.VietnameseName</td>
+                                <td>@item.SubType</td>
+                                <td>@item.Section</td>
+                                <td>@item.MoveType</td>
+                                <td>@item.Reason</td>
+                                <td>@item.CostCenter</td>
+                                <td>@item.NameCost</td>
+                                <td>@item.Sloc</td>
+                                <td>@item.Plant</td>
+                                <td>@item.Unit</td>
+                                <td>@(item.Qty?.ToString("N2") ?? "")</td>
+                                <td>@(item.QtyActual?.ToString("N2") ?? "")</td>
+                                <td>@(item.UnitPrice?.ToString("N2") ?? "")</td>
+                                <td>@(item.Amount?.ToString("N2") ?? "")</td>
+                                <td>@(item.IssueOutDate?.ToString("yyyy-MM-dd") ?? "")</td>
+                            </tr>
+                            stt++;
+                        }
+                    else
+                    {
+                        <tr><td colspan="21">Không có dữ liệu để Hiển thị.</td> </tr>
+                    }
+
+                </tbody>
+            </table>
+
+
+        </div>
+        <nav aria-label="" class="mt-3">
+            @Html.PagedListPager(Model.PageLists, page => Url.Action("Report", new
+                {
+                    page,
+                    status = ViewBag.Status,
+                    startDate = ViewBag.StartDate,
+                    endDate = ViewBag.EndDate
+                }),
+                     new PagedListRenderOptions
+            {
+                UlElementClasses = new[] { "pagination", "justify-content-center" },
+                LiElementClasses = new[] { "page-item" },
+                PageClasses = new[] { "page-link" },
+                DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+                DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                LinkToPreviousPageFormat = "«",
+                LinkToNextPageFormat = "»",
+                ContainerDivClasses = new[] { "d-flex", "justify-content-center" },
+                EllipsesFormat = "...",
+                MaximumPageNumbersToDisplay = 5
+            })
+        </nav>
+
+    </div>
+</div>
+
+
+
+
+<!-- Modal image -->
+<div class="modal fade" style="overflow: hidden;" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xxl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title fw-bold hover-cursor" id="modalSanction" onclick="showImage(dataSanction.masters);"></h3>
+                    <span class="text-muted" id="modalSection">Bộ phận: </span>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div>
+                            <h4> Before</h4>
+                            <div class="mb-3">
+                                <div class="position-relative">
+                                    <img id="mainImageBefore" src="" class="w-100 rounded" style="height: 300px; object-fit: contain;" />
+                                    <button id="prevBtnBefore" class="btn btn-dark position-absolute top-50 start-0 translate-middle-y ms-2">
+                                        <i class="fa-solid fa-angle-left"></i>
+                                    </button>
+                                    <button id="nextBtnBefore" class="btn btn-dark position-absolute top-50 end-0 translate-middle-y me-2">
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </button>
+                                    <div id="imageCounterBefore" class="position-absolute bottom-0 start-50 translate-middle-x bg-dark text-white px-2 py-1 rounded small"></div>
+                                </div>
+                                <div class="d-flex gap-2 mt-3 overflow-auto" id="thumbnailContainerBefore"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>After</h4>
+                            <div>
+                                <div class="position-relative">
+                                    <img id="mainImageAfter" src="" class="w-100 rounded" style="height: 300px; object-fit: contain;" />
+                                    <button id="prevBtnAfter" class="btn btn-dark position-absolute top-50 start-0 translate-middle-y ms-2">
+                                        <i class="fa-solid fa-angle-left"></i>
+                                    </button>
+                                    <button id="nextBtnAfter" class="btn btn-dark position-absolute top-50 end-0 translate-middle-y me-2">
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </button>
+                                    <div id="imageCounterAfter" class="position-absolute bottom-0 start-50 translate-middle-x bg-dark text-white px-2 py-1 rounded small"></div>
+                                </div>
+                                <div class="d-flex gap-2 mt-3 overflow-auto" id="thumbnailContainerAfter"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label font-weight-bold">Barcode :</label>
+                                <span id="modelBarcode"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label font-weight-bold">Trạng thái :</label>
+                                <span id="modalStatus" class="badge"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label font-weight-bold">Ngày hủy :</label>
+                                <span id="modalDestroyDate"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label font-weight-bold">Người phụ trách :</label>
+                                <span id="modalUserId"></span>
+                            </div>
+                        </div>
+
+                        <div style="max-height: 600px; overflow-y: auto;" class="mb-3">
+                            <table class="table table-striped table-hover table-bordered" style="width: 100%; border-collapse: collapse;">
+                                <thead class="table-header" style="position: sticky; top: 0; z-index: 1;">
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Material</th>
+                                        <th>Pallet</th>
+                                        <th>Qty</th>
+                                        <th>QtyActual</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="scrapDetails">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <div>
+                                <a class="btn btn-primary" onclick="exportToPdf()"> Export PDF</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal appendix -->
+<div class="modal fade" id="appendixModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title fw-bold" id="modalSanction">Tạo phụ lục</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <label>Ngày bắt đầu</label>
+                        <input type="date" id="startDateGenerate" value="@ViewBag.StartDate" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label>Ngày kết thúc</label>
+                        <input type="date" id="endDateGenerate" value="@ViewBag.EndDate" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label>Loại phụ lục</label>
+                        <select id="appendixGenerate" asp-items="appendixItems" class="form-select"></select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <a class="btn btn-primary" onclick="generateAppendix();">Generate</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    async function approve()
+    {
+        var tensanction = document.getElementById('sanction').value;
+        const params = new URLSearchParams({
+            sanction: tensanction
+        });
+
+        try {
+            const response = await fetch(`Pheduyet?${params.toString()}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                switch (response.status) {
+                    case 404:
+                        throw new Error('Image not found (404)');
+                    case 500:
+                        throw new Error('Server error (500). Please try again later.');
+                    case 302:
+                        window.location.href = '/login';
+                        return;
+                    default:
+                        throw new Error(`HTTP error! Status code: ${response.status}`);
+                }
+            }
+
+            const data = await response.json();
+            if (data == undefined) return null;
+            console.log(data);
+            if (data=="OK") {
+                alert("OK");
+                var ngaybatdau = document.getElementById('startDate').value;;
+                var ngayketthuc = document.getElementById('endDate').value;;
+                var trangthai = "1";
+                //var sanction = "";
+                window.location.href = `/Scrap/Report?startDate=${ngaybatdau}&endDate=${ngayketthuc}&status=${trangthai}&sanction=${tensanction}`;
+            }
+            else 
+            {
+                alert("NG");
+            }
+            // dataSanction = data;
+            // showImageModal(dataSanction);
+            
+
+        } catch (error) {
+            console.error('Error fetching image data:', error);
+            alert(`Error: ${error.message}`);
+            return null;
+        }
+    };
+
+
+    const thumbBefore = document.getElementById('thumbnailContainerBefore');
+    const thumbAfter = document.getElementById('thumbnailContainerAfter');
+    const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+    const appendixModal = new bootstrap.Modal(document.getElementById('appendixModal'));
+    let currentImageIndex = 0;
+    let currentItem = null;
+    let dataSanction = [];
+
+    function getStatus(status) {
+        switch (status) {
+            case 0: return 'Pending';
+            case 1: return 'Completed';
+            default: return 'Canceled';
+        }
+    }
+
+    function getStatusColor(status) {
+        switch (status) {
+            case 0: return 'bg-warning text-dark';
+            case 1: return 'bg-success';
+            default: return 'bg-secondary';
+        }
+    }
+
+
+    function displayTableModal(data) {
+        const tableBody = document.getElementById("scrapDetails");
+        tableBody.innerHTML = '';
+
+        const uniqueMaterials = [];
+        const seenMaterials = new Set();
+
+        data.forEach(item => {
+            if (!seenMaterials.has(item.material)) {
+                seenMaterials.add(item.material);
+                uniqueMaterials.push(item);
+            }
+        });
+
+        uniqueMaterials.forEach((item, index) => {
+            const row = document.createElement("tr");
+            row.onclick = () => {
+                showImage(item);
+                let rows = tableBody.querySelectorAll('tbody tr');
+                rows.forEach(r => r.classList.remove('table-selected'));
+                row.classList.toggle('table-selected');
+            };
+            row.innerHTML = `
+                                                        <td>${index + 1}</td>
+                                                                    <td>${item.material || ''} ${item.imagePath != null ? '<i class="fas fa-eye"></i>' : ''  }</td>
+                                                        <td>${item.pallet || ''}</td>
+                                                        <td>${item.qty || ''}</td>
+                                                        <td>${item.qtyActual || ''}</td>
+                                                    `;
+            tableBody.appendChild(row);
+        });
+    }
+
+
+    async function loadImage(sanctionId, pallet) {
+        const params = new URLSearchParams({
+            sanctionId: sanctionId,
+            pallet: pallet
+        });
+
+        try {
+            const response = await fetch(`LoadImage?${params.toString()}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                switch (response.status) {
+                    case 404:
+                        throw new Error('Image not found (404)');
+                    case 500:
+                        throw new Error('Server error (500). Please try again later.');
+                    case 302:
+                        window.location.href = '/login';
+                        return;
+                    default:
+                        throw new Error(`HTTP error! Status code: ${response.status}`);
+                }
+            }
+
+            const data = await response.json();
+            if (data == undefined) return null;
+            dataSanction = data;
+            showImageModal(dataSanction);
+
+        } catch (error) {
+            console.error('Error fetching image data:', error);
+            alert(`Error: ${error.message}`);
+            return null;
+        }
+    }
+
+
+    let currentImageIndexBefore = 0;
+    let currentImageIndexAfter = 0;
+    let beforeImages = [];
+    let afterImages = [];
+
+    function updateImage(type) {
+        const isBefore = type === 'before';
+        const imgEl = document.getElementById(`mainImage${isBefore ? 'Before' : 'After'}`);
+        const images = isBefore ? beforeImages : afterImages;
+        const currentIndex = isBefore ? currentImageIndexBefore : currentImageIndexAfter;
+
+        imgEl.src = images[currentIndex].imagePath;
+        document.getElementById(`imageCounter${isBefore ? 'Before' : 'After'}`).textContent = `${currentIndex + 1} / ${images.length}`;
+
+        const thumbContainer = document.getElementById(`thumbnailContainer${isBefore ? 'Before' : 'After'}`);
+        Array.from(thumbContainer.children).forEach((img, index) => {
+            img.classList.remove('border-primary', 'border-secondary');
+            img.classList.add(index === currentIndex ? 'border-primary' : 'border-secondary');
+        });
+    }
+
+    document.getElementById('prevBtnBefore').addEventListener('click', () => {
+        currentImageIndexBefore = currentImageIndexBefore === 0 ? beforeImages.length - 1 : currentImageIndexBefore - 1;
+        updateImage('before');
+    });
+
+    document.getElementById('nextBtnBefore').addEventListener('click', () => {
+        currentImageIndexBefore = (currentImageIndexBefore + 1) % beforeImages.length;
+        updateImage('before');
+    });
+
+    document.getElementById('prevBtnAfter').addEventListener('click', () => {
+        currentImageIndexAfter = currentImageIndexAfter === 0 ? afterImages.length - 1 : currentImageIndexAfter - 1;
+        updateImage('after');
+    });
+
+    document.getElementById('nextBtnAfter').addEventListener('click', () => {
+        currentImageIndexAfter = (currentImageIndexAfter + 1) % afterImages.length;
+        updateImage('after');
+    });
+
+    function updateThumb(details) {
+        thumbBefore.innerHTML = '';
+        thumbAfter.innerHTML = '';
+        beforeImages = details.filter(img => img.imageType === 'B');
+        afterImages = details.filter(img => img.imageType === 'A');
+
+        [beforeImages, afterImages].forEach((images, idx) => {
+            const thumbContainer = idx === 0 ? thumbBefore : thumbAfter;
+            const type = idx === 0 ? 'before' : 'after';
+
+            images.forEach((img, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = img.imagePath;
+                thumb.className = `rounded border ${index === 0 ? 'border-primary' : 'border-secondary'} cursor-pointer`;
+                thumb.style = "width: 48px; height: 48px; object-fit: cover;";
+                thumb.onclick = () => {
+                    if (type === 'before') {
+                        currentImageIndexBefore = index;
+                        updateImage('before');
+                    } else {
+                        currentImageIndexAfter = index;
+                        updateImage('after');
+                    }
+                };
+                thumbContainer.appendChild(thumb);
+            });
+        });
+
+        // Initialize images
+        if (beforeImages.length > 0) updateImage('before');
+        else {
+            const imgEl = document.getElementById(`mainImageBefore`);
+            imgEl.src = "";
+        }
+        if (afterImages.length > 0) updateImage('after');
+        else {
+            const imgEl = document.getElementById(`mainImageAfter`);
+            imgEl.src = "";
+        }
+
+    }
+
+    function showImageModal(item) {
+
+        if (!(Array.isArray(item?.masters) && item.masters.length > 0)) {
+            alert(`Chưa được chụp ảnh`);
+            return;
+        }
+        let master = item.masters[0];
+        let details = item.details;
+        currentItem = item;
+        currentImageIndexBefore = 0;
+        currentImageIndexAfter = 0;
+
+        document.getElementById('modalSanction').innerHTML = `${master.sanction} <i class="fas fa-eye"></i>`;
+        document.getElementById('modalSection').textContent = 'Bộ phận: ' + master.section.toUpperCase();
+        document.getElementById('modalStatus').textContent = getStatus(master.status);
+        document.getElementById('modalStatus').className = 'badge ' + getStatusColor(master.status);
+        document.getElementById('modalDestroyDate').textContent = new Date(master.issueOutDate).toLocaleDateString('vi-VN');
+        document.getElementById('modalUserId').textContent = master.createdId;
+        document.getElementById('modelBarcode').textContent = [... new Set(details.map(x => x.barcode))][0];
+
+        displayTableModal(details);
+        updateThumb(details);
+        showImage(dataSanction.masters);
+        imageModal.show();
+    }
+
+    function showImage(data) {
+        if (Array.isArray(data)) {
+            updateThumb(data);
+        } else {
+            const filteredChildren = dataSanction.details.filter(child => child.material === data.material);
+            updateThumb(filteredChildren);
+        }
+    }
+
+    async function generateAppendix() {
+
+        let startDate = document.getElementById('startDateGenerate');
+        let endDate = document.getElementById('endDateGenerate');
+        let appendix = document.getElementById('appendixGenerate');
+
+        const params = new URLSearchParams({
+            startDate: startDate.value,
+            endDate: endDate.value,
+            appendix: appendix.value
+        });
+
+        try {
+            const response = await fetch(`GenerateAppendix?${params.toString()}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Appendix.xlsx';
+            document.body.appendChild(a);
+            a.click();
+
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error fetching image data:', error);
+            return null;
+        }
+    }
+
+    async function exportToPdf() {
+
+        let beforePaths = dataSanction.masters.filter(x => x.imageType == 'A').map(x => x.imagePath);
+        let afterPaths = dataSanction.masters.filter(x => x.imageType == 'B').map(x => x.imagePath);
+
+        var barcode = [... new Set(dataSanction.details.map(x => x.barcode))][0];
+        var issueOutDate = [... new Set(dataSanction.masters.map(x => x.issueOutDate))][0];
+        const formData = new FormData();
+        beforePaths.forEach(path => formData.append('beforeImages', path));
+        afterPaths.forEach(path => formData.append('afterImages', path));
+        formData.append('barcode', barcode);
+        formData.append('date', issueOutDate)
+        try {
+            const response = await fetch('ExportToPdf', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error(`Upload thất bại: ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'image.pdf';
+            document.body.appendChild(a);
+            a.click();
+
+            a.remove();
+            window.URL.revokeObjectURL(url);
+
+
+        } catch (error) {
+
+        } finally {
+
+        }
+    }
+
+    function filterTable() {
+        const table = document.querySelector('table');
+        const tbody = table.querySelector('tbody');
+        const rows = tbody.getElementsByTagName('tr');
+
+        const filters = table.querySelectorAll('thead tr.table-secondary input');
+
+        for (let i = 0; i < rows.length; i++) {
+            let show = true;
+
+            for (let j = 0; j < filters.length; j++) {
+                const filterValue = filters[j].value.toLowerCase();
+                if (!filterValue) continue;
+
+                const colIndex = parseInt(filters[j].dataset.col);
+                const cell = rows[i].cells[colIndex];
+
+                if (!cell || !cell.textContent.toLowerCase().includes(filterValue)) {
+                    show = false;
+                    break;
+                }
+            }
+
+            rows[i].style.display = show ? '' : 'none';
+        }
+    }
+
+</script>
+

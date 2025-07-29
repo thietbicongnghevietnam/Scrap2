@@ -1,0 +1,13 @@
+﻿using ScrapSystem.Api.Application.DTOs.AppendixDtos;
+using ScrapSystem.Api.Application.DTOs.VerifyDataDtos;
+using ScrapSystem.Api.Application.Response;
+
+namespace ScrapSystem.Api.Application.Service.IServices
+{
+    public interface IVerifyDataService
+    {
+        Task<ApiResult<List<object>>> VerifyDataAsync(IFormFile file, string type);
+
+        Task<ApiResult<byte[]>> GenarateAppendix(DateTime startDate, DateTime endDate, int appendix);
+    }
+}

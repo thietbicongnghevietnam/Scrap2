@@ -1,0 +1,64 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.w-max-content {
+    width: max-content !important;
+}
+
+.table-header,
+.table-header > th,
+.table-header > td {
+    background-color: #2f5897;
+    color: #fff;
+}
+
+.table-header {
+    --bs-table-color: #fff;
+    --bs-table-bg: #2f5897;
+   
+    color: var(--bs-table-color);
+    border-color: var(--bs-table-border-color)
+}
+@media (min-width: 1400px) {
+    .modal-xxl {
+        max-width: 1340px;
+    }
+}

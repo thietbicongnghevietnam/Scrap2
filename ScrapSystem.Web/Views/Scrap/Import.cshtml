@@ -1,0 +1,871 @@
+﻿@using ScrapSystem.Api.Application.Request
+@model ImportRequest
+<style>
+
+    .import-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 20px;
+        width: 100%;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .import-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3, #9C27B0, #FF5722);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+    .header {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+        .header h1 {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+    .upload-area {
+        border: 3px dashed #ddd;
+        border-radius: 15px;
+        padding: 10px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        margin-bottom: 10px;
+        background: linear-gradient(45deg, #f8f9ff, #fff);
+    }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: linear-gradient(45deg, #f0f2ff, #fff);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.1);
+        }
+
+        .upload-area.dragover {
+            border-color: #4CAF50;
+            background: linear-gradient(45deg, #f0fff4, #fff);
+            transform: scale(1.02);
+        }
+
+    .upload-icon {
+        font-size: 2rem;
+        color: #667eea;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .upload-area:hover .upload-icon {
+        transform: scale(1.1);
+        color: #5a6fd8;
+    }
+
+    .upload-text {
+        font-size: 1.3rem;
+        color: #333;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+    .upload-subtext {
+        color: #888;
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+
+    .file-input {
+        display: none;
+    }
+
+    .browse-btn {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+        .browse-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+    .file-info {
+        display: none;
+        background: linear-gradient(135deg, #e8f5e8, #f0f8ff);
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px 0;
+        border-left: 5px solid #4CAF50;
+        animation: slideIn 0.5s ease;
+    }
+
+
+    .file-name {
+        font-weight: 600;
+        color: #333;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    .file-size {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .action-buttons {
+        display: none;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+        }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(76, 175, 80, 0.4);
+    }
+
+    .btn-secondary {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        }
+
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(255, 107, 107, 0.4);
+    }
+
+    .progress-bar {
+        display: none;
+        width: 100%;
+        height: 8px;
+        background: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 20px 0;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #4CAF50, #45a049);
+        width: 0%;
+        transition: width 0.3s ease;
+        border-radius: 4px;
+    }
+
+    .status-message {
+        text-align: center;
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 10px;
+        font-weight: 600;
+        display: none;
+    }
+
+    .status-success {
+        background: linear-gradient(135deg, #d4edda, #c3e6cb);
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .status-error {
+        background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .preview-section {
+        display: none;
+        margin-top: 40px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .preview-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .preview-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .preview-controls {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .search-box {
+        padding: 10px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 25px;
+        font-size: 0.95rem;
+        outline: none;
+        transition: all 0.3s ease;
+        min-width: 200px;
+    }
+
+        .search-box:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+    .rows-per-page {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.95rem;
+        color: #666;
+    }
+
+    .rows-select {
+        padding: 8px 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        outline: none;
+        font-size: 0.95rem;
+        transition: border-color 0.3s ease;
+    }
+
+        .rows-select:focus {
+            border-color: #667eea;
+        }
+
+    .table-container {
+        overflow-x: auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        background: white;
+        margin-bottom: 25px;
+        border: 1px solid #ebebeb;
+    }
+
+    .preview-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+    }
+
+        .preview-table th {
+            background: #fff;
+            color: black;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+            .preview-table th:first-child {
+                border-top-left-radius: 15px;
+            }
+
+            .preview-table th:last-child {
+                border-top-right-radius: 15px;
+            }
+
+        .preview-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .preview-table tr:hover td {
+            background-color: #f8f9ff;
+        }
+
+        .preview-table tr:nth-child(even) td {
+            background-color: #fafbff;
+        }
+
+        .preview-table tr:nth-child(even):hover td {
+            background-color: #f0f2ff;
+        }
+
+    .pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 25px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .pagination-info {
+        color: #666;
+        font-size: 0.95rem;
+    }
+
+    .pagination-controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .pagination-btn {
+        padding: 10px 15px;
+        border: 2px solid #e0e0e0;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        color: #666;
+    }
+
+        .pagination-btn:hover:not(:disabled) {
+            border-color: #667eea;
+            background: #f8f9ff;
+            color: #667eea;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+        }
+
+    .table-stats {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        background: linear-gradient(135deg, #f8f9ff, #fff);
+        border-radius: 12px;
+        border: 1px solid #e6e9ff;
+    }
+
+    .stat-icon {
+        font-size: 1.2rem;
+    }
+
+    .stat-text {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .stat-number {
+        font-weight: 700;
+        color: #333;
+        font-size: 1.1rem;
+    }
+
+
+    .format-tags {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .format-tag {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+</style>
+
+<div class="import-container">
+    <div class="header">
+        <h1> Import Excel</h1>
+    </div>
+
+    <!-- Input Fields Section -->
+    <div class="input-section">
+        <h3></i> Thông tin bắt buộc</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label">
+                        Tên Sanction
+                    </label>
+                    <input type="text" class="form-control" id="sanctionInput"
+                           placeholder="Nhập tên sanction..." required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label">
+                        Bộ phận (Section)
+                    </label>
+                    <input type="text" class="form-control" id="sectionInput"
+                           placeholder="Nhập tên bộ phận..." required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="upload-area" id="uploadArea">
+        <div class="upload-icon">📁</div>
+        <div class="upload-text">Kéo thả file Excel vào đây (.xlsx, .xls)</div>
+        <div class="upload-subtext">hoặc click để chọn file từ máy tính</div>
+        <button class="browse-btn" onclick="">
+            Chọn File
+        </button>
+    </div>
+
+    <form id="uploadForm">
+        <input type="file" class="file-input" id="fileInput" accept=".xlsx,.xls" />
+        <div class="file-info" id="fileInfo">
+            <div class="file-name" id="fileName"></div>
+            <div class="file-size" id="fileSize"></div>
+        </div>
+
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="action-buttons" id="actionButtons">
+            <button class="btn btn-primary" type="submit">
+                🚀 Xử lý File
+            </button>
+            <button class="btn btn-secondary" type="button" onclick="resetUpload()">
+                🗑️ Xóa File
+            </button>
+        </div>
+    </form>
+
+    <div class="status-message" id="statusMessage"></div>
+
+    <div class="preview-section" id="previewSection">
+        <div class="preview-header">
+            <h2 class="preview-title">Dữ liệu đã upload</h2>
+            <div class="preview-controls">
+                <input type="text" class="search-box" id="searchBox" placeholder="🔍 Tìm kiếm...">
+                <div class="rows-per-page">
+                    <span>Hiển thị:</span>
+                    <select class="rows-select" id="rowsSelect">
+                        <option value="10">10</option>
+                        <option value="25" selected>25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span>dòng</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div>
+                <div id=""></div>
+            </div>
+            <table class="preview-table" id="previewTable">
+                <thead id="tableHead"></thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <div class="pagination-info" id="paginationInfo"></div>
+            <div class="pagination-controls" id="paginationControls"></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const form = document.getElementById('uploadForm');
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const fileInfo = document.getElementById('fileInfo');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const actionButtons = document.getElementById('actionButtons');
+    const progressBar = document.getElementById('progressBar');
+    const progressFill = document.getElementById('progressFill');
+    const statusMessage = document.getElementById('statusMessage');
+    const sanctionInput = document.getElementById('sanctionInput');
+    const sectionInput = document.getElementById('sectionInput');
+
+    let selectedFile = null;
+    let excelData = [];
+    let parent = [];
+    let filteredData = [];
+    let currentPage = 1;
+    let rowsPerPage = 25;
+
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            handleFileSelect(files[0]);
+            document.getElementById('previewSection').style.display = 'none';
+        }
+    });
+
+    uploadArea.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            document.getElementById('previewSection').style.display = 'none';
+            handleFileSelect(e.target.files[0]);
+        }
+    });
+
+    // Search functionality
+    document.getElementById('searchBox').addEventListener('input', (e) => {
+        filterData(e.target.value);
+    });
+
+    // Rows per page change
+    document.getElementById('rowsSelect').addEventListener('change', (e) => {
+        rowsPerPage = parseInt(e.target.value);
+        currentPage = 1;
+        displayTable();
+    });
+
+    function handleFileSelect(file) {
+        const validTypes = [
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-excel'
+        ];
+
+        if (!validTypes.includes(file.type)) {
+            showStatus('Định dạng file không được hỗ trợ. Vui lòng chọn file .xlsx, .xls', 'error');
+            return;
+        }
+
+        selectedFile = file;
+        fileName.textContent = `📄 ${file.name}`;
+        fileSize.textContent = `📏 Kích thước: ${formatFileSize(file.size)}`;
+
+        fileInfo.style.display = 'block';
+        actionButtons.style.display = 'flex';
+        hideStatus();
+    }
+
+
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const sanctionValue = sanctionInput.value.trim();
+        const sectionValue = sectionInput.value.trim();
+
+        if (!sanctionValue) {
+            showStatus('❌ Vui lòng nhập tên Sanction', 'error');
+            sanctionInput.focus();
+            return;
+        }
+
+        if (!sectionValue) {
+            showStatus('❌ Vui lòng nhập tên Section', 'error');
+            sectionInput.focus();
+            return;
+        }
+
+        if (!fileInput.files[0]) {
+            showStatus('❌ Vui lòng chọn file Excel', 'error');
+            return;
+        }
+
+       
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append('File', file);
+        formData.append('Sanction', sanctionValue);
+        formData.append('Section', sectionValue);
+        try {
+            const response = await fetch('Import', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error(`Upload thất bại: ${response.statusText}`);
+            }
+
+            excelData = await response.json();
+
+            filteredData = [...excelData.children];
+
+            parent = excelData.parent;
+
+            showPreview();
+            showStatus('✅ File đã được xử lý thành công!', 'success');
+            progressBar.style.display = 'none';
+            fileInput.value = '';
+            fileInfo.style.display = 'none';
+
+        } catch (error) {
+            showStatus('❌ Lỗi khi xử lý file: ' + error.message, 'error');
+            progressBar.style.display = 'none';
+        } finally {
+
+        }
+    });
+
+
+    // Simulate progress
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress >= 95) {
+            progress = 95;
+            clearInterval(interval);
+        }
+        progressFill.style.width = progress + '%';
+    }, 100);
+
+    function showPreview() {
+        document.getElementById('previewSection').style.display = 'block';
+        displayTable();
+    }
+
+
+    function filterData(searchTerm) {
+        if (!searchTerm.trim()) {
+            filteredData = [...excelData.children];
+        } else {
+            filteredData = excelData.children.filter(row => {
+                return Object.values(row).some(value =>
+                    value != null && value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            });
+        }
+        currentPage = 1;
+        displayTable();
+    }
+
+    function displayTable() {
+        const tableHead = document.getElementById('tableHead');
+        const tableBody = document.getElementById('tableBody');
+
+        // Clear existing content
+        tableHead.innerHTML = '';
+        tableBody.innerHTML = '';
+
+        if (filteredData.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="100%" style="text-align: center; padding: 40px; color: #666;">Không có dữ liệu để hiển thị</td></tr>';
+            return;
+        }
+
+        // Create header
+        const headers = ["sanction", "subType", "moveType", "issueOutDate", "plant", "sloc", "costCenter", "nameCost", "material", "quantity", "unitPrice", "amount", "reason"];
+        const headerRow = document.createElement('tr');
+        headers.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            headerRow.appendChild(th);
+        });
+        tableHead.appendChild(headerRow);
+
+        // Calculate pagination
+        const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+        const startIndex = (currentPage - 1) * rowsPerPage;
+        const endIndex = Math.min(startIndex + rowsPerPage, filteredData.length);
+        const pageData = filteredData.slice(startIndex, endIndex);
+
+        // Create body rows
+        pageData.forEach(row => {
+            const tr = document.createElement('tr');
+            headers.forEach(header => {
+                const td = document.createElement('td');
+                // Use parent data for specific headers, otherwise use row (child) data
+                if (["sanction", "subType", "moveType", "issueOutDate"].includes(header)) {
+                    td.textContent = parent[header] || '';
+                    td.title = parent[header] || '';
+                } else {
+                    td.textContent = row[header] || '';
+                    td.title = row[header] || '';
+                }
+                tr.appendChild(td);
+            });
+            tableBody.appendChild(tr);
+        });
+
+        // Update pagination
+        updatePagination(totalPages, startIndex, endIndex);
+    }
+
+    function updatePagination(totalPages, startIndex, endIndex) {
+        const paginationInfo = document.getElementById('paginationInfo');
+        const paginationControls = document.getElementById('paginationControls');
+
+        paginationInfo.textContent = `Hiển thị ${startIndex + 1}-${endIndex} trong tổng số ${filteredData.length} dòng`;
+
+        paginationControls.innerHTML = '';
+
+        // Previous button
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'pagination-btn';
+        prevBtn.textContent = '← Trước';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayTable();
+            }
+        };
+        paginationControls.appendChild(prevBtn);
+
+        // Page numbers
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+            pageBtn.textContent = i;
+            pageBtn.onclick = () => {
+                currentPage = i;
+                displayTable();
+            };
+            paginationControls.appendChild(pageBtn);
+        }
+
+        // Next button
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'pagination-btn';
+        nextBtn.textContent = 'Tiếp →';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayTable();
+            }
+        };
+        paginationControls.appendChild(nextBtn);
+    }
+
+    function resetUpload() {
+        selectedFile = null;
+        sanctionInput.value = '';
+        sectionInput.value = '';
+        excelData = [];
+        filteredData = [];
+        currentPage = 1;
+        fileInput.value = '';
+        fileInfo.style.display = 'none';
+        actionButtons.style.display = 'none';
+        document.getElementById('previewSection').style.display = 'none';
+        progressBar.style.display = 'none';
+        progressFill.style.width = '0%';
+        document.getElementById('searchBox').value = '';
+        hideStatus();
+    }
+
+    function showStatus(message, type) {
+        statusMessage.textContent = message;
+        statusMessage.className = `status-message status-${type}`;
+        statusMessage.style.display = 'block';
+    }
+
+    function hideStatus() {
+        statusMessage.style.display = 'none';
+    }
+</script>

@@ -1,0 +1,16 @@
+﻿using ScrapSystem.Api.Application.DTOs.MaterialName;
+using ScrapSystem.Api.Application.DTOs.ScrapDtos;
+using ScrapSystem.Api.Application.Response;
+using ScrapSystem.Api.Application.DTOs.ScrapImageDtos;
+using ScrapSystem.Api.Application.Request;
+
+namespace ScrapSystem.Api.Application.Service.IServices
+{
+    public interface IImportScrapService
+    {
+        Task<ApiResult<ScrapDto>> ImportScrapAsync(IFormFile filePath);
+        Task<ApiResult<MaterialNameDto>> ImportMaterialNameAsync(IFormFile file);
+        Task<ApiResult<ScrapViewDto>> LoadData(ScrapRequest request);
+        Task<ApiResult<ScrapImageDto>> LoadImage(string sanctionId, string pallet);
+    }
+}

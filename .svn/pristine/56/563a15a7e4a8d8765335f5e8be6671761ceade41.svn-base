@@ -1,0 +1,40 @@
+2025-06-12 08:48:09.150 [INF] User 2015561 logged in successfully
+2025-06-12 10:10:27.012 [INF] User 2015561 logged in successfully
+2025-06-12 10:11:05.582 [INF] User 2015561 logged in successfully
+2025-06-12 10:29:51.255 [INF] User 2015561 logged in successfully
+2025-06-12 11:03:54.517 [INF] User 2015561 logged in successfully
+2025-06-12 11:07:45.857 [ERR] Invalid username or password
+2025-06-12 11:08:27.649 [INF] User 2015561 logged in successfully
+2025-06-12 11:11:57.885 [ERR] System.Linq.Enumerable+SelectListIterator`2[FluentValidation.Results.ValidationFailure,System.String]
+2025-06-12 11:13:00.560 [ERR] System.Linq.Enumerable+SelectListIterator`2[FluentValidation.Results.ValidationFailure,System.String]
+2025-06-12 11:14:24.245 [ERR] System.Linq.Enumerable+SelectListIterator`2[FluentValidation.Results.ValidationFailure,System.String]
+2025-06-12 11:17:51.105 [ERR] System.Linq.Enumerable+SelectListIterator`2[FluentValidation.Results.ValidationFailure,System.String]
+2025-06-12 11:20:21.314 [INF] User 2015561 logged in successfully
+2025-06-12 11:28:02.830 [INF] User 2015561 logged in successfully
+2025-06-12 11:32:29.482 [INF] User 2015561 logged in successfully
+2025-06-12 11:36:59.440 [INF] User 2015561 logged in successfully
+2025-06-12 11:39:54.443 [INF] User 2015561 logged in successfully
+2025-06-12 11:42:00.752 [INF] User 2015561 logged in successfully
+2025-06-12 13:23:47.024 [INF] User 2015561 logged in successfully
+2025-06-12 13:47:30.525 [INF] User 2015561 logged in successfully
+2025-06-12 14:05:48.635 [INF] User 2015561 logged in successfully
+2025-06-12 14:05:51.190 [ERR] SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+2025-06-12 14:07:42.206 [INF] User 2015561 logged in successfully
+2025-06-12 14:07:47.418 [ERR] SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+2025-06-12 14:08:02.968 [ERR] SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+2025-06-12 14:10:20.515 [INF] User 2015561 logged in successfully
+2025-06-12 14:10:40.638 [ERR] SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+2025-06-12 14:14:25.255 [INF] User 2015561 logged in successfully
+2025-06-12 14:17:50.651 [INF] User 2015561 logged in successfully
+2025-06-12 14:20:10.326 [ERR] Invalid username or password
+2025-06-12 14:20:18.328 [INF] User 2015561 logged in successfully
+2025-06-12 14:21:09.215 [INF] User 2015561 logged in successfully
+2025-06-12 14:24:46.612 [INF] User 2015561 logged in successfully
+2025-06-12 14:30:00.169 [INF] User 2015561 logged in successfully
+2025-06-12 14:47:16.715 [ERR] Invalid username or password
+2025-06-12 14:47:19.810 [ERR] System.Linq.Enumerable+SelectListIterator`2[FluentValidation.Results.ValidationFailure,System.String]
+2025-06-12 14:47:23.902 [INF] User 2015561 logged in successfully
+2025-06-12 14:49:06.171 [INF] User 2015561 logged in successfully
+2025-06-12 14:55:08.166 [INF] User 2015561 logged in successfully
+2025-06-12 14:55:40.983 [INF] User 2015561 logged in successfully
+2025-06-12 15:03:01.590 [INF] User 2015561 logged in successfully

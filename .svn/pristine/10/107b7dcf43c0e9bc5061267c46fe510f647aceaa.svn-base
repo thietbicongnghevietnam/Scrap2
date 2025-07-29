@@ -1,0 +1,29 @@
+﻿namespace ScrapSystem.Api.Application.Response
+{
+    public class ApiResult<T>
+    {
+        public bool IsSuccess { get; set; }
+        public string Message { get; set; }
+        public T Item { get; set; }
+        public List<T> Items { get; set; } = new();
+        public PaginatedResult<T> PagedResult { get; set; } = new();
+        public object MasterDetail { get; set; } = new();
+        public List<string> Errors { get; set; } = new();
+    }
+
+    public class PaginatedResult<T>
+    {
+        public int TotalCount { get; set; }
+
+        public List<T> Records { get; set; } = new();
+    }
+
+    public class ParentWithChildren<TParent, TChild>
+    {
+        public TParent Parent { get; set; }
+        public List<TParent> Parents { get; set; }
+        public List<TChild> Children { get; set; } = new();
+    }
+}
+
+
