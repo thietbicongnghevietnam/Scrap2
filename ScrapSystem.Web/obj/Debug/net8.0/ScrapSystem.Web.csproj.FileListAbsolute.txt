@@ -121,3 +121,4 @@ F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\refint\ScrapSystem.Web.dl
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.pdb
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.genruntimeconfig.cache
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ref\ScrapSystem.Web.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.sourcelink.json

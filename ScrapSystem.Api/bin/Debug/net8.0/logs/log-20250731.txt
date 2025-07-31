@@ -1,0 +1,135 @@
+2025-07-31 11:52:29.781 [INF] User 2012757 logged in successfully
+2025-07-31 11:52:29.815 [ERR] User 2012757 logged in successfully
+2025-07-31 12:59:06.290 [INF] User 2012757 logged in successfully
+2025-07-31 12:59:06.330 [ERR] User 2012757 logged in successfully
+2025-07-31 14:10:55.540 [INF] User 2012757 logged in successfully
+2025-07-31 14:10:55.577 [ERR] User 2012757 logged in successfully
+2025-07-31 14:24:02.851 [INF] User 2012757 logged in successfully
+2025-07-31 14:24:02.886 [ERR] User 2012757 logged in successfully
+2025-07-31 15:53:01.174 [INF] User 2012757 logged in successfully
+2025-07-31 15:53:01.207 [ERR] User 2012757 logged in successfully
+2025-07-31 15:55:03.050 [ERR] Failed to import scrap for file IAF17473.xlsx
+System.InvalidOperationException: BeginExecuteNonQuery requires the command to have a transaction when the connection assigned to the command is in a pending local transaction.  The Transaction property of the command has not been initialized.
+   at Microsoft.Data.SqlClient.SqlCommand.ValidateCommand(Boolean isAsync, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.BeginExecuteNonQueryInternal(CommandBehavior behavior, AsyncCallback callback, Object stateObject, Int32 timeout, Boolean inRetry, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.BeginExecuteNonQueryAsync(AsyncCallback callback, Object stateObject)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__210_0(AsyncCallback callback, Object stateObject)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncImpl(Func`3 beginMethod, Func`2 endFunction, Action`1 endAction, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory`1.FromAsync(Func`3 beginMethod, Func`2 endMethod, Object state)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQueryAsync(CancellationToken cancellationToken)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 162
+2025-07-31 15:57:00.841 [ERR] Failed to import scrap for file IAF17473.xlsx
+System.InvalidOperationException: BeginExecuteNonQuery requires the command to have a transaction when the connection assigned to the command is in a pending local transaction.  The Transaction property of the command has not been initialized.
+   at Microsoft.Data.SqlClient.SqlCommand.ValidateCommand(Boolean isAsync, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.BeginExecuteNonQueryInternal(CommandBehavior behavior, AsyncCallback callback, Object stateObject, Int32 timeout, Boolean inRetry, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.BeginExecuteNonQueryAsync(AsyncCallback callback, Object stateObject)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__210_0(AsyncCallback callback, Object stateObject)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncImpl(Func`3 beginMethod, Func`2 endFunction, Action`1 endAction, Object state, TaskCreationOptions creationOptions)
+   at System.Threading.Tasks.TaskFactory`1.FromAsync(Func`3 beginMethod, Func`2 endMethod, Object state)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQueryAsync(CancellationToken cancellationToken)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 162
+2025-07-31 15:59:41.422 [INF] User 2012757 logged in successfully
+2025-07-31 15:59:41.461 [ERR] User 2012757 logged in successfully
+2025-07-31 16:15:15.013 [ERR] Failed to import scrap for file IAF17473.xlsx
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'Sanction', table 'ScrapSystem.dbo.Scraps'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__210_1(IAsyncResult result)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 167
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 171
+ClientConnectionId:5bc86070-0ccb-4167-90fe-a07987e12aff
+Error Number:515,State:2,Class:16
+2025-07-31 16:15:30.875 [ERR] Failed to import scrap for file IAF17473.xlsx
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'Sanction', table 'ScrapSystem.dbo.Scraps'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__210_1(IAsyncResult result)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 167
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 171
+ClientConnectionId:5bc86070-0ccb-4167-90fe-a07987e12aff
+Error Number:515,State:2,Class:16
+2025-07-31 16:15:57.939 [ERR] Failed to import scrap for file IAF17473.xlsx
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'Sanction', table 'ScrapSystem.dbo.Scraps'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__210_1(IAsyncResult result)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 167
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 171
+ClientConnectionId:5bc86070-0ccb-4167-90fe-a07987e12aff
+Error Number:515,State:2,Class:16
+2025-07-31 16:16:56.741 [INF] User 2012757 logged in successfully
+2025-07-31 16:16:56.772 [ERR] User 2012757 logged in successfully
+2025-07-31 16:19:56.885 [ERR] Failed to import scrap for file IAF17473.xlsx
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'Sanction', table 'ScrapSystem.dbo.Scraps'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__210_1(IAsyncResult result)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 167
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 171
+ClientConnectionId:80354945-4bd3-4c2f-9fe1-bddf987d0134
+Error Number:515,State:2,Class:16
+2025-07-31 16:24:25.816 [ERR] Failed to import scrap for file IAF17473.xlsx
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'Sanction', table 'ScrapSystem.dbo.Scraps'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__210_1(IAsyncResult result)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 167
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 171
+ClientConnectionId:80354945-4bd3-4c2f-9fe1-bddf987d0134
+Error Number:515,State:2,Class:16
+2025-07-31 17:07:46.692 [INF] User 2012757 logged in successfully
+2025-07-31 17:07:46.740 [ERR] User 2012757 logged in successfully
