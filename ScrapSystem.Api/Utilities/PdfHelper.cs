@@ -61,103 +61,190 @@ public class PdfHelper
                 XRect layoutRect = new XRect(50, 50, headPage.Width - 2 * 50, headPage.Height - 2 * 50);
                 DrawStringWordWrapCentered(headGfx, $"Danh sách hàng hủy tháng {date.Month}.{date.Year} (Normal)", titleFont, XBrushes.Black, layoutRect, lineHeight);
 
+                ////code old
+                //// Xử lý song song cả 2 nhóm ảnh
+                //int maxCount = Math.Max(group1Images.Count, group2Images.Count);
+                //PdfPage currentPage = null;
+                //XGraphics gfx = null;              
+                //double leftColumnY = 0;
+                //double rightColumnY = 0;
+                //for (int i = 0; i < maxCount; i++)
+                //{
+                //    double imageHeightNext = MaxImageHeight; // Default to max height
+                //    double group1ImageHeight = MaxImageHeight;
+                //    double group2ImageHeight = MaxImageHeight;
 
-                // Xử lý song song cả 2 nhóm ảnh
+                //    string beforeImage = AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group1Images[i];
+                //    string afterImage = AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group2Images[i];
+
+                //    // Calculate height for group1 image
+                //    if (i < group1Images.Count && File.Exists(beforeImage))
+                //    {
+                //        using (var image = XImage.FromFile(beforeImage))
+                //        {
+                //            double aspectRatio = (double)image.PixelWidth / image.PixelHeight;
+                //            group1ImageHeight = (columnWidth - 10) / aspectRatio;
+                //        }
+                //    }
+                //    // Calculate height for group2 image
+                //    if (i < group2Images.Count && File.Exists(afterImage))
+                //    {
+                //        using (var image = XImage.FromFile(afterImage))
+                //        {
+                //            double aspectRatio = (double)image.PixelWidth / image.PixelHeight;
+                //            group2ImageHeight = (columnWidth - 10) / aspectRatio;
+                //        }
+                //    }
+                //    // Take the largest height
+                //    imageHeightNext = Math.Max(group1ImageHeight, group2ImageHeight);
+                //    // Tạo trang mới nếu cần
+                //    if (currentPage == null ||
+                //        (i < group1Images.Count && leftColumnY + imageHeightNext > PageHeight - Margin - 10) ||
+                //        (i < group2Images.Count && rightColumnY + imageHeightNext > PageHeight - Margin - 10))
+                //    {
+                //        // Dispose XGraphics cũ trước khi tạo mới
+                //        if (gfx != null)
+                //        {
+                //            gfx.Dispose();
+                //            gfx = null;
+                //        }
+                //        // Tạo trang mới
+                //        currentPage = document.AddPage();
+                //        currentPage.Width = PageWidth;
+                //        currentPage.Height = PageHeight;
+                //        gfx = XGraphics.FromPdfPage(currentPage);
+                //        // Vẽ border table và cột
+                //        DrawTableBorders(gfx, tableX, tableY, tableWidth, tableHeight, columnWidth, ColumnGap);
+                //        // Reset vị trí Y
+                //        leftColumnY = Margin + 80; // +80 để tránh header
+                //        rightColumnY = Margin + 80;
+                //        var leftRect = new XRect(leftColumnX, 0, PageWidth, 40);
+                //        gfx.DrawString("Photo Of Disposal", titleFont, XBrushes.Black, leftRect, XStringFormats.Center);
+
+                //        DrawColumnHeaders(gfx, leftColumnX + 10, rightColumnX, Margin + 40, columnWidth,
+                //                       group1Title, group2Title, titleColumnFont);
+
+                //    }
+                //    // Vẽ ảnh cột trái 
+                //    if (i < group1Images.Count && File.Exists(beforeImage))
+                //    {
+                //        if (leftColumnY + imageHeightNext <= PageHeight - Margin - 5)
+                //        {
+                //            var imageHeight = DrawImageInColumn(gfx, beforeImage, leftColumnX + ColumnPadding, leftColumnY,
+                //                             columnWidth - 2 * ColumnPadding,
+                //                             $"{group1Title} - Ảnh {i + 1}", pageFont);
+                //            leftColumnY += imageHeight + ImageSpacing;
+                //        }
+                //    }
+                //    // Vẽ ảnh cột phải 
+                //    if (i < group2Images.Count && File.Exists(afterImage))
+                //    {
+                //        if (rightColumnY + imageHeightNext <= PageHeight - Margin - 5)
+                //        {
+                //            var imageHeight = DrawImageInColumn(gfx, afterImage, rightColumnX + ColumnPadding, rightColumnY,
+                //                            columnWidth - 2 * ColumnPadding,
+                //                            $"{group2Title} - Ảnh {i + 1}", pageFont);
+                //            rightColumnY += imageHeight + ImageSpacing;
+                //        }
+                //    }
+                //}
+                //if (gfx != null)
+                //{
+                //    gfx.Dispose();
+                //    gfx = null;
+                //}
+                //document.Save(stream, false);
+                ////document.Save(@$"E:\folders_2_columns{DateTime.Now.ToString("hhmmss")}.pdf");
+                
+                /// ///code new 01.08.2025
                 int maxCount = Math.Max(group1Images.Count, group2Images.Count);
 
                 PdfPage currentPage = null;
                 XGraphics gfx = null;
-              
 
                 double leftColumnY = 0;
                 double rightColumnY = 0;
+
                 for (int i = 0; i < maxCount; i++)
                 {
-                    double imageHeightNext = MaxImageHeight; // Default to max height
-                    double group1ImageHeight = MaxImageHeight;
-                    double group2ImageHeight = MaxImageHeight;
+                    string beforeImage = i < group1Images.Count ? AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group1Images[i] : null;
+                    string afterImage = i < group2Images.Count ? AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group2Images[i] : null;
 
-                    string beforeImage = AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group1Images[i];
-                    string afterImage = AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group2Images[i];
+                    double group1ImageHeight = 0;
+                    double group2ImageHeight = 0;
 
-                    // Calculate height for group1 image
+                    // Tính chiều cao ảnh cột trái
                     if (i < group1Images.Count && File.Exists(beforeImage))
                     {
                         using (var image = XImage.FromFile(beforeImage))
                         {
                             double aspectRatio = (double)image.PixelWidth / image.PixelHeight;
-                            group1ImageHeight = (columnWidth - 10) / aspectRatio;
+                            group1ImageHeight = (columnWidth - 2 * ColumnPadding) / aspectRatio;
+                            group1ImageHeight = Math.Min(group1ImageHeight, MaxImageHeight);
                         }
                     }
 
-                    // Calculate height for group2 image
+                    // Tính chiều cao ảnh cột phải
                     if (i < group2Images.Count && File.Exists(afterImage))
                     {
                         using (var image = XImage.FromFile(afterImage))
                         {
                             double aspectRatio = (double)image.PixelWidth / image.PixelHeight;
-                            group2ImageHeight = (columnWidth - 10) / aspectRatio;
+                            group2ImageHeight = (columnWidth - 2 * ColumnPadding) / aspectRatio;
+                            group2ImageHeight = Math.Min(group2ImageHeight, MaxImageHeight);
                         }
                     }
 
-                    // Take the largest height
-                    imageHeightNext = Math.Max(group1ImageHeight, group2ImageHeight);
+                    // Kiểm tra có cần trang mới không
+                    bool needNewPage = currentPage == null;
 
-                    // Tạo trang mới nếu cần
-                    if (currentPage == null ||
-                        (i < group1Images.Count && leftColumnY + imageHeightNext > PageHeight - Margin - 10) ||
-                        (i < group2Images.Count && rightColumnY + imageHeightNext > PageHeight - Margin - 10))
+                    if (group1ImageHeight > 0 && leftColumnY + group1ImageHeight > PageHeight - Margin - 10)
+                        needNewPage = true;
+
+                    if (group2ImageHeight > 0 && rightColumnY + group2ImageHeight > PageHeight - Margin - 10)
+                        needNewPage = true;
+
+                    // Nếu cần thì tạo trang mới
+                    if (needNewPage)
                     {
-                        // Dispose XGraphics cũ trước khi tạo mới
                         if (gfx != null)
                         {
                             gfx.Dispose();
                             gfx = null;
                         }
 
-                        // Tạo trang mới
                         currentPage = document.AddPage();
                         currentPage.Width = PageWidth;
                         currentPage.Height = PageHeight;
                         gfx = XGraphics.FromPdfPage(currentPage);
 
-                        // Vẽ border table và cột
+                        // Vẽ khung, header, tiêu đề cột
                         DrawTableBorders(gfx, tableX, tableY, tableWidth, tableHeight, columnWidth, ColumnGap);
 
-                        // Reset vị trí Y
-                        leftColumnY = Margin + 80; // +80 để tránh header
+                        leftColumnY = Margin + 80;
                         rightColumnY = Margin + 80;
 
-                        var leftRect = new XRect(leftColumnX, 0, PageWidth, 40);
-                        gfx.DrawString("Photo Of Disposal", titleFont, XBrushes.Black, leftRect, XStringFormats.Center);
+                        var headerRect = new XRect(leftColumnX, 0, PageWidth, 40);
+                        gfx.DrawString("Photo Of Disposal", titleFont, XBrushes.Black, headerRect, XStringFormats.Center);
 
                         DrawColumnHeaders(gfx, leftColumnX + 10, rightColumnX, Margin + 40, columnWidth,
-                                       group1Title, group2Title, titleColumnFont);
-
+                                          group1Title, group2Title, titleColumnFont);
                     }
 
-                    // Vẽ ảnh cột trái 
-                    if (i < group1Images.Count && File.Exists(beforeImage))
+                    // Vẽ ảnh cột trái nếu có
+                    if (group1ImageHeight > 0)
                     {
-                        if (leftColumnY + imageHeightNext <= PageHeight - Margin - 5)
-                        {
-                            var imageHeight = DrawImageInColumn(gfx, beforeImage, leftColumnX + ColumnPadding, leftColumnY,
-                                             columnWidth - 2 * ColumnPadding,
-                                             $"{group1Title} - Ảnh {i + 1}", pageFont);
-                            leftColumnY += imageHeight + ImageSpacing;
-                        }
+                        var imgHeight = DrawImageInColumn(gfx, beforeImage, leftColumnX + ColumnPadding, leftColumnY,
+                                        columnWidth - 2 * ColumnPadding, $"{group1Title} - Ảnh {i + 1}", pageFont);
+                        leftColumnY += imgHeight + ImageSpacing;
                     }
 
-                    // Vẽ ảnh cột phải 
-                    if (i < group2Images.Count && File.Exists(afterImage))
+                    // Vẽ ảnh cột phải nếu có
+                    if (group2ImageHeight > 0)
                     {
-                        if (rightColumnY + imageHeightNext <= PageHeight - Margin - 5)
-                        {
-                            var imageHeight = DrawImageInColumn(gfx, afterImage, rightColumnX + ColumnPadding, rightColumnY,
-                                            columnWidth - 2 * ColumnPadding,
-                                            $"{group2Title} - Ảnh {i + 1}", pageFont);
-                            rightColumnY += imageHeight + ImageSpacing;
-                        }
+                        var imgHeight = DrawImageInColumn(gfx, afterImage, rightColumnX + ColumnPadding, rightColumnY,
+                                        columnWidth - 2 * ColumnPadding, $"{group2Title} - Ảnh {i + 1}", pageFont);
+                        rightColumnY += imgHeight + ImageSpacing;
                     }
                 }
 
@@ -168,7 +255,6 @@ public class PdfHelper
                 }
 
                 document.Save(stream, false);
-                //document.Save(@$"E:\folders_2_columns{DateTime.Now.ToString("hhmmss")}.pdf");
 
             }
 

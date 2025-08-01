@@ -105,3 +105,5 @@ F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\refint\ScrapSystem.Api.dl
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.pdb
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.genruntimeconfig.cache
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ref\ScrapSystem.Api.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.sourcelink.json
+F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\Newtonsoft.Json.dll

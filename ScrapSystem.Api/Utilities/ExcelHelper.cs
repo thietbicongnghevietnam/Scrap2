@@ -166,7 +166,15 @@ public class ExcelHelper
                     scrapDetail.UnitPrice = decimal.TryParse(worksheetData.Cells[row, 8].Text, out decimal unitPrice) ? unitPrice : 0;
                     scrapDetail.Amount = decimal.TryParse(worksheetData.Cells[row, 9].Text, out decimal amount) ? amount : 0;
                     scrapDetail.Reason = worksheetData.Cells[row, 10].Text;
-                    scrapDetalDtos.Add(scrapDetail);
+                    if (scrapDetail.Plant == "" && scrapDetail.Material == "")
+                    {
+                        break;
+                    }
+                    else 
+                    {
+                        scrapDetalDtos.Add(scrapDetail);
+                    }
+                    
                 }
             }
         }

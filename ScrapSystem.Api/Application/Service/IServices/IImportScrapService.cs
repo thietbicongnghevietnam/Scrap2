@@ -10,7 +10,7 @@ namespace ScrapSystem.Api.Application.Service.IServices
 {
     public interface IImportScrapService
     {
-        Task<ApiResult<ParentWithChildren<ScrapDto, ScrapDetailDto>>> ImportScrapAsync(IFormFile file, string sanction, string section);
+        Task<ApiResult<ParentWithChildren<ScrapDto, ScrapDetailDto>>> ImportScrapAsync(IFormFile file, string sanction, string section, string issueout);
         Task<ApiResult<MaterialNameDto>> ImportMaterialNameAsync(IFormFile file);
         Task<ApiResult<ScrapViewDto>> LoadData(ScrapRequest request);
         Task<ApiResult<MasterDetailDto<ScrapImageDto, ScrapImageDetailDto>>> LoadImage(string sanctionId, string pallet);

@@ -462,7 +462,7 @@
     <div class="input-section">
         <h3></i> Thông tin bắt buộc</h3>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label class="form-label">
                         Tên Sanction
@@ -471,13 +471,22 @@
                            placeholder="Nhập tên sanction..." required>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label class="form-label">
                         Bộ phận (Section)
                     </label>
                     <input type="text" class="form-control" id="sectionInput"
                            placeholder="Nhập tên bộ phận..." required>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label">
+                        Tên Issue Out
+                    </label>
+                    <input type="text" class="form-control" id="IssueOutInput"
+                           placeholder="Nhập tên Issue Out..." required>
                 </div>
             </div>
         </div>
@@ -565,6 +574,8 @@
     const sanctionInput = document.getElementById('sanctionInput');
     const sectionInput = document.getElementById('sectionInput');
 
+    const IssueOutInput = document.getElementById('IssueOutInput');
+
     let selectedFile = null;
     let excelData = [];
     let parent = [];
@@ -650,6 +661,7 @@
         e.preventDefault();
         const sanctionValue = sanctionInput.value.trim();
         const sectionValue = sectionInput.value.trim();
+        const issueoutValue = IssueOutInput.value.trim();
 
         if (!sanctionValue) {
             showStatus('❌ Vui lòng nhập tên Sanction', 'error');
@@ -660,6 +672,12 @@
         if (!sectionValue) {
             showStatus('❌ Vui lòng nhập tên Section', 'error');
             sectionInput.focus();
+            return;
+        }
+
+        if (!issueoutValue) {
+            showStatus('❌ Vui lòng nhập tên IssueOut', 'error');
+            IssueOutInput.focus();
             return;
         }
 
@@ -674,17 +692,28 @@
         formData.append('File', file);
         formData.append('Sanction', sanctionValue);
         formData.append('Section', sectionValue);
+        formData.append('issueout', issueoutValue);
         try {
             const response = await fetch('Import', {
                 method: 'POST',
                 body: formData,
             });
-
+            
             if (!response.ok) {
                 throw new Error(`Upload thất bại: ${response.statusText}`);
-            }
+            } 
+            
+            const responseText = await response.text();
 
-            excelData = await response.json();
+            if (!responseText || responseText === "") {
+                // Trường hợp backend return Ok() nhưng không trả dữ liệu => đã check pallet
+                showStatus('⚠️ Hàng đã được check lên Pallet, không thể upload!', 'warning');
+                progressBar.style.display = 'none';
+                return;
+            }
+            const excelData = JSON.parse(responseText);
+
+            //excelData = await response.json();
 
             filteredData = [...excelData.children];
 

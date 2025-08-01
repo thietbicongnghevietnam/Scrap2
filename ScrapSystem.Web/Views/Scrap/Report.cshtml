@@ -53,7 +53,8 @@
             </div>
             <div class="col-md-3 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary mr-3" asp-action="Report" asp-controller="Scrap">Tìm kiếm</button>
-                <a class="btn btn-primary" onclick="appendixModal.show();">Phụ lục</a> &nbsp;&nbsp;&nbsp;&nbsp;
+
+                @* <a class="btn btn-primary" onclick="appendixModal.show();">Phụ lục</a> *@ &nbsp;&nbsp;&nbsp;&nbsp;
 
                 @* <button asp-action="Pheduyet" asp-controller="Scrap" type="submit" class="btn btn-primary">Appovel</button> *@
 
@@ -80,6 +81,7 @@
                         <th>Sanction</th>
                         <th>Pallet</th>
                         <th>Material</th>
+                        <th>IssueOut Name</th>
                         <th>English Name</th>
                         <th>Vietnamese Name</th>
                         <th>Sub Type</th>
@@ -96,6 +98,7 @@
                         <th>Unit Price</th>
                         <th>Amount</th>
                         <th>Issue Out Date</th>
+                        
                     </tr>
                     <tr class="table-secondary">
                         <th></th>
@@ -120,6 +123,7 @@
                         <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="19"></th>
                         <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="20"></th>
                         <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="21"></th>
+                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="22"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,6 +142,7 @@
                                 <td>@item.Sanction</td>
                                 <td>@item.Pallet</td>
                                 <td>@item.Material</td>
+                                <td>@item.IssueOut</td>
                                 <td>@item.EnglishName</td>
                                 <td>@item.VietnameseName</td>
                                 <td>@item.SubType</td>
@@ -154,6 +159,7 @@
                                 <td>@(item.UnitPrice?.ToString("N2") ?? "")</td>
                                 <td>@(item.Amount?.ToString("N2") ?? "")</td>
                                 <td>@(item.IssueOutDate?.ToString("yyyy-MM-dd") ?? "")</td>
+                                
                             </tr>
                             stt++;
                         }
@@ -370,6 +376,13 @@
                 var trangthai = "1";
                 //var sanction = "";
                 window.location.href = `/Scrap/Report?startDate=${ngaybatdau}&endDate=${ngayketthuc}&status=${trangthai}&sanction=${tensanction}`;
+            }
+            else if (data == "Sanction is null") 
+            {
+                alert("Sanction is null!");
+            }
+            else if (data == "Hang chua kiem tra het") {
+                alert("Hang chua kiem tra het tren PalletID!");
             }
             else 
             {

@@ -11,6 +11,7 @@ using ScrapSystem.Api.Application.DTOs.ScrapImageDtos;
 using ScrapSystem.Api.Application.DTOs.VerifyDataDtos;
 using ScrapSystem.Api.Application.Request;
 using ScrapSystem.Api.Application.Response;
+using ScrapSystem.Api.Domain.Models;
 using ScrapSystem.Api.Utilities;
 using ScrapSystem.Web.Dtos;
 using ScrapSystem.Web.Models;
@@ -19,6 +20,7 @@ using Serilog;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Security.Claims;
 using System.Text.Json;
 using X.PagedList;
 
@@ -102,28 +104,42 @@ namespace ScrapSystem.Web.Controllers
 
         //    return thongbao;
         //}
-
-
+        
         [HttpGet]
         public async Task<IActionResult> Pheduyet([FromQuery] ScrapRequest request)
         {         
-            String thongbao = "";
+            string thongbao = "";
             DataTable dt4 = new DataTable();
             //check xem user co duoc phan quyen cap 2 khong?            
             request.Sanction = request.Sanction == null ? "" : request.Sanction;
-            String tensanction = request.Sanction;
-            dt4 = DataConn.StoreFillDS("pheduyetsanction", System.Data.CommandType.StoredProcedure, tensanction);
-            if (dt4.Rows[0][0].ToString() == "1")
-            {
-                thongbao = "OK";// + "," + dt4.Rows[0][1].ToString() + "," + dt4.Rows[0][2].ToString();
-            }
-            else
-            {
-                thongbao = "NG";
-            }
+            string tensanction = request.Sanction;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            //return RedirectToAction("Report", "Scrap");
-            return Ok(thongbao);
+            if (tensanction == "")
+            {
+                thongbao = "Sanction is null";
+                return Ok(thongbao);
+                //return Json(new { script = "alert('Vui lòng chọn Sanction trước khi phê duyệt.');" });
+            }
+            else 
+            {
+                dt4 = DataConn.StoreFillDS("pheduyetsanction", System.Data.CommandType.StoredProcedure, tensanction, userId);
+                if (dt4.Rows[0][0].ToString() == "1")
+                {
+                    thongbao = "OK";// + "," + dt4.Rows[0][1].ToString() + "," + dt4.Rows[0][2].ToString();
+                }
+                else if (dt4.Rows[0][0].ToString() == "2") 
+                {
+                    thongbao = "Hang chua kiem tra het";
+                }
+                else
+                {
+                    thongbao = "NG";
+                }
+                //return RedirectToAction("Report", "Scrap");
+                return Ok(thongbao);
+            }            
+            
         }
 
 
@@ -163,12 +179,27 @@ namespace ScrapSystem.Web.Controllers
         {
             Dictionary<string, IFormFile> files = new Dictionary<string, IFormFile>();
             Dictionary<string, string> param = new Dictionary<string, string>();
-            files.Add("file", request.File);
-            param.Add("sanction", request.Sanction);
-            param.Add("section", request.Section);
-            var res = await _apiClientService.PostFileAsync("api/Scrap/import", files, param);
-            var rs = JsonConvert.DeserializeObject<ParentWithChildren<ScrapDto, ScrapDetailDto>>(res.MasterDetail.ToString());
-            return Ok(rs);
+
+            //kiem tra xem Sanction => co hang len pallet chua?
+            //neu da kiem tra roi thi khong duoc upload
+            DataTable dt4 = new DataTable();
+            dt4 = DataConn.StoreFillDS("CheckPalletID_upload", System.Data.CommandType.StoredProcedure, request.Sanction, request.Section, request.issueout);
+            if (dt4.Rows[0][0].ToString() == "0")
+            {
+                //truong hop hang da len pallet (da check roi) roi khong duoc upload nua
+                return Ok();
+            }
+            else 
+            {
+                files.Add("file", request.File);
+                param.Add("sanction", request.Sanction);
+                param.Add("section", request.Section);
+                param.Add("issueout", request.issueout);
+                var res = await _apiClientService.PostFileAsync("api/Scrap/import", files, param);
+                var rs = JsonConvert.DeserializeObject<ParentWithChildren<ScrapDto, ScrapDetailDto>>(res.MasterDetail.ToString());                
+                return Ok(rs);
+            }                        
+            
         }
 
         [HttpPost]
