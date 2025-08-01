@@ -23,7 +23,7 @@ namespace ScrapSystem.Api.Controllers
         [HttpPost("import")]
         public async Task<IActionResult> ImportFile(ImportRequest request)
         {
-            var rs = await _importScrapService.ImportScrapAsync(request.File, request.Sanction, request.Section);
+            var rs = await _importScrapService.ImportScrapAsync(request.File, request.Sanction, request.Section, request.issueout);
 
             if (!rs.IsSuccess)
             {

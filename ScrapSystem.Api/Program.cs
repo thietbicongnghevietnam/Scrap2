@@ -17,7 +17,7 @@ Log.Logger = new LoggerConfiguration()
 
 //doan ket noi co so du lieu  31.07.2025
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Server=10.92.186.30;Database=ScrapSystem;User Id=sa;Password=Psnvdb2013;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Server=192.168.128.1;Database=ScrapSystem;User Id=sa;Password=Psnvdb2013;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;")));
 
 
 builder.Services.ConfigureServices(builder.Configuration);

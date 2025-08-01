@@ -43,6 +43,7 @@ F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Release\net8.0\PubTmp\Out\Microsoft.IO
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Release\net8.0\PubTmp\Out\Microsoft.OpenApi.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Release\net8.0\PubTmp\Out\Microsoft.SqlServer.Server.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Release\net8.0\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Release\net8.0\PubTmp\Out\Newtonsoft.Json.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Release\net8.0\PubTmp\Out\PdfSharpCore.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Release\net8.0\PubTmp\Out\Serilog.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Release\net8.0\PubTmp\Out\Serilog.Sinks.Console.dll

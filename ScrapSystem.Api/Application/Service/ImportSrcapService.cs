@@ -112,7 +112,7 @@ namespace ScrapSystem.Api.Application.Service
             
         }
 
-        public async Task<ApiResult<ParentWithChildren<ScrapDto, ScrapDetailDto>>> ImportScrapAsync(IFormFile file, string sanction, string section)
+        public async Task<ApiResult<ParentWithChildren<ScrapDto, ScrapDetailDto>>> ImportScrapAsync(IFormFile file, string sanction, string section, string issueout)
         {
             try
             {
@@ -155,6 +155,7 @@ namespace ScrapSystem.Api.Application.Service
                         command.CommandType = CommandType.StoredProcedure;
 
                         command.Parameters.Add(new SqlParameter("@Sanction", sanction));
+                        command.Parameters.Add(new SqlParameter("@issueout", issueout));
                         command.Parameters.Add(new SqlParameter("@ScrapHeaderJson", headerJson));
                         command.Parameters.Add(new SqlParameter("@ScrapDetailsJson", detailJson));
 

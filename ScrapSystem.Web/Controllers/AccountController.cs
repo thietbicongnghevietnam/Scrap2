@@ -11,6 +11,10 @@ using ScrapSystem.Web.Service.Interface;
 using Microsoft.AspNetCore.Authorization;
 using ScrapSystem.Web;
 using ScrapSystem.Api.Application.DTOs.UserDtos;
+using Microsoft.IdentityModel.Tokens;
+using ScrapSystem.Api.Application.Common;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 public class AccountController : Controller
 {
@@ -46,17 +50,23 @@ public class AccountController : Controller
         try
         {
             var response = await _apiClient.LoginAsync(model);
+            //rao doan nay de bat cookie user truyne len
+            //if (model.RememberMe)
+            //{
+            //    await CreateAuthenticationCookie(response.Item.User);
+            //}
+            //await CreateAuthenticationCookie(response.Item.User);
 
-            if (model.RememberMe)
-            {
-                await CreateAuthenticationCookie(response.Item.User);
-            }
-            if(!response.IsSuccess)
+            if (!response.IsSuccess)
             {
                 Log.Information("Invalid username or password", model.UserId);
                 ModelState.AddModelError(string.Empty, response.Message ?? "Đăng nhập thất bại.");
                 return View();
-            }    
+            }
+
+            // Chỉ tạo cookie nếu đăng nhập thành công và có dữ liệu user
+            await CreateAuthenticationCookie(response.Item.User);
+
             Log.Information("User {Username} logged in successfully", model.UserId);
 
             if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
@@ -135,6 +145,7 @@ public class AccountController : Controller
             new ClaimsPrincipal(claimsIdentity),
             authProperties);
     }
+    
 
     [HttpGet]
     [AuthorizeApi] 
