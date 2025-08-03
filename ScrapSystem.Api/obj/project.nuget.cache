@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FpAHW252QhCyrjHy5bfeqkG+eTUpGsyDdZIJ2QnGfNLj6+EsJHXbG4TBhYHPHTyje1r5QCM8PI+Hc4r3jKxLag==",
+  "dgSpecHash": "+EL6ZqqEl7s=",
   "success": true,
-  "projectFilePath": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Api\\ScrapSystem.Api.csproj",
+  "projectFilePath": "C:\\Scrap2\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\70K6885\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",

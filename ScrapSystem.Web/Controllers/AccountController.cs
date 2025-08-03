@@ -80,8 +80,8 @@ public class AccountController : Controller
         {
             Log.Warning("Login failed for user {Username}: {Error}", model.UserId, ex.Message);
 
-        
-                ModelState.AddModelError("", "Login failed. Please try again.");
+
+            ModelState.AddModelError("", "Login failed. Please try again.");
         }
         catch (Exception ex)
         {
@@ -91,6 +91,8 @@ public class AccountController : Controller
 
         return View(model);
     }
+
+
 
     [HttpPost]
     [ValidateAntiForgeryToken]

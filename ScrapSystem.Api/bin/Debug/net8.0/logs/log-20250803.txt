@@ -1,0 +1,52 @@
+2025-08-03 09:42:08.677 [ERR] An error occurred while logging in.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Could not find stored procedure 'sp_ValidateUser'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteReader(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsyncCallback(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.AuthService.LoginWithStoredProcedure(String userId, String password) in C:\Scrap2\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 243
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Scrap2\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 203
+ClientConnectionId:971f74f6-252b-4173-ab8d-72a8e5391982
+Error Number:2812,State:62,Class:16
+2025-08-03 09:43:09.149 [ERR] An error occurred while logging in.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Could not find stored procedure 'sp_ValidateUser'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteReader(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsyncCallback(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.AuthService.LoginWithStoredProcedure(String userId, String password) in C:\Scrap2\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 243
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Scrap2\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 203
+ClientConnectionId:971f74f6-252b-4173-ab8d-72a8e5391982
+Error Number:2812,State:62,Class:16
+2025-08-03 09:53:34.457 [ERR] An error occurred while logging in.
+System.NotImplementedException: The method or operation is not implemented.
+   at ScrapSystem.Api.Application.Service.JwtService.GenerateAccessToken(UserDto user) in C:\Scrap2\Scrap2\ScrapSystem.Api\Application\Service\JwtService.cs:line 54
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Scrap2\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 210
+2025-08-03 09:59:26.716 [INF] User 2012757 logged in successfully
+2025-08-03 10:03:07.340 [INF] User 2012757 logged in successfully
+2025-08-03 10:17:37.996 [INF] User 2012757 logged in successfully
+2025-08-03 10:22:46.444 [INF] User 2012757 logged in successfully
+2025-08-03 15:21:13.273 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Scrap2\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 209
+2025-08-03 15:21:22.671 [INF] User 2012757 logged in successfully

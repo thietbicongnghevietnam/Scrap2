@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\ScrapSystem.Web.csproj": {}
+    "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\ScrapSystem.Web.csproj": {}
   },
   "projects": {
-    "F:\\HA_IT\\Scrap_System\\ScrapSystem.Api\\ScrapSystem.Api.csproj": {
+    "C:\\Scrap2\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Api\\ScrapSystem.Api.csproj",
+        "projectUniqueName": "C:\\Scrap2\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj",
         "projectName": "ScrapSystem.Api",
-        "projectPath": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Api\\ScrapSystem.Api.csproj",
+        "projectPath": "C:\\Scrap2\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj",
         "packagesPath": "C:\\Users\\70K6885\\.nuget\\packages\\",
-        "outputPath": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Api\\obj\\",
+        "outputPath": "C:\\Scrap2\\Scrap2\\ScrapSystem.Api\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\70K6885\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,7 +38,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -120,21 +130,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\ScrapSystem.Web.csproj": {
+    "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\ScrapSystem.Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\ScrapSystem.Web.csproj",
+        "projectUniqueName": "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\ScrapSystem.Web.csproj",
         "projectName": "ScrapSystem.Web",
-        "projectPath": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\ScrapSystem.Web.csproj",
+        "projectPath": "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\ScrapSystem.Web.csproj",
         "packagesPath": "C:\\Users\\70K6885\\.nuget\\packages\\",
-        "outputPath": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\obj\\",
+        "outputPath": "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\70K6885\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -148,8 +162,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "F:\\HA_IT\\Scrap_System\\ScrapSystem.Api\\ScrapSystem.Api.csproj": {
-                "projectPath": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Api\\ScrapSystem.Api.csproj"
+              "C:\\Scrap2\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj": {
+                "projectPath": "C:\\Scrap2\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj"
               }
             }
           }
@@ -158,12 +172,30 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter": {
+              "target": "Package",
+              "version": "[8.0.11, )"
+            },
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.11, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.7, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
@@ -196,7 +228,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

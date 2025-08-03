@@ -1,0 +1,3 @@
+2025-08-02 22:45:30.859 [ERR] Invalid username or password
+2025-08-02 22:45:36.439 [INF] User 2012757 logged in successfully
+2025-08-02 22:45:36.443 [ERR] User 2012757 logged in successfully

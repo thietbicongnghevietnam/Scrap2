@@ -49,6 +49,11 @@ namespace ScrapSystem.Api.Application.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public string GenerateAccessToken(UserDto user)
+        {
+            throw new NotImplementedException();
+        }
+
         public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
