@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Scrap2\\Scrap2\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{026BA6BB-3B8C-461C-A991-1C70EBC0C73F}|ScrapSystem.Api\\ScrapSystem.Api.csproj|c:\\scrap2\\scrap2\\scrapsystem.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{026BA6BB-3B8C-461C-A991-1C70EBC0C73F}|ScrapSystem.Api\\ScrapSystem.Api.csproj|solutionrelative:scrapsystem.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{358F1737-5798-4E86-BAF5-7D9BAF7257B8}|ScrapSystem.Web\\ScrapSystem.Web.csproj|c:\\scrap2\\scrap2\\scrapsystem.web\\appsettings.web.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{358F1737-5798-4E86-BAF5-7D9BAF7257B8}|ScrapSystem.Web\\ScrapSystem.Web.csproj|solutionrelative:scrapsystem.web\\appsettings.web.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{358F1737-5798-4E86-BAF5-7D9BAF7257B8}|ScrapSystem.Web\\ScrapSystem.Web.csproj|c:\\scrap2\\scrap2\\scrapsystem.web\\controllers\\scrapcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{358F1737-5798-4E86-BAF5-7D9BAF7257B8}|ScrapSystem.Web\\ScrapSystem.Web.csproj|solutionrelative:scrapsystem.web\\controllers\\scrapcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -26,11 +34,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Scrap2\\Scrap2\\ScrapSystem.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "ScrapSystem.Api\\appsettings.json",
+              "ToolTip": "C:\\Scrap2\\Scrap2\\ScrapSystem.Api\\appsettings.json",
+              "RelativeToolTip": "ScrapSystem.Api\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-03T09:48:12.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.Web.json",
+              "DocumentMoniker": "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\appsettings.Web.json",
+              "RelativeDocumentMoniker": "ScrapSystem.Web\\appsettings.Web.json",
+              "ToolTip": "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\appsettings.Web.json",
+              "RelativeToolTip": "ScrapSystem.Web\\appsettings.Web.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-03T09:48:01.647Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\Program.cs",
               "RelativeDocumentMoniker": "ScrapSystem.Web\\Program.cs",
@@ -38,12 +72,11 @@
               "RelativeToolTip": "ScrapSystem.Web\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-02T15:40:15.769Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-02T15:40:15.769Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\Views\\Scrap\\Index.cshtml",
               "RelativeDocumentMoniker": "ScrapSystem.Web\\Views\\Scrap\\Index.cshtml",
@@ -51,12 +84,11 @@
               "RelativeToolTip": "ScrapSystem.Web\\Views\\Scrap\\Index.cshtml",
               "ViewState": "AgIAAAIAAAAAAAAAAAAAACQAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-08-02T15:22:26.018Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-02T15:22:26.018Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "AccountController.cs",
               "DocumentMoniker": "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "ScrapSystem.Web\\Controllers\\AccountController.cs",
@@ -64,18 +96,17 @@
               "RelativeToolTip": "ScrapSystem.Web\\Controllers\\AccountController.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAkwB0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-25T01:22:47.777Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-25T01:22:47.777Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ScrapController.cs",
               "DocumentMoniker": "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\Controllers\\ScrapController.cs",
               "RelativeDocumentMoniker": "ScrapSystem.Web\\Controllers\\ScrapController.cs",
               "ToolTip": "C:\\Scrap2\\Scrap2\\ScrapSystem.Web\\Controllers\\ScrapController.cs",
               "RelativeToolTip": "ScrapSystem.Web\\Controllers\\ScrapController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAACIAAAAAAAAAAAAgwBAAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-25T01:21:26.37Z",
               "EditorCaption": ""
