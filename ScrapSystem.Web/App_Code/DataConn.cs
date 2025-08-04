@@ -25,8 +25,8 @@ namespace PMG_system.App_Code
             //Data Source=./;Initial Catalog=DataNhaHang;User ID='sa';Password=''
             //source = @"Data Source=./;Initial Catalog=OQC;User ID='sa';Password=''";
 
-            source = @"Server=192.168.128.1;Database=ScrapSystem;User Id=sa;Password=Psnvdb2013;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
-
+            //source = @"Server=192.168.128.1;Database=ScrapSystem;User Id=sa;Password=Psnvdb2013;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
+            source = @"Server=10.92.186.30;Database=ScrapSystem;User Id=sa;Password=Psnvdb2013;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
 
             //source = @"Data Source=192.168.128.116;Initial Catalog=OQC;User ID=sa;Password=Psnvdb2013";
             con = new SqlConnection(source);

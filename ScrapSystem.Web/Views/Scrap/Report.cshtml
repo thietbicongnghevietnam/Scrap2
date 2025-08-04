@@ -58,7 +58,9 @@
 
                 @* <button asp-action="Pheduyet" asp-controller="Scrap" type="submit" class="btn btn-primary">Appovel</button> *@
 
-                <a class="btn btn-primary" onclick="approve()">Appovel</a>
+                <a class="btn btn-primary" onclick="approve()">Appovel</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <a class="btn btn-primary" href="javascript:void(0)" onclick="loadImage2()">CheckExport</a>
 
 
 
@@ -202,7 +204,48 @@
 </div>
 
 
+<div class="modal fade" style="overflow: hidden;" id="imageModal2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xxl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title fw-bold hover-cursor" id="modalSanction" ></h3>
+                    <span class="text-muted" id="modalSection">Bộ phận: </span>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+                  
+                    <div class="col-lg-12">
+                       
+                        <div style="max-height: 600px; overflow-y: auto;" class="mb-3">
+                            <table class="table table-striped table-hover table-bordered" style="width: 100%; border-collapse: collapse;">
+                                <thead class="table-header" style="position: sticky; top: 0; z-index: 1;">
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>SanctionId</th>
+                                        <th>ImageType</th>
+                                        <th>CreatedDate</th>
+                                        <th>CreatedId</th>
+                                        <th>PalletNo</th>
+                                        <th>Flag_export</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="scrapDetails2">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                         
+                        </div>
 
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal image -->
 <div class="modal fade" style="overflow: hidden;" id="imageModal" tabindex="-1" aria-hidden="true">
@@ -291,6 +334,9 @@
                             </table>
                         </div>
                         <div class="d-flex justify-content-end">
+                            <div>
+                                <a class="btn btn-primary" onclick="showToPdf()"> Preview PDF</a>
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;
                             <div>
                                 <a class="btn btn-primary" onclick="exportToPdf()"> Export PDF</a>
                             </div>
@@ -399,6 +445,7 @@
         }
     };
 
+    const imageModal2 = new bootstrap.Modal(document.getElementById('imageModal2'));
 
     const thumbBefore = document.getElementById('thumbnailContainerBefore');
     const thumbAfter = document.getElementById('thumbnailContainerAfter');
@@ -458,6 +505,26 @@
         });
     }
 
+        function displayTableModal2(data) {
+        console.log("item từ API:", data);
+        const tableBody = document.getElementById("scrapDetails2");
+        tableBody.innerHTML = '';
+
+        data.forEach((item, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${item.sanction || ''}</td>
+                <td>${item.imageType || ''}</td>
+                <td>${item.issueOutDate || ''}</td>
+                <td>${item.createdId || ''}</td>
+                <td>${item.pallet || ''}</td>
+                <td>${item.flag_export || ''}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
 
     async function loadImage(sanctionId, pallet) {
         const params = new URLSearchParams({
@@ -491,6 +558,53 @@
             if (data == undefined) return null;
             dataSanction = data;
             showImageModal(dataSanction);
+
+        } catch (error) {
+            console.error('Error fetching image data:', error);
+            alert(`Error: ${error.message}`);
+            return null;
+        }
+    }
+
+    async function loadImage2() {
+        var sanctionId = document.getElementById('sanction').value;
+        const params = new URLSearchParams({
+            sanctionId: sanctionId
+        });
+
+        try {
+            if(sanctionId == '')
+            {
+                alert('ban chua chon sanction!');
+            }
+            else
+            {
+                const response = await fetch(`LoadImage2?${params.toString()}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+                });
+
+                if (!response.ok) {
+                    switch (response.status) {
+                        case 404:
+                            throw new Error('Image not found (404)');
+                        case 500:
+                            throw new Error('Server error (500). Please try again later.');
+                        case 302:
+                            window.location.href = '/login';
+                            return;
+                        default:
+                            throw new Error(`HTTP error! Status code: ${response.status}`);
+                    }
+                }
+                const data = await response.json();
+                if (data == undefined) return null;
+                dataSanction = data;
+                showImageModal2(dataSanction);
+            }
+         
 
         } catch (error) {
             console.error('Error fetching image data:', error);
@@ -609,6 +723,30 @@
         imageModal.show();
     }
 
+    function showImageModal2(item) {
+        console.log("item từ API111:", item);
+        let master_head = item.masters2[0];
+        //let details = item.master;//item.details;
+        let masters = item.masters2;
+        //console.log("item từ API:", details);
+        currentItem = item;
+        currentImageIndexBefore = 0;
+        currentImageIndexAfter = 0;
+
+        document.getElementById('modalSanction').innerHTML = `${master_head.sanction} <i class="fas fa-eye"></i>`;
+        document.getElementById('modalSection').textContent = 'Bộ phận: ' + master_head.section.toUpperCase();
+        // document.getElementById('modalStatus').textContent = getStatus(master.status);
+        // document.getElementById('modalStatus').className = 'badge ' + getStatusColor(master.status);
+        // document.getElementById('modalDestroyDate').textContent = new Date(master.issueOutDate).toLocaleDateString('vi-VN');
+        // document.getElementById('modalUserId').textContent = master.createdId;
+        // document.getElementById('modelBarcode').textContent = [... new Set(details.map(x => x.barcode))][0];
+
+        displayTableModal2(masters);
+        //updateThumb(details);
+        //showImage(dataSanction.masters);
+        imageModal2.show();
+    }
+
     function showImage(data) {
         if (Array.isArray(data)) {
             updateThumb(data);
@@ -686,13 +824,51 @@
 
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'image.pdf';
+            //a.download = 'image.pdf';
+            a.download = `${barcode}.pdf`;
             document.body.appendChild(a);
             a.click();
 
             a.remove();
             window.URL.revokeObjectURL(url);
 
+
+        } catch (error) {
+
+        } finally {
+
+        }
+    }
+
+    async function showToPdf() {
+
+        let beforePaths = dataSanction.masters.filter(x => x.imageType == 'A').map(x => x.imagePath);
+        let afterPaths = dataSanction.masters.filter(x => x.imageType == 'B').map(x => x.imagePath);
+
+        var barcode = [... new Set(dataSanction.details.map(x => x.barcode))][0];
+        var issueOutDate = [... new Set(dataSanction.masters.map(x => x.issueOutDate))][0];
+        const formData = new FormData();
+        beforePaths.forEach(path => formData.append('beforeImages', path));
+        afterPaths.forEach(path => formData.append('afterImages', path));
+        formData.append('barcode', barcode);
+        formData.append('date', issueOutDate)
+        try {
+            const response = await fetch('showToPdf', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error(`Upload thất bại: ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+
+            // Mở PDF trong tab mới
+            window.open(url, '_blank');
+
+            setTimeout(() => URL.revokeObjectURL(url), 10000); // Sau 10s
 
         } catch (error) {
 

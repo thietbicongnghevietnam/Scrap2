@@ -173,3 +173,5 @@ wwwroot\logo.png
 wwwroot\Panasonic.svg
 wwwroot\search.svg
 wwwroot\warning.svg
+wwwroot\Images\B\IAF17473\IAF17473_2025-08-04_15-32-10.jpg
+wwwroot\Images\A\IAF17473\IAF17473_2025-08-04_15-32-25.jpg

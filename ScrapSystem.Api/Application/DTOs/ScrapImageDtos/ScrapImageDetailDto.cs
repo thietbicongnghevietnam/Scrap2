@@ -11,4 +11,16 @@
         public decimal QtyActual { get; set; }
         public string Barcode { get; set; }
     }
+
+    public class ScrapImageDetailDto2
+    {
+        public string Sanction { get; set; }
+        public string ImagePath { get; set; }
+        public string ImageType { get; set; }
+        public string Material { get; set; }
+        public string Pallet { get; set; }
+        public decimal Qty { get; set; }
+        public decimal QtyActual { get; set; }
+        public string Barcode { get; set; }
+    }
 }

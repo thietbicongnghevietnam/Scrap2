@@ -1,7 +1,10 @@
 ﻿using Azure.Core;
+using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PMG_system.App_Code;
 using ScrapSystem.Api.Application.DTOs.LabelListDtos;
@@ -12,6 +15,7 @@ using ScrapSystem.Api.Application.DTOs.VerifyDataDtos;
 using ScrapSystem.Api.Application.Request;
 using ScrapSystem.Api.Application.Response;
 using ScrapSystem.Api.Domain.Models;
+using ScrapSystem.Api.Repositories;
 using ScrapSystem.Api.Utilities;
 using ScrapSystem.Web.Dtos;
 using ScrapSystem.Web.Models;
@@ -30,9 +34,11 @@ namespace ScrapSystem.Web.Controllers
     public class ScrapController : BaseController
     {
         private readonly IApiClientService _apiClientService;
-        public ScrapController(IApiClientService apiClientService)
+        private readonly AppDbContext _context;
+        public ScrapController(IApiClientService apiClientService, AppDbContext context) //, AppDbContext context
         {
             _apiClientService = apiClientService;
+            _context = context;
         }
 
         [HttpGet]
@@ -220,6 +226,50 @@ namespace ScrapSystem.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> LoadImage2(string sanctionId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Sanction", sanctionId);
+            parameters.Add("@pallet", 1);
+            var _connectionString = _context.Database.GetDbConnection().ConnectionString;
+            //var _connectionString = @"Server=10.92.186.30;Database=ScrapSystem;User Id=sa;Password=Psnvdb2013;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
+
+                    using (var multi = await connection.QueryMultipleAsync(
+                        "GetImageScrap2",
+                        parameters,
+                        commandType: CommandType.StoredProcedure))
+                    {
+                        var masters = (await multi.ReadAsync<ScrapImageDto2>()).ToList();
+                        var details = (await multi.ReadAsync<ScrapImageDetailDto2>()).ToList();
+
+                        var rs = new ApiResult<MasterDetailDto2<ScrapImageDto2, ScrapImageDetailDto2>>
+                        {
+                            IsSuccess = true,
+                            MasterDetail = new MasterDetailDto2<ScrapImageDto2, ScrapImageDetailDto2>
+                            {
+                                Masters2 = masters,
+                                Details2 = details
+                            }
+                        };
+
+                        return Ok(rs.MasterDetail);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GenerateAppendix(DateTime startDate, DateTime endDate, string appendix)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
@@ -239,11 +289,34 @@ namespace ScrapSystem.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ExportToPdf(List<string> beforeImages, List<string> afterImages, string barcode, DateTime date)
         {
+            //update trang thai export cho user vao bang image
+            DataTable dt4 = new DataTable();
+            string tensanction = barcode.Split(';')[0].ToString();
+            string palletno = barcode.Split(';')[1].ToString();
+            string bophan = barcode.Split(';')[2].ToString();
+            dt4 = DataConn.StoreFillDS("UpdateExportFlag", System.Data.CommandType.StoredProcedure, tensanction, palletno, bophan);
+            if (dt4.Rows[0][0].ToString() == "1")
+            {
 
+            }
             var rs = PdfHelper.ExportImagesToPdf(beforeImages, afterImages, barcode, date);
             return File(rs,
                         "application/pdf",
                         $"ExportedPdf_{DateTime.Now:yyyyMMddHHmmss}.pdf");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> showToPdf(List<string> beforeImages, List<string> afterImages, string barcode, DateTime date)
+        {
+
+            var rs = PdfHelper.ShowImagesToPdf(beforeImages, afterImages, barcode, date);
+            return File(rs, "application/pdf", enableRangeProcessing: true);
+
+            //Response.Headers.Add("Content-Disposition", "inline; filename=Exported.pdf");
+            //return File(rs, "application/pdf");
+            //return File(rs,
+            //            "application/pdf",
+            //            $"ExportedPdf_{DateTime.Now:yyyyMMddHHmmss}.pdf");
         }
 
         [HttpDelete("DeleteScrapDetail/{id}")]
