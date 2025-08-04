@@ -23,7 +23,7 @@ public class PdfHelper
     private const double ColumnPadding = 10;
 
     public static byte[] ExportImagesToPdf(List<string> group1Images, List<string> group2Images, string barcode, DateTime date)
-    {
+    {        
         string group1Title = $"Before: {barcode}"; string group2Title = "After";
         using (var stream = new MemoryStream())
         {
@@ -59,102 +59,7 @@ public class PdfHelper
                 XGraphics headGfx = XGraphics.FromPdfPage(headPage);
                 double lineHeight = titleFont.GetHeight();
                 XRect layoutRect = new XRect(50, 50, headPage.Width - 2 * 50, headPage.Height - 2 * 50);
-                DrawStringWordWrapCentered(headGfx, $"Danh sách hàng hủy tháng {date.Month}.{date.Year} (Normal)", titleFont, XBrushes.Black, layoutRect, lineHeight);
-
-                ////code old
-                //// Xử lý song song cả 2 nhóm ảnh
-                //int maxCount = Math.Max(group1Images.Count, group2Images.Count);
-                //PdfPage currentPage = null;
-                //XGraphics gfx = null;              
-                //double leftColumnY = 0;
-                //double rightColumnY = 0;
-                //for (int i = 0; i < maxCount; i++)
-                //{
-                //    double imageHeightNext = MaxImageHeight; // Default to max height
-                //    double group1ImageHeight = MaxImageHeight;
-                //    double group2ImageHeight = MaxImageHeight;
-
-                //    string beforeImage = AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group1Images[i];
-                //    string afterImage = AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group2Images[i];
-
-                //    // Calculate height for group1 image
-                //    if (i < group1Images.Count && File.Exists(beforeImage))
-                //    {
-                //        using (var image = XImage.FromFile(beforeImage))
-                //        {
-                //            double aspectRatio = (double)image.PixelWidth / image.PixelHeight;
-                //            group1ImageHeight = (columnWidth - 10) / aspectRatio;
-                //        }
-                //    }
-                //    // Calculate height for group2 image
-                //    if (i < group2Images.Count && File.Exists(afterImage))
-                //    {
-                //        using (var image = XImage.FromFile(afterImage))
-                //        {
-                //            double aspectRatio = (double)image.PixelWidth / image.PixelHeight;
-                //            group2ImageHeight = (columnWidth - 10) / aspectRatio;
-                //        }
-                //    }
-                //    // Take the largest height
-                //    imageHeightNext = Math.Max(group1ImageHeight, group2ImageHeight);
-                //    // Tạo trang mới nếu cần
-                //    if (currentPage == null ||
-                //        (i < group1Images.Count && leftColumnY + imageHeightNext > PageHeight - Margin - 10) ||
-                //        (i < group2Images.Count && rightColumnY + imageHeightNext > PageHeight - Margin - 10))
-                //    {
-                //        // Dispose XGraphics cũ trước khi tạo mới
-                //        if (gfx != null)
-                //        {
-                //            gfx.Dispose();
-                //            gfx = null;
-                //        }
-                //        // Tạo trang mới
-                //        currentPage = document.AddPage();
-                //        currentPage.Width = PageWidth;
-                //        currentPage.Height = PageHeight;
-                //        gfx = XGraphics.FromPdfPage(currentPage);
-                //        // Vẽ border table và cột
-                //        DrawTableBorders(gfx, tableX, tableY, tableWidth, tableHeight, columnWidth, ColumnGap);
-                //        // Reset vị trí Y
-                //        leftColumnY = Margin + 80; // +80 để tránh header
-                //        rightColumnY = Margin + 80;
-                //        var leftRect = new XRect(leftColumnX, 0, PageWidth, 40);
-                //        gfx.DrawString("Photo Of Disposal", titleFont, XBrushes.Black, leftRect, XStringFormats.Center);
-
-                //        DrawColumnHeaders(gfx, leftColumnX + 10, rightColumnX, Margin + 40, columnWidth,
-                //                       group1Title, group2Title, titleColumnFont);
-
-                //    }
-                //    // Vẽ ảnh cột trái 
-                //    if (i < group1Images.Count && File.Exists(beforeImage))
-                //    {
-                //        if (leftColumnY + imageHeightNext <= PageHeight - Margin - 5)
-                //        {
-                //            var imageHeight = DrawImageInColumn(gfx, beforeImage, leftColumnX + ColumnPadding, leftColumnY,
-                //                             columnWidth - 2 * ColumnPadding,
-                //                             $"{group1Title} - Ảnh {i + 1}", pageFont);
-                //            leftColumnY += imageHeight + ImageSpacing;
-                //        }
-                //    }
-                //    // Vẽ ảnh cột phải 
-                //    if (i < group2Images.Count && File.Exists(afterImage))
-                //    {
-                //        if (rightColumnY + imageHeightNext <= PageHeight - Margin - 5)
-                //        {
-                //            var imageHeight = DrawImageInColumn(gfx, afterImage, rightColumnX + ColumnPadding, rightColumnY,
-                //                            columnWidth - 2 * ColumnPadding,
-                //                            $"{group2Title} - Ảnh {i + 1}", pageFont);
-                //            rightColumnY += imageHeight + ImageSpacing;
-                //        }
-                //    }
-                //}
-                //if (gfx != null)
-                //{
-                //    gfx.Dispose();
-                //    gfx = null;
-                //}
-                //document.Save(stream, false);
-                ////document.Save(@$"E:\folders_2_columns{DateTime.Now.ToString("hhmmss")}.pdf");
+                DrawStringWordWrapCentered(headGfx, $"Danh sách hàng hủy tháng {date.Month}.{date.Year} (Normal)", titleFont, XBrushes.Black, layoutRect, lineHeight);              
                 
                 /// ///code new 01.08.2025
                 int maxCount = Math.Max(group1Images.Count, group2Images.Count);
@@ -167,8 +72,12 @@ public class PdfHelper
 
                 for (int i = 0; i < maxCount; i++)
                 {
-                    string beforeImage = i < group1Images.Count ? AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group1Images[i] : null;
-                    string afterImage = i < group2Images.Count ? AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group2Images[i] : null;
+                    //string beforeImage = i < group1Images.Count ? AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group1Images[i] : null;
+                    //string afterImage = i < group2Images.Count ? AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group2Images[i] : null;
+
+                    //doi B&A
+                    string afterImage = i < group1Images.Count ? AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group1Images[i] : null;
+                    string beforeImage = i < group2Images.Count ? AppDomain.CurrentDomain.BaseDirectory + "wwwroot" + group2Images[i] : null;
 
                     double group1ImageHeight = 0;
                     double group2ImageHeight = 0;
@@ -254,7 +163,28 @@ public class PdfHelper
                     gfx = null;
                 }
 
-                document.Save(stream, false);
+                document.Save(stream, false);  // luu file 1 lan roi => bo qua
+
+                // Tạo tên file theo barcode + timestamp
+                //string fileName = $"{barcode}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
+                //string fileName = $"{barcode}_{DateTime.Now:yyyyMMdd}.pdf";
+                //string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+                //Directory.CreateDirectory(folderPath);
+                //string filePath = Path.Combine(folderPath, fileName);
+                //File.WriteAllBytes(filePath, stream.ToArray());
+                // Đặt lại vị trí con trỏ về đầu stream để đọc lại
+                stream.Position = 0;
+
+                // Tạo tên file theo barcode + timestamp
+                string fileName = $"{barcode}_{DateTime.Now:yyyyMMdd}.pdf";
+
+                // Lấy thư mục Downloads của user
+                string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+                Directory.CreateDirectory(folderPath);
+                string filePath = Path.Combine(folderPath, fileName);
+
+                // Ghi dữ liệu stream ra file
+                File.WriteAllBytes(filePath, stream.ToArray());
 
             }
 

@@ -46,12 +46,17 @@ namespace ScrapSystem.Api.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateScrapDetailById(int id, int qty)
+        public async Task<bool> UpdateScrapDetailById(int id, int qty, int QtyActual)
         {
             try
             {
+                //int affectedRows = await _dbSet.Where(x => x.Id == id)
+                //     .ExecuteUpdateAsync(x => x.SetProperty(p => p.Qty, qty));
                 int affectedRows = await _dbSet.Where(x => x.Id == id)
-                     .ExecuteUpdateAsync(x => x.SetProperty(p => p.Qty, qty));
+            .ExecuteUpdateAsync(x => x
+                .SetProperty(p => p.Qty, qty)
+                .SetProperty(p => p.QtyActual, QtyActual)
+            );
                 return affectedRows > 0;
             }
             catch (Exception ex)

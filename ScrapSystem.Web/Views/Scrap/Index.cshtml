@@ -139,8 +139,12 @@
                         <h5>Số lượng thực tế : <span id="qtyActual"></span></h5>
                     </div>
                     <div class="col-md-12">
-                        <label>Số lượng</label>
+                        <label>Số lượng Plan</label>
                         <input type="number" id="qty" class="form-control" />
+                    </div>
+                    <div class="col-md-12">
+                        <label>Số lượng Actual</label>
+                        <input type="number" id="qty_act" class="form-control" />
                     </div>
 
                     <div class="col-md-3 d-flex align-items-end">
@@ -267,8 +271,19 @@
     async function UpdateScrapDetail(id) {
 
         let newQty = document.getElementById('qty').value;
+        let newQtyAct = document.getElementById('qty_act').value;
+
+        //alert(newQtyAct);
+
         const formData = new FormData();
+        
         formData.append('qty', newQty);
+        formData.append('QtyActual', newQtyAct);
+
+        // for (let pair of formData.entries()) {
+        //     console.log(pair[0] + ': ' + pair[1]);
+        // }
+
         try {
             const response = await fetch(`UpdateScrapDetail/${id.toString()}`, {
                 method: 'Put',
@@ -284,12 +299,20 @@
             }
             editQtyModal.hide();
 
+            // filteredConflictData = filteredConflictData.map(item =>
+            //     item.id == id ? { ...item, qty: newQty } : item
+            // );
+
+            // existConflictQty = existConflictQty.map(item =>
+            //     item.id == id ? { ...item, qty: newQty } : item
+            // );
+
             filteredConflictData = filteredConflictData.map(item =>
-                item.id == id ? { ...item, qty: newQty } : item
+                item.id == id ? { ...item, qty: newQty, qtyActual: newQtyAct } : item
             );
 
             existConflictQty = existConflictQty.map(item =>
-                item.id == id ? { ...item, qty: newQty } : item
+                item.id == id ? { ...item, qty: newQty, qtyActual: newQtyAct } : item
             );
 
             renderConflictQtyTable(currentPageConflictQty);
@@ -306,6 +329,9 @@
         document.getElementById('qtyActual').innerHTML = qtyActual;
         let qtyInput = document.getElementById('qty')
         qtyInput.value = qty;
+
+        let qtyInputAct = document.getElementById('qty_act')
+        qtyInputAct.value = qtyActual;
 
         editQtyModal.show();
     }

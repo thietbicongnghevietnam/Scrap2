@@ -10,6 +10,6 @@ namespace ScrapSystem.Api.Infrastructure.Repositories.IRepositories
         Task<List<VerificationResult>> GetScrapDetailsWithSanctionInfo(List<string> sanctions);
         Task<List<VerificationResult>> GetScrapDetailsWithMaterial(List<string> materials);
         Task<bool> UpdateScrapDetail(ScrapDetail scrap);
-        Task<bool> UpdateScrapDetailById(int id, int qty);
+        Task<bool> UpdateScrapDetailById(int id, int qty, int QtyActual);
     }
 }

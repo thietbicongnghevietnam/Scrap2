@@ -16,7 +16,7 @@ namespace ScrapSystem.Api.Application.Service.IServices
         Task<ApiResult<MasterDetailDto<ScrapImageDto, ScrapImageDetailDto>>> LoadImage(string sanctionId, string pallet);
         Task<ApiResult<MasterDetailDto<LabelListMasterDto, LabelListDetailDto>>> GetLabelListAsync(DateTime startDate, DateTime endDate, string sanction);
 
-        Task<ApiResult<bool>> UpdateQtyScrapDetail(int id, int qty);
+        Task<ApiResult<bool>> UpdateQtyScrapDetail(int id, int qty, int QtyActual);
 
         Task<ApiResult<bool>> DeleleScrapDetailById(int id);
     }

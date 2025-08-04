@@ -263,11 +263,11 @@ namespace ScrapSystem.Web.Controllers
         }
 
         [HttpPut("UpdateScrapDetail/{id}")]
-        public async Task<IActionResult> UpdateScrapDetail(int id, int qty)
+        public async Task<IActionResult> UpdateScrapDetail(int id, int qty, int QtyActual)
         {
             try
             {
-                var data = new UpdateQtyRequest { Qty = qty };
+                var data = new UpdateQtyRequest { Qty = qty, QtyActual = QtyActual };
 
                 var res = await _apiClientService.PutAsync<ApiResult<bool>>($"api/Scrap/scrap-detail/{id}", data);
                 if (!res.IsSuccess)

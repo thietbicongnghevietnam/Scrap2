@@ -49,7 +49,7 @@ namespace ScrapSystem.Api.Controllers
         [HttpPut("scrap-detail/{id}")]
         public async Task<IActionResult> UpdateScrapDetail( int id, [FromBody] UpdateQtyRequest request)
         {
-            var rs = await _importScrapService.UpdateQtyScrapDetail(id, request.Qty);
+            var rs = await _importScrapService.UpdateQtyScrapDetail(id, request.Qty, request.QtyActual);
 
             if (!rs.IsSuccess)
             {

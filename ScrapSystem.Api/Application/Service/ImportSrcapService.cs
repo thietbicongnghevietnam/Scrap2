@@ -40,7 +40,7 @@ namespace ScrapSystem.Api.Application.Service
             _dbContext = dbContext;
         }
 
-        public async Task<ApiResult<bool>> UpdateQtyScrapDetail(int id, int qty)
+        public async Task<ApiResult<bool>> UpdateQtyScrapDetail(int id, int qty, int QtyActual)
         {
             if (id <= 0)
             {
@@ -60,7 +60,16 @@ namespace ScrapSystem.Api.Application.Service
                 };
             }
 
-            var rs = await _unitOfWork.ScrapDetailRepository.UpdateScrapDetailById(id, qty);
+            if (QtyActual < 0)
+            {
+                return new ApiResult<bool>
+                {
+                    IsSuccess = false,
+                    Message = "Quantity cannot be negative."
+                };
+            }
+
+            var rs = await _unitOfWork.ScrapDetailRepository.UpdateScrapDetailById(id, qty, QtyActual);
             await _unitOfWork.SaveChangesAsync();
 
             return new ApiResult<bool>
@@ -456,5 +465,10 @@ namespace ScrapSystem.Api.Application.Service
             }
 
         }
+
+        //Task<ApiResult<bool>> IImportScrapService.UpdateQtyScrapDetail(int id, int qty, int QtyActual)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

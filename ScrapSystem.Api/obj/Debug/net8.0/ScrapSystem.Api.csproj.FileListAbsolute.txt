@@ -1,3 +1,11 @@
+F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.csproj.AssemblyReference.cache
+F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.GeneratedMSBuildEditorConfig.editorconfig
+F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.AssemblyInfoInputs.cache
+F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.AssemblyInfo.cs
+F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.csproj.CoreCompileInputs.cache
+F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.MvcApplicationPartsAssemblyInfo.cs
+F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.MvcApplicationPartsAssemblyInfo.cache
+F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.sourcelink.json
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\appsettings.Development.json
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\appsettings.json
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\ScrapSystem.Api.exe
@@ -43,6 +51,7 @@ F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\Microsoft.IO.RecyclableMe
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\Microsoft.OpenApi.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\Newtonsoft.Json.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\PdfSharpCore.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\Serilog.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\Serilog.Sinks.Console.dll
@@ -84,13 +93,6 @@ F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win\lib\net8.0\S
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.csproj.AssemblyReference.cache
-F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.GeneratedMSBuildEditorConfig.editorconfig
-F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.AssemblyInfoInputs.cache
-F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.AssemblyInfo.cs
-F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.csproj.CoreCompileInputs.cache
-F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.MvcApplicationPartsAssemblyInfo.cs
-F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.MvcApplicationPartsAssemblyInfo.cache
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.development.json
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets\msbuild.ScrapSystem.Api.Microsoft.AspNetCore.StaticWebAssets.props
@@ -105,5 +107,3 @@ F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\refint\ScrapSystem.Api.dl
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.pdb
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.genruntimeconfig.cache
 F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ref\ScrapSystem.Api.dll
-F:\HA_IT\Scrap_System\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.sourcelink.json
-F:\HA_IT\Scrap_System\ScrapSystem.Api\bin\Debug\net8.0\Newtonsoft.Json.dll
