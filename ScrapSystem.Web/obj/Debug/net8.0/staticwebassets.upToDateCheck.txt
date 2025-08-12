@@ -25,9 +25,7 @@ wwwroot\css\webfonts\fa-v4compatibility.woff2
 wwwroot\database.svg
 wwwroot\favicon.ico
 wwwroot\filter.svg
-wwwroot\Images\A\IAF17473\IAF17473_2025-08-04_15-32-25.jpg
 wwwroot\Images\A\S001\S001_2025-04-18_10-26-22.jpg
-wwwroot\Images\B\IAF17473\IAF17473_2025-08-04_15-32-10.jpg
 wwwroot\Images\B\S001\S001_2025-04-18_10-16-57.jpg
 wwwroot\Images\B\S001\S001_2025-04-18_14-51-41.jpg
 wwwroot\Images\B\S001\S001_2025-05-05_14-54-31.jpg
@@ -175,3 +173,5 @@ wwwroot\logo.png
 wwwroot\Panasonic.svg
 wwwroot\search.svg
 wwwroot\warning.svg
+wwwroot\Images\B\IAF17473\IAF17473_2025-08-04_15-32-10.jpg
+wwwroot\Images\A\IAF17473\IAF17473_2025-08-04_15-32-25.jpg

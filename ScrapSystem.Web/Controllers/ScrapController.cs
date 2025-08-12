@@ -155,7 +155,8 @@ namespace ScrapSystem.Web.Controllers
             request.StartDate = request.StartDate == default ? DateTime.Now.AddMonths(-5) : request.StartDate;
             request.EndDate = request.EndDate == default ? DateTime.Now : request.EndDate;
             request.Page = request.Page <= 0 ? 1 : request.Page;
-            request.PageSize = request.PageSize <= 0 ? 25 : request.PageSize;
+            //request.PageSize = request.PageSize <= 0 ? 25 : request.PageSize;   //phantrang
+            request.PageSize = request.PageSize <= 0 ? 150 : request.PageSize;
             request.Sanction = request.Sanction == null? "" : request.Sanction;
             var rs = await _apiClientService.PostAsync<ApiResult<ScrapViewDto>>("api/Scrap/load-data", request);
 

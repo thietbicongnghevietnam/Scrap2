@@ -135,9 +135,11 @@ public class ExcelHelper
             using (var stream = file.OpenReadStream())
             using (var package = new ExcelPackage(stream))
             {
-                var worksheet = package.Workbook.Worksheets[0];
-                var worksheetData = package.Workbook.Worksheets[1];
+                //var worksheet = package.Workbook.Worksheets[0];
+                //var worksheetData = package.Workbook.Worksheets[1];
 
+                var worksheet = package.Workbook.Worksheets["Input"];
+                string typeupload = worksheet.Cells[8, 6].Text;
                 string subType = worksheet.Cells[6, 3].Text;
                 string date = worksheet.Cells[8, 3].Text;
                 string type = worksheet.Cells[10, 3].Text;
@@ -148,34 +150,63 @@ public class ExcelHelper
                 scrap.MoveType = type;
                 scrap.IssueOutDate = DateTime.Parse(date);
 
-                for (int row = startRow; row <= worksheetData.Dimension.End.Row; row++)
+                if (typeupload == "Form A")
                 {
-
-
-                    var scrapDetail = new ScrapDetailDto();
-
-                    int.TryParse(worksheetData.Cells[row, 1].Text, out int stt);
-
-                    if (stt == 0) return (scrap, scrapDetalDtos);
-                    scrapDetail.Plant = worksheetData.Cells[row, 2].Text;
-                    scrapDetail.Sloc = worksheetData.Cells[row, 3].Text;
-                    scrapDetail.CostCenter = worksheetData.Cells[row, 4].Text;
-                    scrapDetail.NameCost = worksheetData.Cells[row, 5].Text;
-                    scrapDetail.Material = worksheetData.Cells[row, 6].Text;
-                    scrapDetail.Qty = float.TryParse(worksheetData.Cells[row, 7].Text, out float quantity) ? quantity : 0;
-                    scrapDetail.UnitPrice = decimal.TryParse(worksheetData.Cells[row, 8].Text, out decimal unitPrice) ? unitPrice : 0;
-                    scrapDetail.Amount = decimal.TryParse(worksheetData.Cells[row, 9].Text, out decimal amount) ? amount : 0;
-                    scrapDetail.Reason = worksheetData.Cells[row, 10].Text;
-                    if (scrapDetail.Plant == "" && scrapDetail.Material == "")
+                    var worksheetData = package.Workbook.Worksheets["Form A"];
+                    for (int row = startRow; row <= worksheetData.Dimension.End.Row; row++)
                     {
-                        break;
+                        var scrapDetail = new ScrapDetailDto();
+                        int.TryParse(worksheetData.Cells[row, 1].Text, out int stt);
+                        if (stt == 0) return (scrap, scrapDetalDtos);
+                        scrapDetail.Plant = worksheetData.Cells[row, 2].Text;
+                        scrapDetail.Sloc = worksheetData.Cells[row, 3].Text;
+                        scrapDetail.CostCenter = worksheetData.Cells[row, 4].Text;
+                        scrapDetail.NameCost = worksheetData.Cells[row, 5].Text;
+                        scrapDetail.Material = worksheetData.Cells[row, 6].Text;
+                        scrapDetail.Qty = float.TryParse(worksheetData.Cells[row, 7].Text, out float quantity) ? quantity : 0;
+                        scrapDetail.UnitPrice = decimal.TryParse(worksheetData.Cells[row, 8].Text, out decimal unitPrice) ? unitPrice : 0;
+                        scrapDetail.Amount = decimal.TryParse(worksheetData.Cells[row, 9].Text, out decimal amount) ? amount : 0;
+                        scrapDetail.Reason = worksheetData.Cells[row, 10].Text;
+                        if (scrapDetail.Plant == "" && scrapDetail.Material == "")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            scrapDetalDtos.Add(scrapDetail);
+                        }
                     }
-                    else 
-                    {
-                        scrapDetalDtos.Add(scrapDetail);
-                    }
-                    
                 }
+                else
+                {
+                    var worksheetData1 = package.Workbook.Worksheets["Form B"];
+                    //for (int row = startRow; row <= worksheetData1.Dimension.End.Row; row++)
+                    for (int row = 16; row <= worksheetData1.Dimension.End.Row; row++)      //bat dau tu dong 16
+                    {
+                        var scrapDetail1 = new ScrapDetailDto();
+                        int.TryParse(worksheetData1.Cells[row, 1].Text, out int stt);
+                        if (stt == 0) return (scrap, scrapDetalDtos);
+                        scrapDetail1.Plant = worksheetData1.Cells[row, 2].Text;
+                        scrapDetail1.Sloc = worksheetData1.Cells[row, 3].Text;
+                        scrapDetail1.CostCenter = worksheetData1.Cells[row, 4].Text;
+                        scrapDetail1.NameCost = worksheetData1.Cells[row, 5].Text;
+                        scrapDetail1.Material = worksheetData1.Cells[row, 6].Text;
+                        scrapDetail1.Qty = float.TryParse(worksheetData1.Cells[row, 7].Text, out float quantity) ? quantity : 0;
+                        scrapDetail1.UnitPrice = decimal.TryParse(worksheetData1.Cells[row, 8].Text, out decimal unitPrice) ? unitPrice : 0;
+                        scrapDetail1.Amount = decimal.TryParse(worksheetData1.Cells[row, 9].Text, out decimal amount) ? amount : 0;
+                        scrapDetail1.Reason = worksheetData1.Cells[row, 12].Text;
+                        if (scrapDetail1.Plant == "" && scrapDetail1.Material == "")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            scrapDetalDtos.Add(scrapDetail1);
+                        }
+                    }
+                }
+
+                
             }
         }
         catch (Exception ex)
