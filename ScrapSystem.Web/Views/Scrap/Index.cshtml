@@ -500,7 +500,7 @@
         return false;
     }
 
-    function printSelectedBarcodes() {
+        function printSelectedBarcodes() {
         const selected = Array.from(selectedBarcodes);
         if (selected.length === 0) {
             alert('Chọn label list cần in ! ');
@@ -513,7 +513,8 @@
         let printContent = `
                                                                                         <html>
                                                                                         <head>
-                                                                                            <script src="${baseUrl}/js/JsBarcode.code128.min.js"><\/script>
+                                                                                            <script src="${baseUrl}/js/JsBarcode.code128.min.js"><\/script>  
+                                                                                             <script src="${baseUrl}/js/JsBarcode222.js"><\/script>
                                                                                 <style>
                                                                                     @@media print {
                                                                                         @@page {
@@ -575,7 +576,7 @@
 
                                                                                         .barcode-container {
                                                                                             flex-shrink: 0;
-                                                                                            width: 120px;
+                                                                                            width: 150px;
                                                                                         }
 
                                                                                         .header-content {
@@ -650,7 +651,7 @@
 
                                                                                         .barcode-container {
                                                                                             flex-shrink: 0;
-                                                                                            width: 120px;
+                                                                                            width: 150px;
                                                                                         }
 
                                                                                         .header-content {
@@ -685,7 +686,14 @@
                                                                                             margin-top: 10px;
                                                                                         }
                                                                                     }
+                                                                                        .no-border-row th {
+      border: none !important;
+      border-top: none !important;
+      border-bottom: none !important;
+      background: transparent !important;
+    }
                                                                                 </style>
+
                                                                             </head>
                                                                             <body>`;
 
@@ -699,31 +707,36 @@
                                                                                 <div class="page-container">
                                                                                     <div class="label-container">
                                                                                         <div class="header-section">
-                                                                                            <div class="barcode-container">
-                                                                                                <svg class="barcode" data-code="${master.barcode}"></svg>
-                                                                                            </div>
 
-                                                                                            <div class="header-content">
-                                                                                                <div class="title">LABEL HÀNG HỦY THÁNG ${currentMonthYear}</div>
 
-                                                                                                <div class="info-row">
-                                                                                                    <div class="info-item">
-                                                                                                        <strong>Section:</strong> ${master.section.toUpperCase() || 'N/A'}
-                                                                                                    </div>
-                                                                                                    <div class="info-item">
-                                                                                                        <strong>Sanction:</strong> ${master.sanction || 'N/A'}
-                                                                                                    </div>
-                                                                                                </div>
 
-                                                                                                <div class="pallet-info">
-                                                                                                    <strong>Pallet No: ${master.pallet || 'N/A'}</strong>
-                                                                                                </div>
-                                                                                            </div>
                                                                                         </div>
 
                                                                                         <div class="table-section">
                                                                                             <table class="table">
                                                                                                 <thead>
+                                                                                                      <tr class="no-border-row">
+                                                                                                          <th colspan="5" style="padding: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="barcode-container" style="width: 150px; flex-shrink: 0;">
+          <svg class="barcode" data-code="${master.barcode}"></svg>
+        </div>
+        <div style="flex: 2; text-align: center;">
+          <div class="title" style="font-weight: bold;">
+            LABEL HÀNG HỦY THÁNG ${currentMonthYear}
+          </div>
+          <div style="display: flex; justify-content: center; gap: 40px; font-size: 14px;">
+            <div class="info-item"><strong>Section:</strong> ${master.section.toUpperCase() || 'N/A'}</div>
+            <div class="info-item"><strong>Sanction:</strong> ${master.sanction || 'N/A'}</div>
+          </div>
+          <div class="pallet-info" style="margin-top: 5px;">
+            <strong>Pallet No: ${master.pallet || 'N/A'}</strong>
+          </div>
+        </div>
+      </div>
+    </th>
+                                                                                                        </tr>
+
                                                                                                     <tr>
                                                                                                         <th style="width: 8%; text-align: center;">STT No.</th>
                                                                                                         <th style="width: 30%;">Part number</th>
@@ -755,29 +768,63 @@
 
         printContent += `
                                                                                 <script>
-                                                                                    if (typeof JsBarcode !== 'undefined') {
-                                                                                        document.querySelectorAll(".barcode").forEach(svg => {
-                                                                                            JsBarcode(svg, svg.dataset.code, {
-                                                                                                width: 1.5,
-                                                                                                height: 50,
-                                                                                                fontSize: 12,
-                                                                                                margin: 5,
-                                                                                                displayValue: true
-                                                                                            });
-                                                                                        });
-                                                                                    } else {
-                                                                                        console.error('JsBarcode library not loaded!');
-                                                                                    }
+                                                                                        // 1. Render barcode SVG
+        document.querySelectorAll('.barcode').forEach(svg => {
+          const code = svg.getAttribute('data-code');
+          JsBarcode(svg, code, {
+            format: "CODE128",
+            displayValue: false,
+            height: 120,
+            width: 2.5
+          });
+        });
+             // 2. Chuyển SVG sang ảnh base64 PNG
+        async function svgToPngBase64(svgElement, width = 120, height = 40) {
+          return new Promise((resolve) => {
+            const svgData = new XMLSerializer().serializeToString(svgElement);
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svgBlob);
 
-                                                                                    window.onload = function() {
-                                                                                        document.title = '';
-                                                                                        setTimeout(function() {
-                                                                                            window.print();
-                                                                                            window.onafterprint = function() {
-                                                                                                window.close();
-                                                                                            };
-                                                                                        }, 500);
-                                                                                    };
+            img.onload = () => {
+              ctx.drawImage(img, 0, 0, width, height);
+              URL.revokeObjectURL(url);
+              resolve(canvas.toDataURL('image/png'));
+            };
+            img.onerror = () => {
+              // Nếu lỗi, resolve rỗng hoặc svgData gốc
+              resolve('');
+            };
+            img.src = url;
+          });
+        }
+
+        // 3. Thay thế tất cả SVG barcode bằng ảnh <img>
+        async function replaceSvgWithImg() {
+          const svgs = document.querySelectorAll('.barcode');
+          for (const svg of svgs) {
+            const base64 = await svgToPngBase64(svg, 120, 40);
+            if (base64) {
+              const img = document.createElement('img');
+              img.src = base64;
+              img.alt = 'barcode';
+              img.style.width = '120px';
+              img.style.height = '40px';
+              svg.parentNode.replaceChild(img, svg);
+            }
+          }
+        }
+
+                                                                                    // Chạy thay thế sau khi render barcode xong
+    window.onload = async () => {
+      await replaceSvgWithImg();
+      // Gọi print nếu cần:
+       window.print();
+    };
                                                                                 <\/script>
                                                                             <\/body>
                                                                             <\/html>`;
