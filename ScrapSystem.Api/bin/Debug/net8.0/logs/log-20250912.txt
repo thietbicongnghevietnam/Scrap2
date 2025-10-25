@@ -1,0 +1,6 @@
+2025-09-12 12:54:24.166 [INF] User 2012757 logged in successfully
+2025-09-12 12:57:54.127 [INF] User 2012757 logged in successfully
+2025-09-12 13:20:47.752 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\AuthService.cs:line 211
+2025-09-12 13:20:50.750 [INF] User 2012757 logged in successfully

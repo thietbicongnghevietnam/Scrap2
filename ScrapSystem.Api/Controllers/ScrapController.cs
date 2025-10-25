@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ScrapSystem.Api.Application.Request;
 using ScrapSystem.Api.Application.Service.IServices;
+using System.Data;
 
 namespace ScrapSystem.Api.Controllers
 {
@@ -24,6 +26,7 @@ namespace ScrapSystem.Api.Controllers
         public async Task<IActionResult> ImportFile(ImportRequest request)
         {
             var rs = await _importScrapService.ImportScrapAsync(request.File, request.Sanction, request.Section, request.issueout);
+            //var rs = await _importScrapService.ImportScrapAsync(request.File, request.Sanction, request.Section, request.issueout, request.SelectedSection);
 
             if (!rs.IsSuccess)
             {
@@ -73,7 +76,8 @@ namespace ScrapSystem.Api.Controllers
         }
 
         [HttpPost("load-data")]
-        public async Task<IActionResult> LoadData(ScrapRequest request)
+        //public async Task<IActionResult> LoadData(ScrapRequest request)
+        public async Task<IActionResult> LoadData(ScrapRequest2 request)
         {
             var rs = await _importScrapService.LoadData(request);
 
@@ -123,5 +127,41 @@ namespace ScrapSystem.Api.Controllers
 
             return Ok(rs);
         }
+
+        [HttpPost]
+        [Route("GetNameSection")]
+        [AllowAnonymous]       //khong chay authen
+        public async Task<IActionResult> GetNameSection([FromBody] Dictionary<string, string> requestData)
+        {
+            try
+            {
+                if (!requestData.ContainsKey("SanctionID"))
+                {
+                    return BadRequest("Missing DATA in request data.");
+                }
+                // Gọi phương thức để lấy dữ liệu từ cơ sở dữ liệu
+                DataTable table = await Task.FromResult<DataTable>(
+                    DbconnectScrap.StoreFillDS(nameof(GetNameSection), CommandType.StoredProcedure, requestData["SanctionID"])
+                );
+
+                // Chuyển DataTable thành JSON
+                string json = DataTableToJson(table);
+
+                // Trả về kết quả JSON
+                return Ok(json);
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi và trả về mã lỗi 500 cùng thông điệp
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        private string DataTableToJson(DataTable table)
+        {
+            var jsonResult = JsonConvert.SerializeObject(table);
+            return jsonResult;
+        }
+
     }
 }

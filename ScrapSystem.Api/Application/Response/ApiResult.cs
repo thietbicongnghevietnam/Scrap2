@@ -31,6 +31,12 @@ namespace ScrapSystem.Api.Application.Response
         public List<TItem2> Details { get; set; }
     }
 
+    public class MasterDetailDto2<TItem1, TItem2>
+    {
+        public List<TItem1> Masters2 { get; set; }
+        public List<TItem2> Details2 { get; set; }
+    }
+
 }
 
 

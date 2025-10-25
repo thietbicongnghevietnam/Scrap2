@@ -1,0 +1,68 @@
+2025-10-12 08:50:38.701 [INF] User 2012757 logged in successfully
+2025-10-12 09:51:12.283 [INF] User 2012757 logged in successfully
+2025-10-12 09:59:05.552 [INF] User 2012757 logged in successfully
+2025-10-12 10:01:51.674 [ERR] Failed to import scrap for file 3. Issue out_fomB .xlsx
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Noid'.
+Transaction count after EXECUTE indicates a mismatching number of BEGIN and COMMIT statements. Previous count = 1, current count = 2.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__210_1(IAsyncResult result)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 177
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 181
+ClientConnectionId:3d3d3d83-eb83-49f1-9ff4-963fe73701d8
+Error Number:207,State:1,Class:16
+2025-10-12 10:19:48.730 [INF] User 2012757 logged in successfully
+2025-10-12 10:26:59.216 [INF] User 2012757 logged in successfully
+2025-10-12 10:31:45.656 [INF] User 2012757 logged in successfully
+2025-10-12 10:48:50.823 [INF] User 2012757 logged in successfully
+2025-10-12 11:05:20.117 [INF] User 2012757 logged in successfully
+2025-10-12 11:10:25.438 [INF] User 2012757 logged in successfully
+2025-10-12 11:50:35.992 [INF] User 2012757 logged in successfully
+2025-10-12 12:31:03.013 [INF] User 2012757 logged in successfully
+2025-10-12 12:37:39.392 [INF] User 2012757 logged in successfully
+2025-10-12 12:42:00.307 [INF] User 2012757 logged in successfully
+2025-10-12 12:50:02.509 [INF] User 2012757 logged in successfully
+2025-10-12 12:50:57.611 [INF] User 2012757 logged in successfully
+2025-10-12 13:03:20.450 [INF] User 2012757 logged in successfully
+2025-10-12 13:05:23.070 [INF] User 2012757 logged in successfully
+2025-10-12 13:08:16.921 [INF] User 2012757 logged in successfully
+2025-10-12 13:13:17.814 [INF] User 2012757 logged in successfully
+2025-10-12 13:14:34.651 [INF] User 2012757 logged in successfully
+2025-10-12 13:16:11.993 [INF] User 2012757 logged in successfully
+2025-10-12 13:25:00.759 [INF] User 2012757 logged in successfully
+2025-10-12 13:27:03.084 [INF] User 2012757 logged in successfully
+2025-10-12 13:31:12.316 [INF] User 2012757 logged in successfully
+2025-10-12 13:36:54.609 [INF] User 2012757 logged in successfully
+2025-10-12 13:38:21.674 [INF] User 2012757 logged in successfully
+2025-10-12 13:39:05.775 [INF] User 2012757 logged in successfully
+2025-10-12 13:47:14.155 [INF] User 2012757 logged in successfully
+2025-10-12 13:47:54.006 [INF] User 2012757 logged in successfully
+2025-10-12 14:02:41.881 [INF] User 2012757 logged in successfully
+2025-10-12 14:07:17.793 [INF] User 2012757 logged in successfully
+2025-10-12 14:09:41.746 [INF] User 2012757 logged in successfully
+2025-10-12 14:14:20.196 [INF] User 2012757 logged in successfully
+2025-10-12 14:17:56.193 [INF] User 2012757 logged in successfully
+2025-10-12 15:18:25.308 [INF] User 2012757 logged in successfully
+2025-10-12 15:43:29.347 [INF] User 2012757 logged in successfully
+2025-10-12 15:49:32.899 [INF] User 2012757 logged in successfully
+2025-10-12 15:58:20.457 [INF] User 2012757 logged in successfully
+2025-10-12 16:07:12.959 [INF] User 2012757 logged in successfully
+2025-10-12 16:14:37.449 [INF] User 2012757 logged in successfully
+2025-10-12 16:17:23.314 [INF] User 2012757 logged in successfully
+2025-10-12 16:19:54.916 [INF] User 2012757 logged in successfully
+2025-10-12 16:22:36.567 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\AuthService.cs:line 211
+2025-10-12 16:22:39.820 [INF] User 2012757 logged in successfully
+2025-10-12 17:01:43.426 [INF] User 2012757 logged in successfully
+2025-10-12 17:08:11.763 [INF] User 2012757 logged in successfully

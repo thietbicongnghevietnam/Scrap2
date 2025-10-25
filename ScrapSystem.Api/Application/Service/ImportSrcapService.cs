@@ -319,11 +319,12 @@ namespace ScrapSystem.Api.Application.Service
 
         }
 
-        public async Task<ApiResult<ScrapViewDto>> LoadData(ScrapRequest request)
+        //public async Task<ApiResult<ScrapViewDto>> LoadData(ScrapRequest request)
+        public async Task<ApiResult<ScrapViewDto>> LoadData(ScrapRequest2 request)
         {
             try
             {
-                var rs = await _unitOfWork.ScrapRepository.GetReportScrapByDate(request.StartDate, request.EndDate, request.Sanction, request.Status, request.Page, request.PageSize);
+                var rs = await _unitOfWork.ScrapRepository.GetReportScrapByDate(request.StartDate, request.EndDate, request.Sanction,request.issueout, request.Status, request.Page, request.PageSize);
 
                 return new ApiResult<ScrapViewDto>
                 {

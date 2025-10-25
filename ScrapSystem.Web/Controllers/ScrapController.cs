@@ -1,7 +1,11 @@
 ﻿using Azure.Core;
+using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PMG_system.App_Code;
 using ScrapSystem.Api.Application.DTOs.LabelListDtos;
@@ -12,7 +16,9 @@ using ScrapSystem.Api.Application.DTOs.VerifyDataDtos;
 using ScrapSystem.Api.Application.Request;
 using ScrapSystem.Api.Application.Response;
 using ScrapSystem.Api.Domain.Models;
+using ScrapSystem.Api.Repositories;
 using ScrapSystem.Api.Utilities;
+using ScrapSystem.Web.App_Code;
 using ScrapSystem.Web.Dtos;
 using ScrapSystem.Web.Models;
 using ScrapSystem.Web.Service.Interface;
@@ -30,15 +36,60 @@ namespace ScrapSystem.Web.Controllers
     public class ScrapController : BaseController
     {
         private readonly IApiClientService _apiClientService;
-        public ScrapController(IApiClientService apiClientService)
+        private readonly AppDbContext _context;
+        public ScrapController(IApiClientService apiClientService, AppDbContext context)
         {
             _apiClientService = apiClientService;
+            _context = context;
+        }
+
+        private List<SelectListItem> GetSectionsFromDatabase()
+        {
+            var items = new List<SelectListItem>();
+            var _connectionString = _context.Database.GetDbConnection().ConnectionString;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand("SELECT Section, Description FROM MaterSection", connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        items.Add(new SelectListItem
+                        {
+                            Value = reader["Section"].ToString(),
+                            Text = reader["Description"].ToString()
+                        });
+                    }
+                }
+            }
+
+            return items;
         }
 
         [HttpGet]
         public IActionResult Import()
         {
-            return View();
+            return View(); //old    // chuyen combobox
+
+            //var model = new ImportRequest(); // ✅ Model không null
+            //return View(model);
+            //var model = new ImportRequest
+            //{
+            //    ListItems = new List<SelectListItem>
+            //    {
+            //        new SelectListItem { Value = "PUS", Text = "PUS" },
+            //        new SelectListItem { Value = "MCS", Text = "MCS" },
+            //        new SelectListItem { Value = "IT", Text = "IT" }
+            //    }
+            //};
+
+            //var model = new ImportRequest
+            //{
+            //    ListItems = GetSectionsFromDatabase()
+            //};
+
+            //return View(model); // ✅ truyền model cho View
         }
 
         [HttpGet]
@@ -52,6 +103,7 @@ namespace ScrapSystem.Web.Controllers
         {
             try
             {
+                // --GetBarcodes '2025-08-01','2025-08-03',''  ==> stored lay labelist ==> ten linh kien lay tu mater
                 startDate = startDate == default ? DateTime.Now : startDate;
                 endDate = endDate == default ? DateTime.Now : endDate;
                 Dictionary<string, string> data = new Dictionary<string, string>();
@@ -144,13 +196,44 @@ namespace ScrapSystem.Web.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Report([FromQuery] ScrapRequest request)
+        public async Task<IActionResult> DeleteSanction([FromQuery] ScrapRequest2 request)
+        {
+            string thongbao = "";
+            DataTable dt4 = new DataTable();
+            //check xem user co duoc phan quyen cap 2 khong?            
+            request.Sanction = request.Sanction == null ? "" : request.Sanction;
+            request.issueout = request.issueout == null ? "" : request.issueout;
+
+            string tensanction = request.Sanction;
+            string issueout = request.issueout;
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            dt4 = DataConn.StoreFillDS("DeleteSanction", System.Data.CommandType.StoredProcedure, tensanction, issueout, userId);
+            if (dt4.Rows[0][0].ToString() == "1")
+            {
+                thongbao = "OK";// + "," + dt4.Rows[0][1].ToString() + "," + dt4.Rows[0][2].ToString();
+            }            
+            else
+            {
+                thongbao = "NG";
+            }
+            //return RedirectToAction("Report", "Scrap");
+            return Ok(thongbao);
+        }
+
+        [HttpGet]
+        //public async Task<IActionResult> Report([FromQuery] ScrapRequest request)
+        public async Task<IActionResult> Report([FromQuery] ScrapRequest2 request)
         {
             request.StartDate = request.StartDate == default ? DateTime.Now.AddMonths(-5) : request.StartDate;
             request.EndDate = request.EndDate == default ? DateTime.Now : request.EndDate;
             request.Page = request.Page <= 0 ? 1 : request.Page;
-            request.PageSize = request.PageSize <= 0 ? 25 : request.PageSize;
+            //request.PageSize = request.PageSize <= 0 ? 25 : request.PageSize;
+            request.PageSize = request.PageSize <= 0 ? 2000 : request.PageSize;
             request.Sanction = request.Sanction == null? "" : request.Sanction;
+
+            request.issueout = request.issueout == null ? "" : request.issueout;
+
             var rs = await _apiClientService.PostAsync<ApiResult<ScrapViewDto>>("api/Scrap/load-data", request);
 
             if (rs == null || rs.PagedResult?.Records == null)
@@ -162,6 +245,9 @@ namespace ScrapSystem.Web.Controllers
             ViewBag.EndDate = request.EndDate.ToString("yyyy-MM-dd");
             ViewBag.Status = request.Status;
             ViewBag.Sanction = request.Sanction;
+
+            ViewBag.issueout = request.issueout;
+
             ViewBag.PageSize = request.PageSize;
 
             var result = new ReportViewModel<ScrapViewDto>
@@ -174,33 +260,47 @@ namespace ScrapSystem.Web.Controllers
             return View(result);
         }
 
+        
+
+
         [HttpPost]
         public async Task<IActionResult> Import(ImportRequest request)
         {
+
+
             Dictionary<string, IFormFile> files = new Dictionary<string, IFormFile>();
             Dictionary<string, string> param = new Dictionary<string, string>();
 
             //kiem tra xem Sanction => co hang len pallet chua?
-            //neu da kiem tra roi thi khong duoc upload
-            DataTable dt4 = new DataTable();
-            dt4 = DataConn.StoreFillDS("CheckPalletID_upload", System.Data.CommandType.StoredProcedure, request.Sanction, request.Section, request.issueout);
-            if (dt4.Rows[0][0].ToString() == "0")
-            {
-                //truong hop hang da len pallet (da check roi) roi khong duoc upload nua
-                return Ok();
-            }
-            else 
-            {
-                files.Add("file", request.File);
-                param.Add("sanction", request.Sanction);
-                param.Add("section", request.Section);
-                param.Add("issueout", request.issueout);
-                var res = await _apiClientService.PostFileAsync("api/Scrap/import", files, param);
-                var rs = JsonConvert.DeserializeObject<ParentWithChildren<ScrapDto, ScrapDetailDto>>(res.MasterDetail.ToString());                
-                return Ok(rs);
-            }                        
-            
+            //neu da kiem tra roi thi khong duoc upload //***** bo doan check Pallet *** step 1 upload thang so Pallet vao Pallet_ID
+            //DataTable dt4 = new DataTable();
+            //dt4 = DataConn.StoreFillDS("CheckPalletID_upload", System.Data.CommandType.StoredProcedure, request.Sanction, request.Section, request.issueout);
+            //if (dt4.Rows[0][0].ToString() == "0")
+            //{
+            //    //truong hop hang da len pallet (da check roi) roi khong duoc upload nua
+            //    return Ok();
+            //}
+            //else 
+            //{
+
+            //}
+
+            files.Add("file", request.File);
+            param.Add("sanction", request.Sanction);
+            param.Add("section", request.Section);            
+            param.Add("issueout", request.issueout);
+
+            //param.Add("SelectedSection", request.SelectedSection);
+            //param.Add("ListItems", request.ListItems);
+
+
+            var res = await _apiClientService.PostFileAsync("api/Scrap/import", files, param);
+            var rs = JsonConvert.DeserializeObject<ParentWithChildren<ScrapDto, ScrapDetailDto>>(res.MasterDetail.ToString());
+            return Ok(rs);
+
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> ImportFileName(ImportRequest request)
@@ -217,6 +317,104 @@ namespace ScrapSystem.Web.Controllers
             data.Add("pallet", pallet);
             var rs = await _apiClientService.GetAsync<ApiResult<MasterDetailDto<ScrapImageDto, ScrapImageDetailDto>>>("api/Scrap/load-image", data);
             return Ok(rs.MasterDetail);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LoadImage2(string sanctionId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Sanction", sanctionId);
+            parameters.Add("@pallet", 1);
+            var _connectionString = _context.Database.GetDbConnection().ConnectionString;
+            //var _connectionString = @"Server=10.92.186.30;Database=ScrapSystem;User Id=sa;Password=Psnvdb2013;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
+
+                    using (var multi = await connection.QueryMultipleAsync(
+                        "GetImageScrap2",
+                        parameters,
+                        commandType: CommandType.StoredProcedure))
+                    {
+                        var masters = (await multi.ReadAsync<ScrapImageDto2>()).ToList();
+                        var details = (await multi.ReadAsync<ScrapImageDetailDto2>()).ToList();
+
+                        var rs = new ApiResult<MasterDetailDto2<ScrapImageDto2, ScrapImageDetailDto2>>
+                        {
+                            IsSuccess = true,
+                            MasterDetail = new MasterDetailDto2<ScrapImageDto2, ScrapImageDetailDto2>
+                            {
+                                Masters2 = masters,
+                                Details2 = details
+                            }
+                        };
+
+                        return Ok(rs.MasterDetail);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LoadImage3(string sanctionId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Sanction", sanctionId);
+            parameters.Add("@pallet", 1);
+            var _connectionString = _context.Database.GetDbConnection().ConnectionString;
+            //var _connectionString = @"Server=10.92.186.30;Database=ScrapSystem;User Id=sa;Password=Psnvdb2013;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
+
+                    using (var multi = await connection.QueryMultipleAsync(
+                        "GetImageScrap3",
+                        parameters,
+                        commandType: CommandType.StoredProcedure))
+                    {
+                        var masters = (await multi.ReadAsync<ScrapImageDto2>()).ToList();
+                        var details = (await multi.ReadAsync<ScrapImageDetailDto2>()).ToList();
+
+                        var rs = new ApiResult<MasterDetailDto2<ScrapImageDto2, ScrapImageDetailDto2>>
+                        {
+                            IsSuccess = true,
+                            MasterDetail = new MasterDetailDto2<ScrapImageDto2, ScrapImageDetailDto2>
+                            {
+                                Masters2 = masters,
+                                Details2 = details
+                            }
+                        };
+
+                        return Ok(rs.MasterDetail);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public IActionResult Documents()
+        {
+            // Đường dẫn đến file Excel (ví dụ file nằm trong thư mục wwwroot/files)
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "files", "Huongdansudung.xlsx");
+
+            // Đọc file từ hệ thống
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+
+            // Trả về file để trình duyệt tự động tải về
+            return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Huongdansudung.xlsx");
         }
 
         [HttpGet]
@@ -239,11 +437,36 @@ namespace ScrapSystem.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ExportToPdf(List<string> beforeImages, List<string> afterImages, string barcode, DateTime date)
         {
-
-            var rs = PdfHelper.ExportImagesToPdf(beforeImages, afterImages, barcode, date);
+            //update trang thai export cho user vao bang image
+            string pathexport = "";
+            DataTable dt4 = new DataTable();
+            string tensanction = barcode.Split(';')[0].ToString();
+            string palletno = barcode.Split(';')[1].ToString();
+            string bophan = barcode.Split(';')[2].ToString();
+            dt4 = DataConn.StoreFillDS("UpdateExportFlag", System.Data.CommandType.StoredProcedure, tensanction, palletno, bophan);
+            if (dt4.Rows[0][0].ToString() == "1")
+            {
+                ////***co len tra ra duong dan file luu o day hay khong????
+                pathexport = dt4.Rows[0][1].ToString();
+            }
+            var rs = PdfHelper.ExportImagesToPdf(beforeImages, afterImages, barcode, date, pathexport);
             return File(rs,
                         "application/pdf",
                         $"ExportedPdf_{DateTime.Now:yyyyMMddHHmmss}.pdf");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> showToPdf(List<string> beforeImages, List<string> afterImages, string barcode, DateTime date)
+        {
+
+            var rs = PdfHelper.ShowImagesToPdf(beforeImages, afterImages, barcode, date);
+            return File(rs, "application/pdf", enableRangeProcessing: true);
+
+            //Response.Headers.Add("Content-Disposition", "inline; filename=Exported.pdf");
+            //return File(rs, "application/pdf");
+            //return File(rs,
+            //            "application/pdf",
+            //            $"ExportedPdf_{DateTime.Now:yyyyMMddHHmmss}.pdf");
         }
 
         [HttpDelete("DeleteScrapDetail/{id}")]
@@ -263,16 +486,41 @@ namespace ScrapSystem.Web.Controllers
         }
 
         [HttpPut("UpdateScrapDetail/{id}")]
-        public async Task<IActionResult> UpdateScrapDetail(int id, int qty, int QtyActual)
+        //public async Task<IActionResult> UpdateScrapDetail(int id, int qty, int QtyActual)
+        public async Task<IActionResult> UpdateScrapDetail(int id, int qty, int QtyActual, string palletID)
         {
             try
             {
-                var data = new UpdateQtyRequest { Qty = qty, QtyActual = QtyActual };
-
-                var res = await _apiClientService.PutAsync<ApiResult<bool>>($"api/Scrap/scrap-detail/{id}", data);
-                if (!res.IsSuccess)
-                    return BadRequest();
-                return Ok();
+                /////code old
+                //var data = new UpdateQtyRequest { Qty = qty, QtyActual = QtyActual };
+                //var res = await _apiClientService.PutAsync<ApiResult<bool>>($"api/Scrap/scrap-detail/{id}", data);
+                //if (!res.IsSuccess)
+                //    return BadRequest();
+                //return Ok();
+                
+                ////code new
+                string thongbao = "";
+                DataTable dt4 = new DataTable();
+                //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (palletID == "")
+                {
+                    thongbao = "palletID is null";
+                    return Ok(thongbao);
+                }
+                else
+                {
+                    dt4 = DataConn.StoreFillDS("Updatethongtinpalet", System.Data.CommandType.StoredProcedure, id, qty, QtyActual, palletID);
+                    if (dt4.Rows[0][0].ToString() == "1")
+                    {
+                        thongbao = "OK";// + "," + dt4.Rows[0][1].ToString() + "," + dt4.Rows[0][2].ToString();
+                        return Ok(thongbao);
+                    }
+                    else 
+                    {
+                        thongbao = "NG";
+                        return BadRequest();
+                    }                    
+                }
             }
             catch (Exception ex)
             {

@@ -5,8 +5,32 @@
       "PackagePath": "staticwebassets\\ScrapSystem.Web.bundle.scp.css"
     },
     {
+      "Id": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\wwwroot\\Images\\A\\IAF17473\\IAF17473_2025-08-07_09-58-59.jpg",
+      "PackagePath": "staticwebassets\\Images\\A\\IAF17473\\IAF17473_2025-08-07_09-58-59.jpg"
+    },
+    {
+      "Id": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\wwwroot\\Images\\A\\IAF17473\\IAF17473_2025-08-07_09-59-29.jpg",
+      "PackagePath": "staticwebassets\\Images\\A\\IAF17473\\IAF17473_2025-08-07_09-59-29.jpg"
+    },
+    {
+      "Id": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\wwwroot\\Images\\A\\IAF17473\\IAF17473_2025-08-07_09-59-53.jpg",
+      "PackagePath": "staticwebassets\\Images\\A\\IAF17473\\IAF17473_2025-08-07_09-59-53.jpg"
+    },
+    {
       "Id": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\wwwroot\\Images\\A\\S001\\S001_2025-04-18_10-26-22.jpg",
       "PackagePath": "staticwebassets\\Images\\A\\S001\\S001_2025-04-18_10-26-22.jpg"
+    },
+    {
+      "Id": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\wwwroot\\Images\\B\\IAF17473\\IAF17473_2025-08-07_09-57-25.jpg",
+      "PackagePath": "staticwebassets\\Images\\B\\IAF17473\\IAF17473_2025-08-07_09-57-25.jpg"
+    },
+    {
+      "Id": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\wwwroot\\Images\\B\\IAF17473\\IAF17473_2025-08-07_09-57-58.jpg",
+      "PackagePath": "staticwebassets\\Images\\B\\IAF17473\\IAF17473_2025-08-07_09-57-58.jpg"
+    },
+    {
+      "Id": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\wwwroot\\Images\\B\\IAF17473\\IAF17473_2025-08-07_09-58-29.jpg",
+      "PackagePath": "staticwebassets\\Images\\B\\IAF17473\\IAF17473_2025-08-07_09-58-29.jpg"
     },
     {
       "Id": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\wwwroot\\Images\\B\\S001\\S001_2025-04-18_10-16-57.jpg",
@@ -135,6 +159,10 @@
     {
       "Id": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\wwwroot\\files\\Huongdansudung.xlsx",
+      "PackagePath": "staticwebassets\\files\\Huongdansudung.xlsx"
     },
     {
       "Id": "F:\\HA_IT\\Scrap_System\\ScrapSystem.Web\\wwwroot\\filter.svg",

@@ -1,0 +1,31 @@
+2025-08-12 12:52:10.648 [INF] User 2012757 logged in successfully
+2025-08-12 13:06:46.204 [INF] User 2012757 logged in successfully
+2025-08-12 13:09:16.472 [ERR] Failed to import scrap for file Issue out deadstock.xlsx
+Microsoft.Data.SqlClient.SqlException (0x80131904): String or binary data would be truncated in table 'ScrapSystem.dbo.ScrapDetails', column 'Reason'. Truncated value: 'ECN-Component of PCB PNLPVD561L1ZA-V4, change by T'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__210_1(IAsyncResult result)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 177
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.ImportScrapService.<>c__DisplayClass7_1.<<ImportScrapAsync>b__0>d.MoveNext() in F:\HA_IT\Scrap_System\ScrapSystem.Api\Application\Service\ImportSrcapService.cs:line 181
+ClientConnectionId:3afcc76e-be34-49fb-be5b-65348aa49dfb
+Error Number:2628,State:1,Class:16
+2025-08-12 13:24:34.265 [INF] User 2012757 logged in successfully
+2025-08-12 13:25:15.679 [ERR] Error while processing Excel file: String '' was not recognized as a valid DateTime.
+2025-08-12 13:26:28.976 [ERR] String '' was not recognized as a valid DateTime.
+2025-08-12 13:30:25.497 [ERR] Error while processing Excel file: String '' was not recognized as a valid DateTime.
+2025-08-12 13:30:26.561 [ERR] String '' was not recognized as a valid DateTime.
+2025-08-12 13:33:47.538 [INF] User 2012757 logged in successfully
+2025-08-12 13:40:17.581 [INF] User 2012757 logged in successfully
+2025-08-12 13:42:14.423 [INF] User 2012757 logged in successfully
+2025-08-12 13:48:33.722 [INF] User 2012757 logged in successfully
+2025-08-12 13:50:36.601 [INF] User 2012757 logged in successfully

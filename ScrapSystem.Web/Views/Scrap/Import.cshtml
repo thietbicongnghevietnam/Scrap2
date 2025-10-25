@@ -1,5 +1,6 @@
 ﻿@using ScrapSystem.Api.Application.Request
 @model ImportRequest
+
 <style>
 
     .import-container {
@@ -471,13 +472,35 @@
                            placeholder="Nhập tên sanction..." required>
                 </div>
             </div>
+           @*  <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label">Section</label>
+                    <input type="text" class="form-control" id="sectionInput"
+                           placeholder="Nhập tên bộ phận..." required>
+                </div>
+            </div> *@
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="form-label">
-                        Bộ phận (Section)
+                        Section
                     </label>
-                    <input type="text" class="form-control" id="sectionInput"
-                           placeholder="Nhập tên bộ phận..." required>
+                   @*  <select asp-for="SelectedSection" asp-items="Model.ListItems" class="form-select" required>
+                        <option value="">-- Chọn bộ phận --</option>
+                    </select> *@
+                    <select id="SelectedSection" class="form-select" required>
+                        <option value="">-- Chọn bộ phận --</option>
+                        <option value="PUS">PUS</option>
+                        <option value="MCS">MCS</option>
+                        <option value="ISD">ISD</option>
+                        <option value="PE">PE</option>
+                        <option value="IQC">IQC</option>
+                        <option value="FE">FE</option>
+                        <option value="FA">FA</option>
+                        <option value="PMD">PMD</option>
+                        <option value="ACC">ACC</option>
+                        <option value="SMT">SMT</option>
+                        <option value="GA">GA</option>
+                    </select>
                 </div>
             </div>
             <div class="col-md-4">
@@ -572,7 +595,8 @@
     const progressFill = document.getElementById('progressFill');
     const statusMessage = document.getElementById('statusMessage');
     const sanctionInput = document.getElementById('sanctionInput');
-    const sectionInput = document.getElementById('sectionInput');
+    //const sectionInput = document.getElementById('sectionInput');
+    const sectionInput = document.getElementById("SelectedSection").value;
 
     const IssueOutInput = document.getElementById('IssueOutInput');
 
@@ -660,8 +684,11 @@
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const sanctionValue = sanctionInput.value.trim();
-        const sectionValue = sectionInput.value.trim();
+        //const sectionValue = sectionInput.value.trim();
+        const sectionValue = document.getElementById("SelectedSection").value.trim();
         const issueoutValue = IssueOutInput.value.trim();
+
+        //alert(sectionValue);
 
         if (!sanctionValue) {
             showStatus('❌ Vui lòng nhập tên Sanction', 'error');
@@ -669,7 +696,7 @@
             return;
         }
 
-        if (!sectionValue) {
+        if (!sectionValue || sectionValue == '-- Chọn bộ phận --') {
             showStatus('❌ Vui lòng nhập tên Section', 'error');
             sectionInput.focus();
             return;
@@ -706,8 +733,9 @@
             const responseText = await response.text();
 
             if (!responseText || responseText === "") {
-                // Trường hợp backend return Ok() nhưng không trả dữ liệu => đã check pallet
-                showStatus('⚠️ Hàng đã được check lên Pallet, không thể upload!', 'warning');
+                // Trường hợp backend return Ok() nhưng không trả dữ liệu => đã check pallet   
+                //***** step 1 bo check pallet ID vi up load thang paletID vao pallet list 12.10.2025  ==> step 2 tinh sau ****
+                showStatus('⚠ Hàng đã được check lên Pallet, không thể upload!', 'warning');
                 progressBar.style.display = 'none';
                 return;
             }
@@ -874,7 +902,8 @@
     function resetUpload() {
         selectedFile = null;
         sanctionInput.value = '';
-        sectionInput.value = '';
+        //sectionInput.value = '';
+        sectionInput.value = '-- Chọn bộ phận --';
         excelData = [];
         filteredData = [];
         currentPage = 1;

@@ -14,5 +14,17 @@
         public string Sloc { get; set; }
         public string NameCost { get; set; }
         public string Pallet { get; set; }
+        public int Noid { get; set; }               // mau issuout  moi cua logictic 12.10.2025
+        public string Barcode { get; set; }               // mau issuout  moi cua logictic 12.10.2025
+
+        //them moi cac cot 25.10.2025
+        public string issue_out_sloc { get; set; }
+        public string SoTK { get; set; }
+        public DateTime? NgayTK { get; set; }
+        public string Phuluc { get; set; }
+        public string Vendor { get; set; }
+        public string Sotaisan { get; set; }
+        public string BookValue { get; set; }
+        public string Picture { get; set; }
     }
 }

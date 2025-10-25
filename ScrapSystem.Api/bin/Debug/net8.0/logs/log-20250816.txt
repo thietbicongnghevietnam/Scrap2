@@ -1,0 +1,1 @@
+2025-08-16 12:51:42.389 [INF] User 2012757 logged in successfully

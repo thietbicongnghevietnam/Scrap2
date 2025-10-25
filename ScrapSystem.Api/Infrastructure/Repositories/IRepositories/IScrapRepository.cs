@@ -9,6 +9,7 @@ namespace ScrapSystem.Api.Infrastructure.Repositories.IRepositories
         Task<bool> DeleteListCraps(List<Scrap> scraps);
         Task<Scrap> GetScrapBySanctionAndStatusAsync(string sanction, int status);
 
-        Task<(List<ScrapViewDto> Data, int TotalCount)> GetReportScrapByDate(DateTime startDate, DateTime endDate, string sanction, int status = -1, int page = 1, int pageSize = 25);
+        //Task<(List<ScrapViewDto> Data, int TotalCount)> GetReportScrapByDate(DateTime startDate, DateTime endDate, string sanction, int status = -1, int page = 1, int pageSize = 25);
+        Task<(List<ScrapViewDto> Data, int TotalCount)> GetReportScrapByDate(DateTime startDate, DateTime endDate, string sanction,string issueout, int status = -1, int page = 1, int pageSize = 25);
     }
 }

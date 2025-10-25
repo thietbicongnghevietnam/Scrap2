@@ -66,8 +66,14 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-action="Import" asp-controller="Scrap">
-                            <i class="icon-inbox menu-icon"></i>
-                            <span class="menu-title">Import</span>
+                            <i class="fa fa-upload menu-icon"></i>
+                            <span class="menu-title">Import Issue Out</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://10.92.184.24:8096/frmUploadScraplist.aspx" target="_blank">
+                            <i class="fa fa-list menu-icon"></i>
+                            <span class="menu-title">Check Scrap List</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -76,18 +82,30 @@
                             <span class="menu-title">Report</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    @* <li class="nav-item">
                         <a class="nav-link" asp-action="Verify" asp-controller="Scrap">
                             <i class="icon-server menu-icon"></i>
                             <span class="menu-title">Verify Data</span>
                         </a>
-                    </li>
-                    @* <li class="nav-item">
-                        <a class="nav-link" asp-action="UploadPlan" asp-controller="Scrap" target="_blank">
-                            <i class="icon-server menu-icon"></i>
-                            <span class="menu-title">UploadData</span>
+                    </li>  *@                  
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://10.92.184.24:8096/frmExportImage.aspx" target="_blank">
+                            <i class="fa fa-file-invoice menu-icon"></i>
+                            <span class="menu-title">Report Monthly</span>
                         </a>
-                    </li> *@
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://10.92.184.24:8096/frmMaterialname.aspx" target="_blank">
+                            <i class="fa fa-file-alt menu-icon"></i>
+                            <span class="menu-title">Material Name</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="documents" asp-controller="Scrap">
+                            <i class="fa fa-download menu-icon"></i>
+                            <span class="menu-title">Documents</span>
+                        </a>
+                    </li>
 
                     
                     

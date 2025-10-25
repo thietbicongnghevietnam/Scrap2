@@ -11,4 +11,18 @@
         public DateTime IssueOutDate { get; set; }
         public string CreatedId { get; set; }
     }
+
+    public class ScrapImageDto2
+    {
+        public string Sanction { get; set; }
+        public string ImagePath { get; set; }
+        public string ImageType { get; set; }
+        public string Pallet { get; set; }
+        public string Section { get; set; }
+        public int Status { get; set; }
+        public DateTime IssueOutDate { get; set; }
+        public string CreatedId { get; set; }
+
+        public string Flag_export { get; set; }
+    }
 }

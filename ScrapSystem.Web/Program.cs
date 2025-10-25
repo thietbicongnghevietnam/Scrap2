@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using ScrapSystem.Api.Repositories;
 using ScrapSystem.Web;
 using ScrapSystem.Web.Service;
 using ScrapSystem.Web.Service.Interface;
@@ -29,6 +31,10 @@ builder.Services.AddHttpClient<IApiClientService, ApiClientService>(client =>
     client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
     client.Timeout = TimeSpan.FromSeconds(60);
 });
+
+//doan ket noi co so du lieu  05.08.2025
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

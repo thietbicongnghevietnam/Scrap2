@@ -146,6 +146,10 @@
                         <label>Số lượng Actual</label>
                         <input type="number" id="qty_act" class="form-control" />
                     </div>
+                    <div class="col-md-12">
+                        <label>PalletNo</label>
+                        <input type="number" id="palletno" class="form-control" />
+                    </div>
 
                     <div class="col-md-3 d-flex align-items-end">
                         <a class="btn btn-primary" onclick="UpdateScrapDetail( document.getElementById('idScrapDetail').value);">Update</a>
@@ -166,7 +170,8 @@
 
 
     const editQtyModal = new bootstrap.Modal(document.getElementById('editQtyModal'));
-    const rowsPerPage = 25;
+    //const rowsPerPage = 25;
+    const rowsPerPage = 25;   //phantrang
     let currentPageNotExist = 1;
     let currentPageConflictQty = 1;
     let filteredConflictData = existConflictQty;
@@ -237,7 +242,7 @@
                                                                                                         <td>${item.qtyActual}</td>
                                                                                                         <td>${item.barcode}</td>
                                                                                                         <td>
-                                                                                                                        <button class="edit-btn" onclick="showEditScrapDetail(${item.id}, '${item.material}', ${item.qtyActual}, ${item.qty})" > <i class="fas fa-edit"></i>  </button>
+                                                                                                                            <button class="edit-btn" onclick="showEditScrapDetail(${item.id}, '${item.material}', ${item.qtyActual}, ${item.qty},${item.pallet})" > <i class="fas fa-edit"></i>  </button>
                                                                                                                         <button class="delete-btn" onclick="DeleteScrapDetail(${item.id})"> <i class="fas fa-trash"></i>  </button>
                                                                                                         </td>`;
             detailTbody.appendChild(row);
@@ -272,6 +277,7 @@
 
         let newQty = document.getElementById('qty').value;
         let newQtyAct = document.getElementById('qty_act').value;
+        let palletID = document.getElementById('palletno').value;
 
         //alert(newQtyAct);
 
@@ -279,6 +285,7 @@
         
         formData.append('qty', newQty);
         formData.append('QtyActual', newQtyAct);
+        formData.append('palletID', palletID);
 
         // for (let pair of formData.entries()) {
         //     console.log(pair[0] + ': ' + pair[1]);
@@ -296,7 +303,7 @@
             if (!response.ok) {
                 alert('update thất bại, có lỗi đã xảy ra !');
                 return;
-            }
+            }            
             editQtyModal.hide();
 
             // filteredConflictData = filteredConflictData.map(item =>
@@ -323,15 +330,20 @@
         }
     }
 
-    function showEditScrapDetail(id, material, qtyActual, qty) {
+    function showEditScrapDetail(id, material, qtyActual, qty, pallet) {
         document.getElementById('idScrapDetail').value = id;
         document.getElementById('material').innerHTML = material;
         document.getElementById('qtyActual').innerHTML = qtyActual;
+        document.getElementById('palletno').innerHTML = pallet;
+
         let qtyInput = document.getElementById('qty')
         qtyInput.value = qty;
 
         let qtyInputAct = document.getElementById('qty_act')
         qtyInputAct.value = qtyActual;
+
+        let palletNo = document.getElementById('palletno')
+        palletNo.value = pallet;
 
         editQtyModal.show();
     }
@@ -539,6 +551,7 @@
                                                                                         <html>
                                                                                         <head>
                                                                                             <script src="${baseUrl}/js/JsBarcode.code128.min.js"><\/script>
+                                                                                             <script src="https://cdn.jsdelivr.net/npm/jsbarcode/dist/JsBarcode.all.min.js"></\script>
                                                                                 <style>
                                                                                     @@media print {
                                                                                         @@page {
@@ -600,7 +613,7 @@
 
                                                                                         .barcode-container {
                                                                                             flex-shrink: 0;
-                                                                                            width: 120px;
+                                                                                            width: 150px;
                                                                                         }
 
                                                                                         .header-content {
@@ -675,7 +688,7 @@
 
                                                                                         .barcode-container {
                                                                                             flex-shrink: 0;
-                                                                                            width: 120px;
+                                                                                            width: 150px;
                                                                                         }
 
                                                                                         .header-content {
@@ -710,7 +723,14 @@
                                                                                             margin-top: 10px;
                                                                                         }
                                                                                     }
+                                                                                        .no-border-row th {
+      border: none !important;
+      border-top: none !important;
+      border-bottom: none !important;
+      background: transparent !important;
+    }
                                                                                 </style>
+
                                                                             </head>
                                                                             <body>`;
 
@@ -724,37 +744,44 @@
                                                                                 <div class="page-container">
                                                                                     <div class="label-container">
                                                                                         <div class="header-section">
-                                                                                            <div class="barcode-container">
-                                                                                                <svg class="barcode" data-code="${master.barcode}"></svg>
-                                                                                            </div>
 
-                                                                                            <div class="header-content">
-                                                                                                <div class="title">LABEL HÀNG HỦY THÁNG ${currentMonthYear}</div>
 
-                                                                                                <div class="info-row">
-                                                                                                    <div class="info-item">
-                                                                                                        <strong>Section:</strong> ${master.section.toUpperCase() || 'N/A'}
-                                                                                                    </div>
-                                                                                                    <div class="info-item">
-                                                                                                        <strong>Sanction:</strong> ${master.sanction || 'N/A'}
-                                                                                                    </div>
-                                                                                                </div>
 
-                                                                                                <div class="pallet-info">
-                                                                                                    <strong>Pallet No: ${master.pallet || 'N/A'}</strong>
-                                                                                                </div>
-                                                                                            </div>
                                                                                         </div>
 
                                                                                         <div class="table-section">
                                                                                             <table class="table">
                                                                                                 <thead>
+                                                                                                      <tr class="no-border-row">
+                                                                                                          <th colspan="5" style="padding: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="barcode-container" style="width: 150px; flex-shrink: 0;">
+          <svg class="barcode" data-code="${master.barcode}"></svg>
+        </div>
+        <div style="flex: 2; text-align: center;">
+          <div class="title" style="font-weight: bold;">
+            LABEL HÀNG HỦY THÁNG ${currentMonthYear}
+          </div>
+          <div style="display: flex; justify-content: center; gap: 40px; font-size: 14px;">
+            <div class="info-item"><strong>Section:</strong> ${master.section.toUpperCase() || 'N/A'}</div>
+            <div class="info-item"><strong>Sanction:</strong> ${master.sanction || 'N/A'}</div>
+          </div>
+          <div class="pallet-info" style="margin-top: 5px;">
+            <strong>Pallet No: ${master.pallet || 'N/A'}</strong>
+          </div>
+        </div>
+      </div>
+    </th>
+                                                                                                        </tr>
+
                                                                                                     <tr>
                                                                                                         <th style="width: 8%; text-align: center;">STT No.</th>
                                                                                                         <th style="width: 30%;">Part number</th>
                                                                                                         <th style="width: 35%;">Part name<br>(English name)</th>
                                                                                                         <th style="width: 10%; text-align: center;">Qty</th>
                                                                                                         <th style="width: 17%; text-align: center;">Pallet</th>
+                                                                                                            
+                                                                                                        <th style="width: 17%; text-align: center;">No</th>
                                                                                                     </tr>
                                                                                                 </thead>
                                                                                                 <tbody>`;
@@ -767,6 +794,8 @@
                                                                                                         <td>${detail.englishName || 'N/A'}</td>
                                                                                                         <td style="text-align: center;">${detail.qty || 'N/A'}</td>
                                                                                                         <td style="text-align: center;">${master.pallet || 'N/A'}</td>
+
+                                                                                                                <td style="text-align: center;">${detail.noid || 'N/A'}</td>
                                                                                                     </tr>`;
             });
 
@@ -780,29 +809,83 @@
 
         printContent += `
                                                                                 <script>
-                                                                                    if (typeof JsBarcode !== 'undefined') {
-                                                                                        document.querySelectorAll(".barcode").forEach(svg => {
-                                                                                            JsBarcode(svg, svg.dataset.code, {
-                                                                                                width: 1.5,
-                                                                                                height: 50,
-                                                                                                fontSize: 12,
-                                                                                                margin: 5,
-                                                                                                displayValue: true
-                                                                                            });
-                                                                                        });
-                                                                                    } else {
-                                                                                        console.error('JsBarcode library not loaded!');
-                                                                                    }
+                                                                                               // 1. Render barcode SVG
+      document.querySelectorAll('.barcode').forEach(svg => {
+        const code = svg.getAttribute('data-code');
+        JsBarcode(svg, code, {
+          format: "CODE128",
+          displayValue: false,
+          height: 100,
+          width: 2,
+          margin: 10
+        });
+      });
 
-                                                                                    window.onload = function() {
-                                                                                        document.title = '';
-                                                                                        setTimeout(function() {
-                                                                                            window.print();
-                                                                                            window.onafterprint = function() {
-                                                                                                window.close();
-                                                                                            };
-                                                                                        }, 500);
-                                                                                    };
+      // 2. Chuyển SVG sang ảnh base64 PNG
+      async function svgToPngBase64(svgElement, width = 200, height = 80) {
+        return new Promise((resolve) => {
+          const svgData = new XMLSerializer().serializeToString(svgElement);
+          const canvas = document.createElement('canvas');
+          const scale = 3;
+          canvas.width = width * scale;
+          canvas.height = height * scale;
+
+          const ctx = canvas.getContext('2d');
+          ctx.scale(scale, scale);
+
+          const img = new Image();
+          const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+          const url = URL.createObjectURL(svgBlob);
+
+          img.onload = () => {
+            ctx.drawImage(img, 0, 0, width, height);
+            URL.revokeObjectURL(url);
+            resolve(canvas.toDataURL('image/png'));
+          };
+
+          img.onerror = () => {
+            resolve('');
+          };
+
+          img.src = url;
+        });
+      }
+
+      // 3. Thay thế tất cả SVG barcode bằng ảnh <img>
+      async function replaceSvgWithImg() {
+        const svgs = document.querySelectorAll('.barcode');
+
+        const promises = Array.from(svgs).map(async (svg) => {
+          const base64 = await svgToPngBase64(svg, 200, 80);
+          if (base64) {
+            return new Promise((resolveImgLoad) => {
+              const img = document.createElement('img');
+              img.src = base64;
+              img.alt = 'barcode';
+              img.style.width = '180px';
+              img.style.height = '60px';
+
+              img.onload = () => resolveImgLoad(); // Đảm bảo ảnh load xong
+              img.onerror = () => resolveImgLoad(); // Tránh bị treo nếu lỗi
+
+              svg.parentNode.replaceChild(img, svg);
+            });
+          }
+        });
+
+        // Chờ tất cả ảnh được load xong
+        await Promise.all(promises);
+      }
+
+      // 4. Chạy thay thế và in sau khi tất cả ảnh đã render
+      window.onload = async () => {
+        await replaceSvgWithImg();
+
+        // Thêm delay nhỏ để chắc chắn DOM đã cập nhật toàn bộ
+        setTimeout(() => {
+          window.print();
+        }, 200);
+      };
                                                                                 <\/script>
                                                                             <\/body>
                                                                             <\/html>`;
@@ -811,6 +894,7 @@
         printWindow.document.write(printContent);
         printWindow.document.close();
     }
+    
     renderNotExistTable(currentPageNotExist);
     // renderConflictQtyTable(currentPageConflictQty);
 </script>

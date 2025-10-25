@@ -10,5 +10,6 @@
         public string Unit { get; set; }
         public string Pallet { get; set; }
         public string EnglishName { get; set; }
+        public int Noid { get; set; }   //them 1 truong Noid   12.10.2025
     }
 }

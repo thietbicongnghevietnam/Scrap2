@@ -42,7 +42,8 @@ namespace ScrapSystem.Api.Infrastructure.Repositories
             return scrap;
         }
 
-        public async Task<(List<ScrapViewDto> Data, int TotalCount)> GetReportScrapByDate(DateTime startDate, DateTime endDate, string sanction, int status = -1, int page = 1, int pageSize = 25)
+        //public async Task<(List<ScrapViewDto> Data, int TotalCount)> GetReportScrapByDate(DateTime startDate, DateTime endDate, string sanction, int status = -1, int page = 1, int pageSize = 25)
+        public async Task<(List<ScrapViewDto> Data, int TotalCount)> GetReportScrapByDate(DateTime startDate, DateTime endDate, string sanction,string issueout, int status = -1, int page = 1, int pageSize = 25)
         {
             var conn = _context.Database.GetDbConnection();
             try
@@ -55,13 +56,14 @@ namespace ScrapSystem.Api.Infrastructure.Repositories
                     startDate,
                     endDate,
                     sanction,
+                    issueout,
                     status,
                     page,
                     pageSize
                 };
-
+                //"GetDataScraps_Web",
                 using var multi = await conn.QueryMultipleAsync(
-                    "GetDataScraps_Web",
+                    "GetDataScraps_Web2",
                     parameters,
                     commandType: System.Data.CommandType.StoredProcedure);
 

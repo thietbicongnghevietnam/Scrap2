@@ -47,20 +47,30 @@
                 <label for="status">Trạng thái</label>
                 <select asp-for="SelectedStatus" name="status" id="status" asp-items="listItems" value="" class="form-select"></select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-1">
                 <label for="sanction">Sanction</label>
                 <input type="text" name="sanction" id="sanction" value="@ViewBag.Sanction" class="form-control" />
             </div>
-            <div class="col-md-3 d-flex align-items-end">
+            <div class="col-md-1">
+                <label for="sanction">IssueOut</label>
+                @* <input type="text" name="Issuename" id="Issuename" value="@ViewBag.Issuename" class="form-control" /> *@
+                <input type="text" name="issueout" id="issueout" value="@ViewBag.issueout" class="form-control" />
+            </div>
+
+            <div class="col-md-4 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary mr-3" asp-action="Report" asp-controller="Scrap">Tìm kiếm</button>
 
-                @* <a class="btn btn-primary" onclick="appendixModal.show();">Phụ lục</a> *@ &nbsp;&nbsp;&nbsp;&nbsp;
+                @* <a class="btn btn-primary" onclick="appendixModal.show();">Phụ lục</a> *@ &nbsp;&nbsp;&nbsp;
 
                 @* <button asp-action="Pheduyet" asp-controller="Scrap" type="submit" class="btn btn-primary">Appovel</button> *@
 
-                <a class="btn btn-primary" onclick="approve()">Appovel</a>
+                <a class="btn btn-primary" onclick="approve()">Appovel</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
+                <a class="btn btn-primary" href="javascript:void(0)" onclick="loadImage2()">Check Report</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
+                @* <a class="btn btn-primary" onclick="DeleteSanction()">Del Issue</a>&nbsp;&nbsp;&nbsp;&nbsp; *@
+
+                <a class="btn btn-primary" onclick="loadImage3()">Check Issue</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
             </div>            
 
@@ -201,8 +211,84 @@
     </div>
 </div>
 
+<div class="modal fade" style="overflow: hidden;" id="imageModal3" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xxl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
 
 
+                <div class="col-lg-12">
+
+                    <div style="max-height: 600px; overflow-y: auto;" class="mb-3">
+                        <table class="table table-striped table-hover table-bordered" style="width: 100%; border-collapse: collapse;">
+                            <thead class="table-header" style="position: sticky; top: 0; z-index: 1;">
+                                <tr>
+                                    <th>STT</th>                                   
+                                    <th>IssueOutName</th>                                    
+                                </tr>
+                            </thead>
+                            <tbody id="scrapDetails3">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" style="overflow: hidden;" id="imageModal2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xxl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title fw-bold hover-cursor" id="modalSanction2"></h3>
+                    <span class="text-muted" id="modalSection2">Bộ phận: </span><br />
+                    <span class="text-muted" id="modalPaletExport">PL đã Export: </span> / <span class="text-muted" id="modaltongpalet">Tổng PL: </span>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="col-lg-12">
+
+                    <div style="max-height: 600px; overflow-y: auto;" class="mb-3">
+                        <table class="table table-striped table-hover table-bordered" style="width: 100%; border-collapse: collapse;">
+                            <thead class="table-header" style="position: sticky; top: 0; z-index: 1;">
+                                <tr>
+                                    <th>STT</th>
+                                    <th>SanctionId</th>
+                                    <th>ImageType</th>
+                                    <th>CreatedDate</th>
+                                    <th>CreatedId</th>
+                                    <th>PalletNo</th>
+                                    <th>Flag_export</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scrapDetails2">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal image -->
 <div class="modal fade" style="overflow: hidden;" id="imageModal" tabindex="-1" aria-hidden="true">
@@ -292,6 +378,9 @@
                         </div>
                         <div class="d-flex justify-content-end">
                             <div>
+                                <a class="btn btn-primary" onclick="showToPdf()"> Preview PDF</a>
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div>
                                 <a class="btn btn-primary" onclick="exportToPdf()"> Export PDF</a>
                             </div>
                         </div>
@@ -337,6 +426,75 @@
 
 <script>
 
+    async function DeleteSanction() {
+        var tensanction = document.getElementById('sanction').value;
+        var issuename = document.getElementById('Issuename').value;
+        //alert(issuename);
+        //console.log(tensanction);
+        //console.log(issuename);
+        if (tensanction == "" || issuename== "") {
+            alert("Ban chu nhap ten sanction or Issue Out!");
+        } 
+        else 
+        {
+            const params = new URLSearchParams({
+                sanction: tensanction,
+                issueout: issuename,
+            });
+
+            try {
+                const response = await fetch(`DeleteSanction?${params.toString()}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    switch (response.status) {
+                        case 404:
+                            throw new Error('Image not found (404)');
+                        case 500:
+                            throw new Error('Server error (500). Please try again later.');
+                        case 302:
+                            window.location.href = '/login';
+                            return;
+                        default:
+                            throw new Error(`HTTP error! Status code: ${response.status}`);
+                    }
+                }
+
+                const data = await response.json();
+                if (data == undefined) return null;
+                console.log(data);
+                if (data == "OK") {
+                    //alert("OK");
+                    var ngaybatdau = document.getElementById('startDate').value;
+                    var ngayketthuc = document.getElementById('endDate').value;
+                    var trangthai = "1";
+                    window.location.href = `/Scrap/Report?startDate=${ngaybatdau}&endDate=${ngayketthuc}&status=${trangthai}&sanction=${tensanction}`;
+                }
+                // else if (data == "Sanction is null") {
+                //     alert("Sanction is null!");
+                // }
+                // else if (data == "Hang chua kiem tra het") {
+                //     alert("Hang chua kiem tra het tren PalletID!");
+                // }
+                else {
+                    alert("NG");
+                }
+                // dataSanction = data;
+                // showImageModal(dataSanction);
+
+
+            } catch (error) {
+                console.error('Error fetching image data:', error);
+                alert(`Error: ${error.message}`);
+                return null;
+            }
+        }        
+    };
+
     async function approve()
     {
         var tensanction = document.getElementById('sanction').value;
@@ -370,9 +528,9 @@
             if (data == undefined) return null;
             console.log(data);
             if (data=="OK") {
-                alert("OK");
-                var ngaybatdau = document.getElementById('startDate').value;;
-                var ngayketthuc = document.getElementById('endDate').value;;
+                //alert("OK");
+                var ngaybatdau = document.getElementById('startDate').value;
+                var ngayketthuc = document.getElementById('endDate').value;
                 var trangthai = "1";
                 //var sanction = "";
                 window.location.href = `/Scrap/Report?startDate=${ngaybatdau}&endDate=${ngayketthuc}&status=${trangthai}&sanction=${tensanction}`;
@@ -399,6 +557,8 @@
         }
     };
 
+    const imageModal2 = new bootstrap.Modal(document.getElementById('imageModal2'));
+    const imageModal3 = new bootstrap.Modal(document.getElementById('imageModal3'));
 
     const thumbBefore = document.getElementById('thumbnailContainerBefore');
     const thumbAfter = document.getElementById('thumbnailContainerAfter');
@@ -458,6 +618,44 @@
         });
     }
 
+    function displayTableModal2(data) {
+        //console.log("item từ API:", data);
+        const tableBody = document.getElementById("scrapDetails2");
+        tableBody.innerHTML = '';
+
+        data.forEach((item, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.sanction || ''}</td>
+                    <td>${item.imageType || ''}</td>
+                    <td>${item.issueOutDate || ''}</td>
+                    <td>${item.createdId || ''}</td>
+                    <td>${item.pallet || ''}</td>
+                    <td>${item.flag_export || ''}</td>
+                `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function displayTableModal3(data) {
+        //console.log("item từ API:", data);
+        const tableBody = document.getElementById("scrapDetails3");
+        tableBody.innerHTML = '';
+
+        console.log(data);
+
+        data.forEach((item, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                        <td>${index + 1}</td>                        
+                            <td>${item.imagePath || ''}</td>
+
+                    `;
+            tableBody.appendChild(row);
+        });
+    }
+
 
     async function loadImage(sanctionId, pallet) {
         const params = new URLSearchParams({
@@ -491,6 +689,96 @@
             if (data == undefined) return null;
             dataSanction = data;
             showImageModal(dataSanction);
+
+        } catch (error) {
+            console.error('Error fetching image data:', error);
+            alert(`Error: ${error.message}`);
+            return null;
+        }
+    }
+
+    async function loadImage2() {
+        var sanctionId = document.getElementById('sanction').value;
+        const params = new URLSearchParams({
+            sanctionId: sanctionId
+        });
+
+        try {
+            if (sanctionId == '') {
+                alert('ban chua chon sanction!');
+            }
+            else {
+                const response = await fetch(`LoadImage2?${params.toString()}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    switch (response.status) {
+                        case 404:
+                            throw new Error('Image not found (404)');
+                        case 500:
+                            throw new Error('Server error (500). Please try again later.');
+                        case 302:
+                            window.location.href = '/login';
+                            return;
+                        default:
+                            throw new Error(`HTTP error! Status code: ${response.status}`);
+                    }
+                }
+                const data = await response.json();
+                if (data == undefined) return null;
+                dataSanction = data;
+                showImageModal2(dataSanction);
+            }
+
+
+        } catch (error) {
+            console.error('Error fetching image data:', error);
+            alert(`Error: ${error.message}`);
+            return null;
+        }
+    }
+
+    async function loadImage3() {
+        var sanctionId = document.getElementById('sanction').value;
+        const params = new URLSearchParams({
+            sanctionId: sanctionId
+        });
+
+        try {
+            if (sanctionId == '') {
+                alert('ban chua chon sanction!');
+            }
+            else {
+                const response = await fetch(`LoadImage3?${params.toString()}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    switch (response.status) {
+                        case 404:
+                            throw new Error('Image not found (404)');
+                        case 500:
+                            throw new Error('Server error (500). Please try again later.');
+                        case 302:
+                            window.location.href = '/login';
+                            return;
+                        default:
+                            throw new Error(`HTTP error! Status code: ${response.status}`);
+                    }
+                }
+                const data = await response.json();
+                if (data == undefined) return null;
+                dataSanction = data;
+                showImageModal3(dataSanction);
+            }
+
 
         } catch (error) {
             console.error('Error fetching image data:', error);
@@ -584,13 +872,16 @@
     }
 
     function showImageModal(item) {
-
+        console.log(item);
         if (!(Array.isArray(item?.masters) && item.masters.length > 0)) {
             alert(`Chưa được chụp ảnh`);
             return;
         }
         let master = item.masters[0];
         let details = item.details;
+
+        console.log(item.masters[0]);
+
         currentItem = item;
         currentImageIndexBefore = 0;
         currentImageIndexAfter = 0;
@@ -607,6 +898,49 @@
         updateThumb(details);
         showImage(dataSanction.masters);
         imageModal.show();
+    }
+
+    function showImageModal2(item) {
+        //console.log("item từ API111:", item);
+        let master_head = item.masters2[0];
+        let details = item.details2[0];//item.details;
+        let masters = item.masters2;
+        //console.log("item từ API:", details);
+        currentItem = item;
+        currentImageIndexBefore = 0;
+        currentImageIndexAfter = 0;
+
+        document.getElementById('modalSanction2').innerHTML = `${master_head.sanction}`;
+        document.getElementById('modalSection2').textContent = 'Bộ phận: ' + master_head.section.toUpperCase();
+        document.getElementById('modalPaletExport').textContent = 'PL export: ' + details.qtyActual;
+        document.getElementById('modaltongpalet').textContent = 'Total: ' + details.qty;
+        // document.getElementById('modalStatus').textContent = getStatus(master.status);
+        // document.getElementById('modalStatus').className = 'badge ' + getStatusColor(master.status);
+        // document.getElementById('modalDestroyDate').textContent = new Date(master.issueOutDate).toLocaleDateString('vi-VN');
+        // document.getElementById('modalUserId').textContent = master.createdId;
+        // document.getElementById('modelBarcode').textContent = [... new Set(details.map(x => x.barcode))][0];
+
+        displayTableModal2(masters);
+        //updateThumb(details);
+        //showImage(dataSanction.masters);
+        imageModal2.show();
+    }
+
+    function showImageModal3(item) {
+        //console.log("item từ API111:", item);
+        let master_head = item.masters2[0];
+        let details = item.details2[0];//item.details;
+        let masters = item.masters2;
+        ////console.log("item từ API:", item);
+
+        currentItem = item;
+        currentImageIndexBefore = 0;
+        currentImageIndexAfter = 0;
+
+        displayTableModal3(masters);
+        //updateThumb(details);
+        //showImage(dataSanction.masters);
+        imageModal3.show();
     }
 
     function showImage(data) {
@@ -681,12 +1015,18 @@
                 throw new Error(`Upload thất bại: ${response.statusText}`);
             }
 
+            // Không cần xử lý blob hoặc download nữa  //dowload 1 lan trong thu muc o chung
+            //const result = await response.json();
+            //console.log(result.message); // Log hoặc hiện thông báo thành công
+
+            ////bo doan dowload vi da xu ly backend  // doan nay ra la check ca 2
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
 
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'image.pdf';
+            //a.download = 'image.pdf';
+            a.download = `${barcode}.pdf`;
             document.body.appendChild(a);
             a.click();
 
@@ -700,6 +1040,44 @@
 
         }
     }
+
+    async function showToPdf() {
+
+        let beforePaths = dataSanction.masters.filter(x => x.imageType == 'A').map(x => x.imagePath);
+        let afterPaths = dataSanction.masters.filter(x => x.imageType == 'B').map(x => x.imagePath);
+
+        var barcode = [... new Set(dataSanction.details.map(x => x.barcode))][0];
+        var issueOutDate = [... new Set(dataSanction.masters.map(x => x.issueOutDate))][0];
+        const formData = new FormData();
+        beforePaths.forEach(path => formData.append('beforeImages', path));
+        afterPaths.forEach(path => formData.append('afterImages', path));
+        formData.append('barcode', barcode);
+        formData.append('date', issueOutDate)
+        try {
+            const response = await fetch('showToPdf', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error(`Upload thất bại: ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+
+            // Mở PDF trong tab mới
+            window.open(url, '_blank');
+
+            setTimeout(() => URL.revokeObjectURL(url), 10000); // Sau 10s
+
+        } catch (error) {
+
+        } finally {
+
+        }
+    }
+
 
     function filterTable() {
         const table = document.querySelector('table');
