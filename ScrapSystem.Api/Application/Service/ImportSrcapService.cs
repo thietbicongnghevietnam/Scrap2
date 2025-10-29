@@ -145,6 +145,13 @@ namespace ScrapSystem.Api.Application.Service
                         Message = "No valid data found in the Excel file."
                     };
                 }
+                string chuoi = data.Item2[0].Barcode.ToString();
+                string[] parts = chuoi.Split(';');
+
+
+                string sanction_new = parts[0];
+                string section_new = parts[0];
+                string issueout_new = "";
 
                 //code new   31.07.2025
 
@@ -162,9 +169,9 @@ namespace ScrapSystem.Api.Application.Service
 
                         command.CommandText = "ImportScrapAndDetails";
                         command.CommandType = CommandType.StoredProcedure;
-
-                        command.Parameters.Add(new SqlParameter("@Sanction", sanction));
-                        command.Parameters.Add(new SqlParameter("@issueout", issueout));
+                        
+                        command.Parameters.Add(new SqlParameter("@Sanction", sanction_new));
+                        command.Parameters.Add(new SqlParameter("@issueout", issueout_new));
                         command.Parameters.Add(new SqlParameter("@ScrapHeaderJson", headerJson));
                         command.Parameters.Add(new SqlParameter("@ScrapDetailsJson", detailJson));
 

@@ -16,6 +16,7 @@ using System;
 using Microsoft.AspNetCore.Routing.Template;
 using ScrapSystem.Api.Application.DTOs.LabelListDtos;
 using ScrapSystem.Api.Application.Response;
+using SixLabors.Fonts.Unicode;
 
 namespace ScrapSystem.Api.Utilities;
 public class ExcelHelper
@@ -127,9 +128,13 @@ public class ExcelHelper
     /// Import Excel file (.xlsx) vào DataTable
     /// </summary>
     public (ScrapDto, List<ScrapDetailDto>) ExcelIssueOutToScrap(IFormFile file,string sanction, string section, int startRow = 15)
+    //public (ScrapDto, List<ScrapDetailDto>,string tensacntion, string tensection) ExcelIssueOutToScrap(IFormFile file,string sanction, string section, int startRow = 15)
     {
         ScrapDto scrap = new ScrapDto();
         List<ScrapDetailDto> scrapDetalDtos = new List<ScrapDetailDto>();
+        string sanction_new ="";
+        string section_new = "";
+
         try
         {
             using (var stream = file.OpenReadStream())
@@ -140,61 +145,39 @@ public class ExcelHelper
                 //var worksheet = package.Workbook.Worksheets[0];
                 //var worksheetData = package.Workbook.Worksheets[1];
 
-                var worksheet = package.Workbook.Worksheets["Input"];
-                string typeupload = worksheet.Cells[8, 6].Text;
-                string subType = worksheet.Cells[6, 3].Text;
-                string date = worksheet.Cells[8, 3].Text;
-                string type = worksheet.Cells[10, 3].Text;
+                var worksheetData1 = package.Workbook.Worksheets["Form B"];
+                //var worksheet = package.Workbook.Worksheets["Input"];  // se khong co typeupload => chi 1 form B duy nhat
+                //string typeupload = worksheet.Cells[8, 6].Text;  // se khong co typeupload => chi 1 form B duy nhat
+                string subType = worksheetData1.Cells[16, 20].Text; // worksheetData1.Cells[6, 3].Text;
+                string date = DateTime.Now.ToString();// worksheetData1.Cells[8, 3].Text;
+                string type = worksheetData1.Cells[16, 21].Text;// worksheetData1.Cells[10, 3].Text;
 
-                scrap.Sanction = sanction;
-                scrap.Section = section;
+                scrap.Sanction = worksheetData1.Cells[16, 16].Text;// sanction;
+                scrap.Section = worksheetData1.Cells[16, 18].Text;//section;
                 scrap.SubType = subType;
-                scrap.MoveType = type;
+                scrap.MoveType = type; // Quy tac cot Movetype se dua vao rule cua LOG ********** => cho ra du lieu cot phu luc
                 scrap.IssueOutDate = DateTime.Parse(date);
 
-                if (typeupload == "Form A")
+                //gan lai so sanction => lay gia tri dung trong file excel
+                sanction_new = worksheetData1.Cells[16, 16].Text;
+                section_new = worksheetData1.Cells[16, 18].Text;
+
+                //var worksheetData1 = package.Workbook.Worksheets["Form B"];
+                //for (int row = startRow; row <= worksheetData1.Dimension.End.Row; row++)
+                for (int row = 16; row <= worksheetData1.Dimension.End.Row; row++)      //bat dau tu dong 16
                 {
-                    var worksheetData = package.Workbook.Worksheets["Form A"];
-                    for (int row = startRow; row <= worksheetData.Dimension.End.Row; row++)
+                    if (scrap.Sanction == "" || scrap.Section == "")
                     {
-                        var scrapDetail = new ScrapDetailDto();
-                        int.TryParse(worksheetData.Cells[row, 1].Text, out int stt);
-                        if (stt == 0) return (scrap, scrapDetalDtos);
-                        scrapDetail.Plant = worksheetData.Cells[row, 2].Text;
-                        scrapDetail.Sloc = worksheetData.Cells[row, 3].Text;
-                        scrapDetail.CostCenter = worksheetData.Cells[row, 4].Text;
-                        scrapDetail.NameCost = worksheetData.Cells[row, 5].Text;
-                        scrapDetail.Material = worksheetData.Cells[row, 6].Text;
-                        scrapDetail.Qty = float.TryParse(worksheetData.Cells[row, 7].Text, out float quantity) ? quantity : 0;
-                        scrapDetail.UnitPrice = decimal.TryParse(worksheetData.Cells[row, 8].Text, out decimal unitPrice) ? unitPrice : 0;
-                        scrapDetail.Amount = decimal.TryParse(worksheetData.Cells[row, 9].Text, out decimal amount) ? amount : 0;
-                        scrapDetail.Reason = worksheetData.Cells[row, 10].Text;
-
-                        scrapDetail.Pallet = worksheetData.Cells[row, 13].Text;         //12.10.2025 theo mau issue out moi
-                        scrapDetail.Noid = stt;         //12.10.2025 theo mau issue out moi
-                        scrapDetail.Barcode = sanction+";"+ worksheetData.Cells[row, 13].Text+";"+ section;         //12.10.2025 theo mau issue out moi
-
-
-                        if (scrapDetail.Plant == "" && scrapDetail.Material == "")
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            scrapDetalDtos.Add(scrapDetail);
-                        }
+                        //thoat khoi vong lap => khong cho insert
+                        break;
                     }
-                }
-                else
-                {
-                    var worksheetData1 = package.Workbook.Worksheets["Form B"];
-                    //for (int row = startRow; row <= worksheetData1.Dimension.End.Row; row++)
-                    for (int row = 16; row <= worksheetData1.Dimension.End.Row; row++)      //bat dau tu dong 16
+                    else
                     {
                         var scrapDetail1 = new ScrapDetailDto();
                         int.TryParse(worksheetData1.Cells[row, 1].Text, out int stt);
 
                         if (stt == 0) return (scrap, scrapDetalDtos);
+                        //if (stt == 0) return (scrap, scrapDetalDtos,"","");
 
                         scrapDetail1.Plant = worksheetData1.Cells[row, 2].Text;
                         scrapDetail1.Sloc = worksheetData1.Cells[row, 3].Text;
@@ -206,15 +189,16 @@ public class ExcelHelper
                         scrapDetail1.Amount = decimal.TryParse(worksheetData1.Cells[row, 9].Text, out decimal amount) ? amount : 0;
                         scrapDetail1.Reason = worksheetData1.Cells[row, 12].Text;
 
-                        scrapDetail1.Pallet = worksheetData1.Cells[row, 14].Text;           //12.10.2025 theo mau issue out moi
+                        scrapDetail1.Pallet = worksheetData1.Cells[row, 15].Text;           //12.10.2025 theo mau issue out moi
                         scrapDetail1.Noid = stt;         //12.10.2025 theo mau issue out moi
-                        scrapDetail1.Barcode = sanction + ";" + worksheetData1.Cells[row, 14].Text + ";" + section;         //12.10.2025 theo mau issue out moi
+                        scrapDetail1.Barcode = sanction_new + ";" + worksheetData1.Cells[row, 15].Text + ";" + section_new;         //12.10.2025 theo mau issue out moi
 
                         //========= // them moi cac cot 25.10.2025 //=====================
-                        scrapDetail1.issue_out_sloc = worksheetData1.Cells[row, 13].Text;
-                        scrapDetail1.SoTK = worksheetData1.Cells[row, 21].Text;
+                        scrapDetail1.Vendor = worksheetData1.Cells[row, 13].Text;
+                        scrapDetail1.issue_out_sloc = worksheetData1.Cells[row, 14].Text;
+                        scrapDetail1.SoTK = worksheetData1.Cells[row, 22].Text;
                         //scrapDetail1.NgayTK = worksheetData1.Cells[row, 13].Text;
-                        var cellValue = worksheetData1.Cells[row, 22].Text;
+                        var cellValue = worksheetData1.Cells[row, 23].Text;
                         if (DateTime.TryParse(cellValue, out DateTime parsedDate))
                         {
                             scrapDetail1.NgayTK = parsedDate;
@@ -223,13 +207,13 @@ public class ExcelHelper
                         {
                             scrapDetail1.NgayTK = null;
                         }
-
-                        scrapDetail1.Phuluc = worksheetData1.Cells[row, 26].Text;
-                        scrapDetail1.Vendor = worksheetData1.Cells[row, 27].Text;
+                        scrapDetail1.Phuluc = worksheetData1.Cells[row, 27].Text;  //**** Quy tac cot Movetype se dua vao rule cua LOG ********** => cho ra du lieu cot phu luc
                         scrapDetail1.Sotaisan = worksheetData1.Cells[row, 28].Text;
                         scrapDetail1.BookValue = worksheetData1.Cells[row, 29].Text;
-                        scrapDetail1.Picture = worksheetData1.Cells[row, 30].Text;
-
+                        scrapDetail1.ControlNo = worksheetData1.Cells[row, 30].Text;
+                        scrapDetail1.Category = worksheetData1.Cells[row, 31].Text;
+                        scrapDetail1.Currency = worksheetData1.Cells[row, 32].Text;
+                        scrapDetail1.Picture = "";
 
                         if (scrapDetail1.Plant == "" && scrapDetail1.Material == "")
                         {
@@ -239,50 +223,50 @@ public class ExcelHelper
                         {
                             scrapDetalDtos.Add(scrapDetail1);
                         }
-                    }
+                    }                    
                 }
+
+                //theo ly thuyet dang khong dung format theo form A ******
+                //if (typeupload == "Form A")
+                //{
+                //    var worksheetData = package.Workbook.Worksheets["Form A"];
+                //    for (int row = startRow; row <= worksheetData.Dimension.End.Row; row++)
+                //    {
+                //        var scrapDetail = new ScrapDetailDto();
+                //        int.TryParse(worksheetData.Cells[row, 1].Text, out int stt);
+                //        if (stt == 0) return (scrap, scrapDetalDtos);
+                //        scrapDetail.Plant = worksheetData.Cells[row, 2].Text;
+                //        scrapDetail.Sloc = worksheetData.Cells[row, 3].Text;
+                //        scrapDetail.CostCenter = worksheetData.Cells[row, 4].Text;
+                //        scrapDetail.NameCost = worksheetData.Cells[row, 5].Text;
+                //        scrapDetail.Material = worksheetData.Cells[row, 6].Text;
+                //        scrapDetail.Qty = float.TryParse(worksheetData.Cells[row, 7].Text, out float quantity) ? quantity : 0;
+                //        scrapDetail.UnitPrice = decimal.TryParse(worksheetData.Cells[row, 8].Text, out decimal unitPrice) ? unitPrice : 0;
+                //        scrapDetail.Amount = decimal.TryParse(worksheetData.Cells[row, 9].Text, out decimal amount) ? amount : 0;
+                //        scrapDetail.Reason = worksheetData.Cells[row, 10].Text;
+
+                //        scrapDetail.Pallet = worksheetData.Cells[row, 13].Text;         //12.10.2025 theo mau issue out moi
+                //        scrapDetail.Noid = stt;         //12.10.2025 theo mau issue out moi
+                //        scrapDetail.Barcode = sanction+";"+ worksheetData.Cells[row, 13].Text+";"+ section;         //12.10.2025 theo mau issue out moi
+
+
+                //        if (scrapDetail.Plant == "" && scrapDetail.Material == "")
+                //        {
+                //            break;
+                //        }
+                //        else
+                //        {
+                //            scrapDetalDtos.Add(scrapDetail);
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    //from B
+                //}
             }
 
-            //code old
-            //using (var package = new ExcelPackage(stream))
-            //{
-            //    var worksheet = package.Workbook.Worksheets[0];
-            //    var worksheetData = package.Workbook.Worksheets[1];
-
-            //    string subType = worksheet.Cells[6, 3].Text;
-            //    string date = worksheet.Cells[8, 3].Text;
-            //    string type = worksheet.Cells[10, 3].Text;
-
-            //    scrap.Sanction = sanction;
-            //    scrap.Section = section;
-            //    scrap.SubType = subType;
-            //    scrap.MoveType = type;
-            //    scrap.IssueOutDate = DateTime.Parse(date);
-            //    for (int row = startRow; row <= worksheetData.Dimension.End.Row; row++)
-            //    {
-            //        var scrapDetail = new ScrapDetailDto();
-            //        int.TryParse(worksheetData.Cells[row, 1].Text, out int stt);
-            //        if (stt == 0) return (scrap, scrapDetalDtos);
-            //        scrapDetail.Plant = worksheetData.Cells[row, 2].Text;
-            //        scrapDetail.Sloc = worksheetData.Cells[row, 3].Text;
-            //        scrapDetail.CostCenter = worksheetData.Cells[row, 4].Text;
-            //        scrapDetail.NameCost = worksheetData.Cells[row, 5].Text;
-            //        scrapDetail.Material = worksheetData.Cells[row, 6].Text;
-            //        scrapDetail.Qty = float.TryParse(worksheetData.Cells[row, 7].Text, out float quantity) ? quantity : 0;
-            //        scrapDetail.UnitPrice = decimal.TryParse(worksheetData.Cells[row, 8].Text, out decimal unitPrice) ? unitPrice : 0;
-            //        scrapDetail.Amount = decimal.TryParse(worksheetData.Cells[row, 9].Text, out decimal amount) ? amount : 0;
-            //        scrapDetail.Reason = worksheetData.Cells[row, 10].Text;
-            //        if (scrapDetail.Plant == "" && scrapDetail.Material == "")
-            //        {
-            //            break;
-            //        }
-            //        else 
-            //        {
-            //            scrapDetalDtos.Add(scrapDetail);
-            //        }
-
-            //    }
-            //}
+            
         }
         catch (Exception ex)
         {
@@ -290,6 +274,7 @@ public class ExcelHelper
             throw;
         }
         return (scrap, scrapDetalDtos);
+        //return (scrap, scrapDetalDtos,sanction_new, section_new);
     }
 
     /// <summary>

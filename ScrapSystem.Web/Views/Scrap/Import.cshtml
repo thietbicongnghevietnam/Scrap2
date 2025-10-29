@@ -462,7 +462,7 @@
     <!-- Input Fields Section -->
     <div class="input-section">
         <h3></i> Thông tin bắt buộc</h3>
-        <div class="row">
+        <div class="row" style="display:none;">
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="form-label">
@@ -595,6 +595,7 @@
     const progressFill = document.getElementById('progressFill');
     const statusMessage = document.getElementById('statusMessage');
     const sanctionInput = document.getElementById('sanctionInput');
+    
     //const sectionInput = document.getElementById('sectionInput');
     const sectionInput = document.getElementById("SelectedSection").value;
 
@@ -690,23 +691,23 @@
 
         //alert(sectionValue);
 
-        if (!sanctionValue) {
-            showStatus('❌ Vui lòng nhập tên Sanction', 'error');
-            sanctionInput.focus();
-            return;
-        }
+        // if (!sanctionValue) {
+        //     showStatus('❌ Vui lòng nhập tên Sanction', 'error');
+        //     sanctionInput.focus();
+        //     return;
+        // }
 
-        if (!sectionValue || sectionValue == '-- Chọn bộ phận --') {
-            showStatus('❌ Vui lòng nhập tên Section', 'error');
-            sectionInput.focus();
-            return;
-        }
+        // if (!sectionValue || sectionValue == '-- Chọn bộ phận --') {
+        //     showStatus('❌ Vui lòng nhập tên Section', 'error');
+        //     sectionInput.focus();
+        //     return;
+        // }
 
-        if (!issueoutValue) {
-            showStatus('❌ Vui lòng nhập tên IssueOut', 'error');
-            IssueOutInput.focus();
-            return;
-        }
+        // if (!issueoutValue) {
+        //     showStatus('❌ Vui lòng nhập tên IssueOut', 'error');
+        //     IssueOutInput.focus();
+        //     return;
+        // }
 
         if (!fileInput.files[0]) {
             showStatus('❌ Vui lòng chọn file Excel', 'error');

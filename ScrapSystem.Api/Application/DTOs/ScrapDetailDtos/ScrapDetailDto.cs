@@ -26,5 +26,8 @@
         public string Sotaisan { get; set; }
         public string BookValue { get; set; }
         public string Picture { get; set; }
+        public string ControlNo { get; set; }
+        public string Category { get; set; }
+        public string Currency { get; set; }
     }
 }

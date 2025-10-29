@@ -285,10 +285,16 @@ namespace ScrapSystem.Web.Controllers
 
             //}
 
+            //khong nhap ten sanction va section, issueout
+
             files.Add("file", request.File);
-            param.Add("sanction", request.Sanction);
-            param.Add("section", request.Section);            
-            param.Add("issueout", request.issueout);
+            param.Add("sanction", "sanction");
+            param.Add("section", "section");            
+            param.Add("issueout", "issueout");
+
+            //param.Add("sanction", request.Sanction);
+            //param.Add("section", request.Section);
+            //param.Add("issueout", request.issueout);
 
             //param.Add("SelectedSection", request.SelectedSection);
             //param.Add("ListItems", request.ListItems);
