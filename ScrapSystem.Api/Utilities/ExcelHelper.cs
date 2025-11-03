@@ -191,7 +191,8 @@ public class ExcelHelper
 
                         scrapDetail1.Pallet = worksheetData1.Cells[row, 15].Text;           //12.10.2025 theo mau issue out moi
                         scrapDetail1.Noid = stt;         //12.10.2025 theo mau issue out moi
-                        scrapDetail1.Barcode = sanction_new + ";" + worksheetData1.Cells[row, 15].Text + ";" + section_new;         //12.10.2025 theo mau issue out moi
+                        //scrapDetail1.Barcode = sanction_new + ";" + worksheetData1.Cells[row, 15].Text + ";" + section_new;         //12.10.2025 theo mau issue out moi
+                        scrapDetail1.Barcode = sanction_new + ";" + worksheetData1.Cells[row, 15].Text + ";" + section_new+";"+ subType;         
 
                         //========= // them moi cac cot 25.10.2025 //=====================
                         scrapDetail1.Vendor = worksheetData1.Cells[row, 13].Text;
@@ -214,6 +215,7 @@ public class ExcelHelper
                         scrapDetail1.Category = worksheetData1.Cells[row, 31].Text;
                         scrapDetail1.Currency = worksheetData1.Cells[row, 32].Text;
                         scrapDetail1.Picture = "";
+                        scrapDetail1.MVT = subType;     //them cot MVT
 
                         if (scrapDetail1.Plant == "" && scrapDetail1.Material == "")
                         {

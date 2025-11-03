@@ -757,6 +757,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div class="barcode-container" style="width: 150px; flex-shrink: 0;">
           <svg class="barcode" data-code="${master.barcode}"></svg>
+                  <div style="margin-left: 30px;"> ${master.barcode || 'N/A'}</div>
         </div>
         <div style="flex: 2; text-align: center;">
           <div class="title" style="font-weight: bold;">
