@@ -208,7 +208,7 @@ public class ExcelHelper
                         {
                             scrapDetail1.NgayTK = null;
                         }
-                        scrapDetail1.Phuluc = worksheetData1.Cells[row, 27].Text;  //**** Quy tac cot Movetype se dua vao rule cua LOG ********** => cho ra du lieu cot phu luc
+                                                                        
                         scrapDetail1.Sotaisan = worksheetData1.Cells[row, 28].Text;
                         scrapDetail1.BookValue = worksheetData1.Cells[row, 29].Text;
                         scrapDetail1.ControlNo = worksheetData1.Cells[row, 30].Text;
@@ -217,6 +217,32 @@ public class ExcelHelper
                         scrapDetail1.Picture = "";
                         scrapDetail1.MVT = subType;     //them cot MVT
 
+                        //tinh ra code phu luc
+                        //scrapDetail1.Phuluc = worksheetData1.Cells[row, 27].Text;  //**** Quy tac cot Movetype se dua vao rule cua LOG ********** => cho ra du lieu cot phu luc
+                        if (type == "25. Mold scrap")
+                        {
+                            scrapDetail1.Phuluc = "4";
+                        }
+                        else if (type == "3.Material shortage")
+                        {
+                            scrapDetail1.Phuluc = "x";
+                        }
+                        else 
+                        {
+                            if (subType == "551" || subType == "201")
+                            {
+                                scrapDetail1.Phuluc = "1";
+                            }
+                            else if (subType == "555" || subType == "556" || subType == "559" || subType == "560")
+                            {
+                                scrapDetail1.Phuluc = "2";
+                            }
+                            else if (subType == "Recycle" || subType == "Tool/FA" || subType == "Mold")
+                            {
+                                scrapDetail1.Phuluc = "3";
+                            }
+                        }
+                        
                         if (scrapDetail1.Plant == "" && scrapDetail1.Material == "")
                         {
                             break;
