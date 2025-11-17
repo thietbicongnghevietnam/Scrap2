@@ -217,6 +217,13 @@ public class ExcelHelper
                         scrapDetail1.Picture = "";
                         scrapDetail1.MVT = subType;     //them cot MVT
 
+                        scrapDetail1.TypeName = worksheetData1.Cells[row, 19].Text; // cot TYPE
+                        scrapDetail1.MoveType = worksheetData1.Cells[row, 21].Text; // cot MoveType
+
+                        scrapDetail1.UnitPriceAC = decimal.TryParse(worksheetData1.Cells[row, 10].Text, out decimal UnitPriceAC) ? UnitPriceAC : 0;
+                        scrapDetail1.AmountAC = decimal.TryParse(worksheetData1.Cells[row, 11].Text, out decimal AmountAC) ? AmountAC : 0;
+
+
                         //tinh ra code phu luc
                         //scrapDetail1.Phuluc = worksheetData1.Cells[row, 27].Text;  //**** Quy tac cot Movetype se dua vao rule cua LOG ********** => cho ra du lieu cot phu luc
                         if (type == "25. Mold scrap")

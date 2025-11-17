@@ -30,5 +30,9 @@
         public string Category { get; set; }
         public string Currency { get; set; }
         public string MVT { get; set; }
+        public string TypeName { get; set; }
+        public string MoveType { get; set; }
+        public decimal UnitPriceAC { get; set; }
+        public decimal AmountAC { get; set; }
     }
 }

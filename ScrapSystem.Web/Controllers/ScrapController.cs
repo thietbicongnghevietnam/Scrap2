@@ -258,16 +258,11 @@ namespace ScrapSystem.Web.Controllers
             };
 
             return View(result);
-        }
-
-        
-
+        }        
 
         [HttpPost]
         public async Task<IActionResult> Import(ImportRequest request)
         {
-
-
             Dictionary<string, IFormFile> files = new Dictionary<string, IFormFile>();
             Dictionary<string, string> param = new Dictionary<string, string>();
 
