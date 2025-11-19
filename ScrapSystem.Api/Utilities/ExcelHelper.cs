@@ -148,23 +148,24 @@ public class ExcelHelper
                 var worksheetData1 = package.Workbook.Worksheets["Form B"];
                 //var worksheet = package.Workbook.Worksheets["Input"];  // se khong co typeupload => chi 1 form B duy nhat
                 //string typeupload = worksheet.Cells[8, 6].Text;  // se khong co typeupload => chi 1 form B duy nhat
-                string subType = worksheetData1.Cells[16, 20].Text; // worksheetData1.Cells[6, 3].Text;
+                string subType = worksheetData1.Cells[12, 20].Text; // worksheetData1.Cells[6, 3].Text;
                 string date = DateTime.Now.ToString();// worksheetData1.Cells[8, 3].Text;
-                string type = worksheetData1.Cells[16, 21].Text;// worksheetData1.Cells[10, 3].Text;
+                string type = worksheetData1.Cells[12, 21].Text;// worksheetData1.Cells[10, 3].Text;
 
-                scrap.Sanction = worksheetData1.Cells[16, 16].Text;// sanction;
-                scrap.Section = worksheetData1.Cells[16, 18].Text;//section;
+                scrap.Sanction = worksheetData1.Cells[12, 16].Text;// sanction;
+                scrap.Section = worksheetData1.Cells[12, 18].Text;//section;
                 scrap.SubType = subType;
                 scrap.MoveType = type; // Quy tac cot Movetype se dua vao rule cua LOG ********** => cho ra du lieu cot phu luc
                 scrap.IssueOutDate = DateTime.Parse(date);
 
                 //gan lai so sanction => lay gia tri dung trong file excel
-                sanction_new = worksheetData1.Cells[16, 16].Text;
-                section_new = worksheetData1.Cells[16, 18].Text;
+                sanction_new = worksheetData1.Cells[12, 16].Text;
+                section_new = worksheetData1.Cells[12, 18].Text;
 
                 //var worksheetData1 = package.Workbook.Worksheets["Form B"];
                 //for (int row = startRow; row <= worksheetData1.Dimension.End.Row; row++)
-                for (int row = 16; row <= worksheetData1.Dimension.End.Row; row++)      //bat dau tu dong 16
+                //for (int row = 16; row <= worksheetData1.Dimension.End.Row; row++)      //bat dau tu dong 16
+                for (int row = 12; row <= worksheetData1.Dimension.End.Row; row++)      //bat dau tu dong 12
                 {
                     if (scrap.Sanction == "" || scrap.Section == "")
                     {

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ScrapSystem.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+80ac0e0c33f7f486641c63a7587cc25e2b24f72c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dd6b36e866630069c2bf1ddb3f691a3897fca933")]
 [assembly: System.Reflection.AssemblyProductAttribute("ScrapSystem.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ScrapSystem.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
