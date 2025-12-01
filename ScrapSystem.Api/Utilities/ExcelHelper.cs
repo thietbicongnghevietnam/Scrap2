@@ -142,10 +142,10 @@ public class ExcelHelper
             //code new 13.08.2025
             using (var package = new ExcelPackage(stream))
             {
-                //var worksheet = package.Workbook.Worksheets[0];
+                var worksheetData1 = package.Workbook.Worksheets[0];
                 //var worksheetData = package.Workbook.Worksheets[1];
 
-                var worksheetData1 = package.Workbook.Worksheets["Form B"];
+                //var worksheetData1 = package.Workbook.Worksheets["Form B"];
                 //var worksheet = package.Workbook.Worksheets["Input"];  // se khong co typeupload => chi 1 form B duy nhat
                 //string typeupload = worksheet.Cells[8, 6].Text;  // se khong co typeupload => chi 1 form B duy nhat
                 string subType = worksheetData1.Cells[12, 20].Text; // worksheetData1.Cells[6, 3].Text;
