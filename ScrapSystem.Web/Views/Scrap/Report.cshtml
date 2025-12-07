@@ -34,7 +34,7 @@
 
 <div class="card grid-margin">
     <div class=" card-body">
-        <form class="row "  id="filterForm">
+        <form class="row " id="filterForm">
             <div class="col-md-2">
                 <label for="startDate">Ngày bắt đầu</label>
                 <input type="date" id="startDate" name="startDate" value="@ViewBag.StartDate" class="form-control" />
@@ -64,7 +64,7 @@
 
 
 
-            </div>            
+            </div>
 
         </form>
     </div>
@@ -100,7 +100,7 @@
                         <th>Unit Price</th>
                         <th>Amount</th>
                         <th>Issue Out Date</th>
-                        
+
                     </tr>
                     <tr class="table-secondary">
                         <th></th>
@@ -140,7 +140,7 @@
 
                                 </td>
                                 <td>@stt</td>
-                                <td><div class="badge @(item.Status == 1 ? "badge-success": "badge-warning")">@(item.Status == 1 ? "Compeleted" : "Pending")</div></td>
+                                <td><div class="badge @(item.Status == 1 ? "badge-success" : "badge-warning")">@(item.Status == 1 ? "Compeleted" : "Pending")</div></td>
                                 <td>@item.Sanction</td>
                                 <td>@item.Pallet</td>
                                 <td>@item.Material</td>
@@ -161,7 +161,7 @@
                                 <td>@(item.UnitPrice?.ToString("N2") ?? "")</td>
                                 <td>@(item.Amount?.ToString("N2") ?? "")</td>
                                 <td>@(item.IssueOutDate?.ToString("yyyy-MM-dd") ?? "")</td>
-                                
+
                             </tr>
                             stt++;
                         }
@@ -177,27 +177,27 @@
         </div>
         <nav aria-label="" class="mt-3">
             @Html.PagedListPager(Model.PageLists, page => Url.Action("Report", new
-                {
-                    page,
-                    status = ViewBag.Status,
-                    startDate = ViewBag.StartDate,
-                    endDate = ViewBag.EndDate
-                }),
-                     new PagedListRenderOptions
             {
-                UlElementClasses = new[] { "pagination", "justify-content-center" },
-                LiElementClasses = new[] { "page-item" },
-                PageClasses = new[] { "page-link" },
-                DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
-                DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
-                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-                DisplayLinkToLastPage = PagedListDisplayMode.Never,
-                LinkToPreviousPageFormat = "«",
-                LinkToNextPageFormat = "»",
-                ContainerDivClasses = new[] { "d-flex", "justify-content-center" },
-                EllipsesFormat = "...",
-                MaximumPageNumbersToDisplay = 5
-            })
+                page,
+                        status = ViewBag.Status,
+                        startDate = ViewBag.StartDate,
+                        endDate = ViewBag.EndDate
+                        }),
+                        new PagedListRenderOptions
+                        {
+                            UlElementClasses = new[] { "pagination", "justify-content-center" },
+                            LiElementClasses = new[] { "page-item" },
+                            PageClasses = new[] { "page-link" },
+                            DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                            DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                            LinkToPreviousPageFormat = "«",
+                            LinkToNextPageFormat = "»",
+                            ContainerDivClasses = new[] { "d-flex", "justify-content-center" },
+                            EllipsesFormat = "...",
+                            MaximumPageNumbersToDisplay = 5
+                        })
         </nav>
 
     </div>
@@ -209,39 +209,38 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h3 class="modal-title fw-bold hover-cursor" id="modalSanction" ></h3>
+                    <h3 class="modal-title fw-bold hover-cursor" id="modalSanction"></h3>
                     <span class="text-muted" id="modalSection">Bộ phận: </span>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                
-                  
-                    <div class="col-lg-12">
-                       
-                        <div style="max-height: 600px; overflow-y: auto;" class="mb-3">
-                            <table class="table table-striped table-hover table-bordered" style="width: 100%; border-collapse: collapse;">
-                                <thead class="table-header" style="position: sticky; top: 0; z-index: 1;">
-                                    <tr>
-                                        <th>STT</th>
-                                        <th>SanctionId</th>
-                                        <th>ImageType</th>
-                                        <th>CreatedDate</th>
-                                        <th>CreatedId</th>
-                                        <th>PalletNo</th>
-                                        <th>Flag_export</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="scrapDetails2">
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                         
-                        </div>
 
+
+                <div class="col-lg-12">
+
+                    <div style="max-height: 600px; overflow-y: auto;" class="mb-3">
+                        <table class="table table-striped table-hover table-bordered" style="width: 100%; border-collapse: collapse;">
+                            <thead class="table-header" style="position: sticky; top: 0; z-index: 1;">
+                                <tr>
+                                    <th>STT</th>
+                                    <th>SanctionId</th>
+                                    <th>ImageType</th>
+                                    <th>CreatedDate</th>
+                                    <th>CreatedId</th>
+                                    <th>PalletNo</th>
+                                    <th>Flag_export</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scrapDetails2">
+                            </tbody>
+                        </table>
                     </div>
-                
+                    <div class="d-flex justify-content-end">
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -423,20 +422,20 @@
                 //var sanction = "";
                 window.location.href = `/Scrap/Report?startDate=${ngaybatdau}&endDate=${ngayketthuc}&status=${trangthai}&sanction=${tensanction}`;
             }
-            else if (data == "Sanction is null") 
+            else if (data == "Sanction is null")
             {
                 alert("Sanction is null!");
             }
             else if (data == "Hang chua kiem tra het") {
                 alert("Hang chua kiem tra het tren PalletID!");
             }
-            else 
+            else
             {
                 alert("NG");
             }
             // dataSanction = data;
             // showImageModal(dataSanction);
-            
+
 
         } catch (error) {
             console.error('Error fetching image data:', error);
@@ -604,7 +603,7 @@
                 dataSanction = data;
                 showImageModal2(dataSanction);
             }
-         
+
 
         } catch (error) {
             console.error('Error fetching image data:', error);

@@ -1,19 +1,20 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using ScrapSystem.Api.Domain.Models;
-using ScrapSystem.Web.Dtos;
-using System.Security.Claims;
-using System;
-using ScrapSystem.Web.Service;
-using Serilog;
-using ScrapSystem.Web.Service.Interface;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using ScrapSystem.Web;
-using ScrapSystem.Api.Application.DTOs.UserDtos;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ScrapSystem.Api.Application.Common;
+using ScrapSystem.Api.Application.DTOs.UserDtos;
+using ScrapSystem.Api.Domain.Models;
+using ScrapSystem.Web;
+using ScrapSystem.Web.Dtos;
+using ScrapSystem.Web.Service;
+using ScrapSystem.Web.Service.Interface;
+using Serilog;
+using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 public class AccountController : Controller

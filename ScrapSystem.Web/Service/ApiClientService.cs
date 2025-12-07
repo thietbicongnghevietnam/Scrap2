@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using Newtonsoft.Json.Linq;
 using ScrapSystem.Api.Application.DTOs.ScrapDtos;
 using ScrapSystem.Api.Application.Request;
 using ScrapSystem.Api.Application.Response;
@@ -38,7 +39,10 @@ namespace ScrapSystem.Web.Service
                 var result = await response.Content.ReadFromJsonAsync<ApiResult<LoginResponse>>();
                 if (response.IsSuccessStatusCode)
                 {
-                    
+                    //doan truyen session trong web
+                    _httpContextAccessor.HttpContext.Session.SetString("UserID", result.Item.User.UserId);
+                  
+
                     _httpContextAccessor.HttpContext.Session.SetString("JWTToken", result.Item.AccessToken);
                     _httpContextAccessor.HttpContext.Session.SetString("RefreshToken", result.Item.RefreshToken);
                     _httpContextAccessor.HttpContext.Session.SetString("UserInfo", JsonSerializer.Serialize(result.Item.User));

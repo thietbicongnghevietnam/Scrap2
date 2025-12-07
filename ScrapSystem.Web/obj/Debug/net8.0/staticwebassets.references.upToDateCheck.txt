@@ -47,3 +47,16 @@ C:\Scrap2\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
 C:\Scrap2\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
 C:\Scrap2\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
 C:\Scrap2\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json
+C:\Projects\scrap123\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\staticwebassets.build.json

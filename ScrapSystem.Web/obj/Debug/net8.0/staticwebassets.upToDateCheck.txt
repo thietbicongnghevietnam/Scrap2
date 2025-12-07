@@ -78,6 +78,7 @@ wwwroot\js\jquery-file-upload.js
 wwwroot\js\js-grid.js
 wwwroot\js\JsBarcode.code128.min.js
 wwwroot\js\jsbarcode.js
+wwwroot\js\JsBarcode222.js
 wwwroot\js\just-gage.js
 wwwroot\js\light-gallery.js
 wwwroot\js\listify.js
@@ -175,4 +176,3 @@ wwwroot\logo.png
 wwwroot\Panasonic.svg
 wwwroot\search.svg
 wwwroot\warning.svg
-wwwroot\js\JsBarcode222.js
