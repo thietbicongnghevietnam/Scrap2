@@ -38,7 +38,9 @@ namespace ScrapSystem.Web.Service
                 var result = await response.Content.ReadFromJsonAsync<ApiResult<LoginResponse>>();
                 if (response.IsSuccessStatusCode)
                 {
-                    
+                    //doan truyen session trong web
+                    _httpContextAccessor.HttpContext.Session.SetString("UserID", result.Item.User.UserId);
+
                     _httpContextAccessor.HttpContext.Session.SetString("JWTToken", result.Item.AccessToken);
                     _httpContextAccessor.HttpContext.Session.SetString("RefreshToken", result.Item.RefreshToken);
                     _httpContextAccessor.HttpContext.Session.SetString("UserInfo", JsonSerializer.Serialize(result.Item.User));
@@ -67,6 +69,9 @@ namespace ScrapSystem.Web.Service
 
                 if (response.IsSuccessStatusCode && result?.IsSuccess == true)
                 {
+                    //doan truyen session trong web
+                    _httpContextAccessor.HttpContext.Session.Remove("UserID");
+
                     _httpContextAccessor.HttpContext.Session.Remove("JWTToken");
                     _httpContextAccessor.HttpContext.Session.Remove("RefreshToken");
                     _httpContextAccessor.HttpContext.Session.Remove("UserInfo");

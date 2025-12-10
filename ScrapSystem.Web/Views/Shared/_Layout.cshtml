@@ -13,9 +13,96 @@
     <link rel="stylesheet" href="~/css/feather/feather.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        /* Sidebar cơ bản – nền sáng */
+        .sidebar {
+            width: 220px;
+            min-height: 100vh;
+            background: #f4f6f8; /* nền sáng */
+            padding-top: 20px;
+            transition: width 0.3s ease;
+        }
 
+            /* Menu cha */
+            .sidebar .nav-link {
+                color: #2c3e50; /* chữ menu cha tối */
+                padding: 10px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: background 0.3s, color 0.3s;
+            }
+
+                /* Hover menu cha */
+                .sidebar .nav-link:hover {
+                    color: #1abc9c; /* nổi bật khi hover */
+                    background: #e0f7fa; /* nền hover nhạt */
+                    text-decoration: none;
+                }
+
+            /* Sub-menu */
+            .sidebar .sub-menu {
+                list-style: none; /* bỏ dấu chấm tròn */
+                padding-left: 0; /* bỏ thụt lề mặc định */
+                margin: 0; /* bỏ margin */
+            }
+
+                /* Menu con mặc định */
+                .sidebar .sub-menu .nav-link {
+                    color: #34495e; /* chữ menu con */
+                    padding: 8px 20px; /* padding trên dưới và phải */
+                    padding-left: 20px; /* căn lề trái bằng menu cha */
+                    border-radius: 4px;
+                    transition: background 0.3s, color 0.3s;
+                    display: flex;
+                    align-items: center;
+                }
+
+                    /* Hover menu con */
+                    .sidebar .sub-menu .nav-link:hover {
+                        background: #004d00; /* nền xanh lá cây đậm khi hover */
+                        color: #a8ff60; /* chữ xanh lá sáng nổi bật */
+                    }
+
+                    /* Menu con active */
+                    .sidebar .sub-menu .nav-link.active {
+                        background: #007a00; /* nền xanh lá cây đậm hơn */
+                        color: #ffffff; /* chữ trắng nổi bật */
+                    }
+
+            /* Arrow icon rotate khi mở */
+            .sidebar .nav-item.open > .nav-link .menu-arrow {
+                transform: rotate(180deg);
+                transition: transform 0.3s ease;
+            }
+
+            /* Khi sidebar collapsed */
+            .sidebar.collapsed {
+                width: 60px; /* thu nhỏ sidebar */
+            }
+
+                .sidebar.collapsed .nav-link span {
+                    display: none; /* ẩn chữ */
+                }
+
+                .sidebar.collapsed .menu-arrow {
+                    display: none; /* ẩn mũi tên */
+                }
+
+                /* Đảm bảo các menu con khi collapsed không lệch */
+                .sidebar.collapsed .sub-menu .nav-link {
+                    padding-left: 10px; /* giảm padding trái khi sidebar thu nhỏ */
+                }
+    </style>
 </head>
 
+@{
+    var userId = Context.Session.GetString("UserID");
+    //var section = Context.Session.GetString("Section");
+    //var raw = $"{userId}|{section}";
+    var raw = $"{userId}";
+    var token = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(raw));
+}
 
 <body>
     <div class="container-scroller">
@@ -25,7 +112,7 @@
                 <a class="navbar-brand brand-logo-mini"><img src="~/logo.png" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                <button id="sidebarToggle" class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                     <i class="fa-solid fa-bars"></i>
                 </button>
 
@@ -56,78 +143,88 @@
         </nav>
         <!-- sidebar -->
         <div class="container-fluid page-body-wrapper">
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                <ul class="nav">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <ul class="nav flex-column">
+                    <!-- SCRAP MANAGEMENT -->
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-controller="Scrap">
-                            <i class="icon-file menu-icon"></i>
-                            <span class="menu-title">Label List</span>
+                        <a class="nav-link" data-toggle="collapse" href="#scrapGroup" role="button" aria-expanded="false" aria-controls="scrapGroup">
+                            <span>Scrap Management</span>
+                            <i class="fa fa-chevron-down menu-arrow"></i>
                         </a>
+                        <div class="collapse" id="scrapGroup">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Scrap">Label List</a></li>
+                                <li class="nav-item"><a class="nav-link" asp-action="Import" asp-controller="Scrap">Import ScrapList</a></li>
+                                <li class="nav-item"><a class="nav-link" href="http://10.92.184.24:8096/frmUploadScraplist.aspx?token=@token" target="_blank">Scrap List</a></li>
+                                <li class="nav-item"><a class="nav-link" href="http://10.92.184.24:8096/frmConvertToll.aspx" target="_blank">Tool Convert</a></li>
+                            </ul>
+                        </div>
                     </li>
+                    <!-- SETTING MATER -->
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="Import" asp-controller="Scrap">
-                            <i class="fa fa-upload menu-icon"></i>
-                            <span class="menu-title">Import Issue Out</span>
+                        <a class="nav-link" data-toggle="collapse" href="#materGroup" role="button" aria-expanded="false" aria-controls="materGroup">
+                            <span>Setting Mater</span>
+                            <i class="fa fa-chevron-down menu-arrow"></i>
                         </a>
+                        <div class="collapse" id="materGroup">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="http://10.92.184.24:8096/frmMaterialname.aspx" target="_blank">Material Name</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#" target="_blank">Material Vendor</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#" target="_blank">Material MVT</a></li>
+                            </ul>
+                        </div>
                     </li>
+                    <!-- REPORT GROUP -->
                     <li class="nav-item">
-                        <a class="nav-link" href="http://10.92.184.24:8096/frmUploadScraplist.aspx" target="_blank">
-                            <i class="fa fa-list menu-icon"></i>
-                            <span class="menu-title">Scrap List Management</span>
+                        <a class="nav-link" data-toggle="collapse" href="#reportGroup" role="button" aria-expanded="false" aria-controls="reportGroup">
+                            <span>Reports</span>
+                            <i class="fa fa-chevron-down menu-arrow"></i>
                         </a>
+                        <div class="collapse" id="reportGroup">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" asp-action="Report" asp-controller="Scrap">Report</a></li>
+                                <li class="nav-item"><a class="nav-link" href="http://10.92.184.24:8096/frmExportImage.aspx" target="_blank">Report Monthly</a></li>
+                            </ul>
+                        </div>
                     </li>
+                    <!-- OTHERS -->
                     <li class="nav-item">
-                        <a class="nav-link" href="http://10.92.184.24:8096/frmConvertToll.aspx" target="_blank">
-                            <i class="fa fa-exchange menu-icon"></i>
-                            <span class="menu-title">Tool convert scrap list</span>
+                        <a class="nav-link" data-toggle="collapse" href="#otherGroup" role="button" aria-expanded="false" aria-controls="otherGroup">
+                            <span>Others</span>
+                            <i class="fa fa-chevron-down menu-arrow"></i>
                         </a>
+                        <div class="collapse" id="otherGroup">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" asp-action="Documents" asp-controller="Scrap">Documents</a></li>
+                            </ul>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="Report" asp-controller="Scrap">
-                            <i class="icon-archive menu-icon"></i>
-                            <span class="menu-title">Report</span>
-                        </a>
-                    </li>
-                    @* <li class="nav-item">
-                        <a class="nav-link" asp-action="Verify" asp-controller="Scrap">
-                            <i class="icon-server menu-icon"></i>
-                            <span class="menu-title">Verify Data</span>
-                        </a>
-                    </li>  *@                  
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://10.92.184.24:8096/frmExportImage.aspx" target="_blank">
-                            <i class="fa fa-file-invoice menu-icon"></i>
-                            <span class="menu-title">Report Monthly</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://10.92.184.24:8096/frmMaterialname.aspx" target="_blank">
-                            <i class="fa fa-file-alt menu-icon"></i>
-                            <span class="menu-title">Material Name</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="documents" asp-controller="Scrap">
-                            <i class="fa fa-download menu-icon"></i>
-                            <span class="menu-title">Documents</span>
-                        </a>
-                    </li>
-
-                    
-                    
                 </ul>
             </nav>
+
             <div class="main-panel">
                 <div class="content-wrapper">
                     <main role="main" class="pb-3">
                         @RenderBody()
                     </main>
                 </div>
-               
+
                 <!-- partial -->
             </div>
         </div>
+
+
     </div>
+
+
+    </div>
+
+    <script>
+        document.getElementById('sidebarToggle').addEventListener('click', function () {
+            document.querySelector('.sidebar').classList.toggle('collapsed');
+        });
+    </script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
