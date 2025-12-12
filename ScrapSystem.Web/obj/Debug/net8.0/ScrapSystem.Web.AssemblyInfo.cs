@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ScrapSystem.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e01444d31cc4e3fa08da4d0dafd58b42bd375a64")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+241fc1b82b3f62e0f81542c3b4e36d9107b9eca6")]
 [assembly: System.Reflection.AssemblyProductAttribute("ScrapSystem.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ScrapSystem.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
