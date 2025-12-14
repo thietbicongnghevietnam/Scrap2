@@ -25,5 +25,6 @@
         public string Unit { get; set; }
         public string UnitEcus { get; set; }
         public string IssueOut { get; set; } //sua 01.08.2025
+        public string TypeName { get; set; } //sua 14.12.2025
     }
 }

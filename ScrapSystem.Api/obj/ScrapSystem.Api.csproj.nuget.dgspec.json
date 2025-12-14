@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\scrap123\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj": {}
+    "C:\\Projects\\MVC\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\scrap123\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj": {
+    "C:\\Projects\\MVC\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\scrap123\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj",
+        "projectUniqueName": "C:\\Projects\\MVC\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj",
         "projectName": "ScrapSystem.Api",
-        "projectPath": "C:\\Projects\\scrap123\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj",
+        "projectPath": "C:\\Projects\\MVC\\Scrap2\\ScrapSystem.Api\\ScrapSystem.Api.csproj",
         "packagesPath": "C:\\Users\\70K6885\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\scrap123\\Scrap2\\ScrapSystem.Api\\obj\\",
+        "outputPath": "C:\\Projects\\MVC\\Scrap2\\ScrapSystem.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "52+kwYtHjZA=",
+  "dgSpecHash": "6ap9QUS72Do=",
   "success": true,
-  "projectFilePath": "C:\\Projects\\scrap123\\Scrap2\\ScrapSystem.Web\\ScrapSystem.Web.csproj",
+  "projectFilePath": "C:\\Projects\\MVC\\Scrap2\\ScrapSystem.Web\\ScrapSystem.Web.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\70K6885\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",

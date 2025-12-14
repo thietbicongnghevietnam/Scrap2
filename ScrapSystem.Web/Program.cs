@@ -4,7 +4,12 @@ using ScrapSystem.Api.Repositories;
 using ScrapSystem.Web;
 using ScrapSystem.Web.Service;
 using ScrapSystem.Web.Service.Interface;
+
+using ScrapSystem.Web.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 
 
@@ -32,8 +37,11 @@ builder.Services.AddHttpClient<IApiClientService, ApiClientService>(client =>
     client.Timeout = TimeSpan.FromSeconds(60);
 });
 
-//doan ket noi co so du lieu  05.08.2025
-builder.Services.AddDbContext<AppDbContext>(options =>
+//doan ket noi co so du lieu  05.08.2025   // them mater phai tao moi khong dung API
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<ScrapSystem.Web.Data.AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
