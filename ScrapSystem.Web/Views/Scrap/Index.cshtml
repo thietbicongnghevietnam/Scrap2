@@ -500,12 +500,33 @@
         return false;
     }
 
+    function checkPalletNotNull() {
+        let palletError = '';
+
+        selectedBarcodes.forEach(barcode => {
+            // tìm master theo barcode đang chọn
+            let master = notExist.find(x => x.barcode === barcode);
+            // Pallet null / rỗng
+            if (!master || master.pallet == null || master.pallet.trim() === '') {
+                palletError += barcode + ', ';
+            }
+        });
+        if (palletError === '')
+            return true;
+
+        alert('Barcode chưa có Pallet, không được phép in phiếu!\n' + palletError);
+        return false;
+    }
+
         function printSelectedBarcodes() {
         const selected = Array.from(selectedBarcodes);
         if (selected.length === 0) {
             alert('Chọn label list cần in ! ');
             return;
         }
+        // check Pallet null
+        if (!checkPalletNotNull()) return;
+        // check Qty conflict
         if (!checkActivePrint()) return;
 
 
