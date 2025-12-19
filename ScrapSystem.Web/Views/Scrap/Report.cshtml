@@ -29,6 +29,141 @@
     .table-selected > td {
         background-color: #4091e5;
     }
+
+    /* ===== container giống preview ===== */
+    .table-container {
+        overflow-x: auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        background: white;
+        margin-bottom: 25px;
+        border: 1px solid #ebebeb;
+    }
+
+    /* ===== table ===== */
+    .preview-table {
+        width: max-content;
+        min-width: 100%;
+        border-collapse: separate !important;
+        border-spacing: 0;
+        font-size: 0.95rem;
+    }
+
+        /* ===== header ===== */
+        .preview-table thead th {
+            background: #fff !important;
+            color: black;
+            padding: 14px 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e5e5e5 !important;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        /* bo góc header */
+        .preview-table thead tr:first-child th:first-child {
+            border-top-left-radius: 15px;
+        }
+
+        .preview-table thead tr:first-child th:last-child {
+            border-top-right-radius: 15px;
+        }
+
+        /* ===== filter row ===== */
+        .preview-table thead tr.table-secondary th {
+            background: #f7f8fc !important;
+            padding: 4px;
+        }
+
+        /* ===== body ===== */
+        .preview-table tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0 !important;
+            vertical-align: middle;
+            max-width: 220px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* zebra */
+        .preview-table tbody tr:nth-child(even) td {
+            background-color: #fafbff;
+        }
+
+        /* hover */
+        .preview-table tbody tr:hover td {
+            background-color: #f0f2ff !important;
+        }
+
+        /* badge align */
+        .preview-table .badge {
+            font-size: 0.75rem;
+            padding: 6px 10px;
+        }
+
+        /* remove bootstrap border double */
+        .preview-table.table-bordered > :not(caption) > * > * {
+            border-width: 0;
+        }
+
+        /* ===== HEADER XANH ===== */
+        .preview-table thead tr:first-child th {
+            background: #0d6efd !important; /* xanh Bootstrap */
+            color: #fff !important;
+            border-bottom: 1px solid #0b5ed7 !important;
+        }
+
+            /* hover header (optional) */
+            .preview-table thead tr:first-child th:hover {
+                background: #0b5ed7 !important;
+            }
+
+        /* giữ filter row màu nhạt */
+        .preview-table thead tr.table-secondary th {
+            background: #e9edf9 !important;
+            color: #000;
+        }
+        /* giữ tieu de footer giong header */
+        .preview-table tfoot th {
+            background: #0d6efd !important; /* xanh Bootstrap */
+            color: #fff !important;
+            position: sticky;
+            bottom: 0;
+            z-index: 9;
+            border-top: 2px solid #dee2e6;
+        }
+
+    /* cho them kinh lup vao trong phan tim kiem wrapper */
+    .filter-cell {
+        position: relative;
+    }
+
+        /* icon */
+        .filter-cell::before {
+            content: "\f002"; /* icon search */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+
+    /* input */
+    .filter-input {
+        padding-left: 30px !important;
+        font-size: 0.8rem;
+    }
+
 </style>
 <h3>@ViewData["Title"]</h3>
 
@@ -81,8 +216,11 @@
 <div class="card">
     <div class="card-body">
 
-        <div class="table-responsive">
-            <table class="table table-striped table-hover w-max-content table-light table-bordered">
+     @*    <div class="table-responsive">
+            <table class="table table-striped table-hover w-max-content table-light table-bordered"> *@
+        <div class="table-container table-responsive">
+            <table class="table preview-table table-hover table-bordered w-max-content">
+
                 <thead class="table-header">
                     <tr>
                         <th></th>
@@ -91,49 +229,49 @@
                         <th>Sanction</th>
                         <th>Pallet</th>
                         <th>Material</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Amount</th>
                         <th>IssueOut Name</th>
+                        <th>Sub Type</th>
+                        <th>Move Type</th>
+                        <th>Section</th>
                         <th>English Name</th>
                         <th>Vietnamese Name</th>
-                        <th>Sub Type</th>
-                        <th>Section</th>
-                        <th>Move Type</th>
                         <th>Reason</th>
                         <th>Cost Center</th>
                         <th>Name Cost</th>
                         <th>Sloc</th>
                         <th>Plant</th>
                         <th>Unit</th>
-                        <th>Quantity</th>
                         <th>Qty Actual</th>
-                        <th>Unit Price</th>
-                        <th>Amount</th>
                         <th>Issue Out Date</th>
                         
                     </tr>
                     <tr class="table-secondary">
                         <th></th>
                         <th></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="2"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="3"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="4"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="5"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="6"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="7"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="8"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="9"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="10"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="11"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="12"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="13"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="14"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="15"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="16"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="17"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="18"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="19"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="20"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="21"></th>
-                        <th class="p-0"><input type="text" class="form-control " onkeyup="filterTable()" data-col="22"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input " onkeyup="filterTable()" data-col="2"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input " onkeyup="filterTable()" data-col="3"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input " onkeyup="filterTable()" data-col="4"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input " onkeyup="filterTable()" data-col="5"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="6"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="7"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="8"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="9"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="10"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="11"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="12"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="13"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="14"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="15"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input " onkeyup="filterTable()" data-col="16"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="17"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="18"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="19"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="20"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="21"></th>
+                        <th class="p-0 filter-cell"><input type="text" class="form-control filter-input" onkeyup="filterTable()" data-col="22"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -152,22 +290,22 @@
                                 <td>@item.Sanction</td>
                                 <td>@item.Pallet</td>
                                 <td>@item.Material</td>
-                                <td>@item.IssueOut</td>
+                                <td>@(item.Qty?.ToString("N2") ?? "")</td>
+                                <td>@(item.UnitPrice?.ToString("N2") ?? "")</td>
+                                <td>@(item.Amount?.ToString("N2") ?? "")</td>
+                                <td>@item.TypeName</td>
+                                <td>@item.SubType</td>
+                                <td>@item.MoveType</td>
+                                <td>@item.Section</td>
                                 <td>@item.EnglishName</td>
                                 <td>@item.VietnameseName</td>
-                                <td>@item.SubType</td>
-                                <td>@item.Section</td>
-                                <td>@item.MoveType</td>
                                 <td>@item.Reason</td>
                                 <td>@item.CostCenter</td>
                                 <td>@item.NameCost</td>
                                 <td>@item.Sloc</td>
                                 <td>@item.Plant</td>
                                 <td>@item.Unit</td>
-                                <td>@(item.Qty?.ToString("N2") ?? "")</td>
                                 <td>@(item.QtyActual?.ToString("N2") ?? "")</td>
-                                <td>@(item.UnitPrice?.ToString("N2") ?? "")</td>
-                                <td>@(item.Amount?.ToString("N2") ?? "")</td>
                                 <td>@(item.IssueOutDate?.ToString("yyyy-MM-dd") ?? "")</td>
                                 
                             </tr>
@@ -179,6 +317,33 @@
                     }
 
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th>STT</th>
+                        <th>Status</th>
+                        <th>Sanction</th>
+                        <th>Pallet</th>
+                        <th>Material</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Amount</th>
+                        <th>IssueOut Name</th>
+                        <th>Sub Type</th>
+                        <th>Move Type</th>
+                        <th>Section</th>
+                        <th>English Name</th>
+                        <th>Vietnamese Name</th>
+                        <th>Reason</th>
+                        <th>Cost Center</th>
+                        <th>Name Cost</th>
+                        <th>Sloc</th>
+                        <th>Plant</th>
+                        <th>Unit</th>
+                        <th>Qty Actual</th>
+                        <th>Issue Out Date</th>
+                    </tr>
+                </tfoot>
             </table>
 
 

@@ -171,7 +171,7 @@ public class ExcelHelper
                     {
                         //thoat khoi vong lap => khong cho insert
                         break;
-                    }
+                    }                   
                     else
                     {
                         var scrapDetail1 = new ScrapDetailDto();
@@ -188,15 +188,21 @@ public class ExcelHelper
                         scrapDetail1.Qty = float.TryParse(worksheetData1.Cells[row, 7].Text, out float quantity) ? quantity : 0;
                         scrapDetail1.UnitPrice = decimal.TryParse(worksheetData1.Cells[row, 8].Text, out decimal unitPrice) ? unitPrice : 0;
                         scrapDetail1.Amount = decimal.TryParse(worksheetData1.Cells[row, 9].Text, out decimal amount) ? amount : 0;
-                        scrapDetail1.Reason = worksheetData1.Cells[row, 12].Text;
+
+                        //cot reason doi lai
+                        scrapDetail1.Reason = worksheetData1.Cells[row, 17].Text;
+                        //them cot remark   19.12.2025
+                        scrapDetail1.Remark = worksheetData1.Cells[row, 12].Text;
 
                         scrapDetail1.Pallet = worksheetData1.Cells[row, 15].Text;           //12.10.2025 theo mau issue out moi
                         scrapDetail1.Noid = stt;         //12.10.2025 theo mau issue out moi
                         //scrapDetail1.Barcode = sanction_new + ";" + worksheetData1.Cells[row, 15].Text + ";" + section_new;         //12.10.2025 theo mau issue out moi
-                        scrapDetail1.Barcode = sanction_new + ";" + worksheetData1.Cells[row, 15].Text + ";" + section_new+";"+ subType;         
+                        scrapDetail1.Barcode = sanction_new + ";" + worksheetData1.Cells[row, 15].Text + ";" + section_new + ";" + subType;
 
                         //========= // them moi cac cot 25.10.2025 //=====================
-                        scrapDetail1.Vendor = worksheetData1.Cells[row, 13].Text;
+                        //scrapDetail1.Vendor = worksheetData1.Cells[row, 13].Text;
+                        scrapDetail1.Vendor = worksheetData1.Cells[row, 34].Text;
+
                         scrapDetail1.issue_out_sloc = worksheetData1.Cells[row, 14].Text;
                         scrapDetail1.SoTK = worksheetData1.Cells[row, 22].Text;
                         //scrapDetail1.NgayTK = worksheetData1.Cells[row, 13].Text;
@@ -209,7 +215,7 @@ public class ExcelHelper
                         {
                             scrapDetail1.NgayTK = null;
                         }
-                                                                        
+
                         scrapDetail1.Sotaisan = worksheetData1.Cells[row, 28].Text;
                         scrapDetail1.BookValue = worksheetData1.Cells[row, 29].Text;
                         scrapDetail1.ControlNo = worksheetData1.Cells[row, 30].Text;
@@ -224,10 +230,25 @@ public class ExcelHelper
                         scrapDetail1.UnitPriceAC = decimal.TryParse(worksheetData1.Cells[row, 10].Text, out decimal UnitPriceAC) ? UnitPriceAC : 0;
                         scrapDetail1.AmountAC = decimal.TryParse(worksheetData1.Cells[row, 11].Text, out decimal AmountAC) ? AmountAC : 0;
 
+                        //check dieu kien vendor
+                        string ck_MVT = worksheetData1.Cells[row, 19].Text;
+                        int index = ck_MVT.IndexOf('.');
+                        string ck_vendor = index >= 0 ? ck_MVT.Substring(0, index) : ck_MVT;
+
+                        //string[] stringTypeID = { "2", "3", "4", "5", "8", "21" }; // Những Type sẽ phải điền Vendorcode
+                        if (ck_vendor == "2" || ck_vendor == "3" || ck_vendor == "4" || ck_vendor == "5" || ck_vendor == "8" || ck_vendor == "9" || ck_vendor == "19")  //bo 21
+                        {
+                            if (scrapDetail1.Vendor == "")
+                            {
+                                //scrapDetail1.Vendor = worksheetData1.Cells[row, 13].Text;
+                                //truong hop vendor null => khong cho nhap
+                                break;
+                            }
+                        }
 
                         //tinh ra code phu luc
                         //scrapDetail1.Phuluc = worksheetData1.Cells[row, 27].Text;  //**** Quy tac cot Movetype se dua vao rule cua LOG ********** => cho ra du lieu cot phu luc
-                        if (type == "25. Mold scrap")
+                        if (type == "25.Mold scrap")
                         {
                             scrapDetail1.Phuluc = "4";
                         }
@@ -235,7 +256,7 @@ public class ExcelHelper
                         {
                             scrapDetail1.Phuluc = "x";
                         }
-                        else 
+                        else
                         {
                             if (subType == "551" || subType == "201")
                             {
@@ -250,11 +271,12 @@ public class ExcelHelper
                                 scrapDetail1.Phuluc = "3";
                             }
                         }
+
                         
                         if (scrapDetail1.Plant == "" && scrapDetail1.Material == "")
                         {
                             break;
-                        }
+                        }                        
                         else
                         {
                             scrapDetalDtos.Add(scrapDetail1);

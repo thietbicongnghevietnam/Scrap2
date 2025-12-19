@@ -34,5 +34,6 @@
         public string MoveType { get; set; }
         public decimal UnitPriceAC { get; set; }
         public decimal AmountAC { get; set; }
+        public string Remark { get; set; }  //them cot 
     }
 }

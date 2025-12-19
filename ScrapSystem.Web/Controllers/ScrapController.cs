@@ -30,14 +30,20 @@ using System.Security.Claims;
 using System.Text.Json;
 using X.PagedList;
 
+using ScrapSystem.Web.Data;
+using WebDb = ScrapSystem.Web.Data.AppDbContext;
+using ApiDb = ScrapSystem.Api.Repositories.AppDbContext;
+
 namespace ScrapSystem.Web.Controllers
 {
     [AuthorizeApi]
     public class ScrapController : BaseController
     {
         private readonly IApiClientService _apiClientService;
-        private readonly AppDbContext _context;
-        public ScrapController(IApiClientService apiClientService, AppDbContext context)
+        //private readonly AppDbContext _context;
+        private readonly WebDb _context;
+        //public ScrapController(IApiClientService apiClientService, AppDbContext context) //, AppDbContext context //API
+        public ScrapController(IApiClientService apiClientService, WebDb context)
         {
             _apiClientService = apiClientService;
             _context = context;
@@ -229,7 +235,7 @@ namespace ScrapSystem.Web.Controllers
             request.EndDate = request.EndDate == default ? DateTime.Now : request.EndDate;
             request.Page = request.Page <= 0 ? 1 : request.Page;
             //request.PageSize = request.PageSize <= 0 ? 25 : request.PageSize;
-            request.PageSize = request.PageSize <= 0 ? 2000 : request.PageSize;
+            request.PageSize = request.PageSize <= 0 ? 200 : request.PageSize;  //2000
             request.Sanction = request.Sanction == null? "" : request.Sanction;
 
             request.issueout = request.issueout == null ? "" : request.issueout;
@@ -528,6 +534,123 @@ namespace ScrapSystem.Web.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        // CRUD // **************** // them sua xoa mater section// *******************
+        [HttpGet]
+        public IActionResult MaterSectionList(string keyword, int page = 1, int pageSize = 10, DateTime? dateFrom = null, DateTime? dateTo = null)
+        {
+            var query = _context.MaterSections.AsQueryable();
+
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(x => x.Section.Contains(keyword));
+
+            if (dateFrom.HasValue)
+                query = query.Where(x => x.Createdate >= dateFrom.Value);
+
+            if (dateTo.HasValue)
+                query = query.Where(x => x.Createdate <= dateTo.Value.AddDays(1));
+
+            int total = query.Count();
+
+            var data = query
+                .OrderBy(x => x.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Section,
+                    x.Description,
+                    x.Flag_del
+                })
+                .ToList();
+
+            return Json(new { data, total });
+        }
+
+        //button thong tin chi tiet mater
+        [HttpGet]
+        public IActionResult MaterSectionDetail(int id)
+        {
+            var item = _context.MaterSections.FirstOrDefault(x => x.Id == id);
+
+            if (item == null)
+                return NotFound();
+
+            return PartialView("MaterSection/_MaterSectionDetail", item);
+        }
+
+        public IActionResult MaterSection()
+        {
+            var list = _context.MaterSections.AsNoTracking().ToList();
+            return View("MaterSection/MaterSection", list);
+        }
+
+        // GET CREATE
+        public IActionResult CreateMaterSection()
+        {
+            return PartialView("MaterSection/_CreateEditMaterSection", new MaterSection());
+        }
+
+        // POST CREATE
+        [HttpPost]
+        public IActionResult CreateMaterSection(MaterSection model)
+        {
+            if (!ModelState.IsValid)
+                return PartialView("MaterSection/_CreateEditMaterSection", model);
+
+            _context.MaterSections.Add(model);
+            _context.SaveChanges();
+
+            return Json(new
+            {
+                success = true,
+                data = model
+            });
+        }
+
+        // GET EDIT
+        public IActionResult EditMaterSection(int id)
+        {
+            var data = _context.MaterSections.Find(id);
+            if (data == null) return NotFound();
+
+            return PartialView("MaterSection/_CreateEditMaterSection", data);
+        }
+
+        // POST EDIT
+        [HttpPost]
+        public IActionResult EditMaterSection(MaterSection model)
+        {
+            if (!ModelState.IsValid)
+                return PartialView("MaterSection/_CreateEditMaterSection", model);
+
+            _context.MaterSections.Update(model);
+            _context.SaveChanges();
+
+            return Json(new
+            {
+                success = true,
+                data = model
+            });
+        }
+
+        // DELETE
+        [HttpPost]
+        public IActionResult DeleteMaterSection(int id)
+        {
+            var data = _context.MaterSections.Find(id);
+            if (data == null)
+                return Json(new { success = false });
+
+            _context.MaterSections.Remove(data);
+            _context.SaveChanges();
+
+            return Json(new { success = true, id = id });
+        }
+        //End  CRUD // **************** // them sua xoa // *******************
+
 
     }
 
