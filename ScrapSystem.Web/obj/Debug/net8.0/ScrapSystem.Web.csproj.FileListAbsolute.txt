@@ -1057,3 +1057,12 @@ C:\Projects\MVC\Scrap2\ScrapSystem.Web\obj\Debug\net8.0\refint\ScrapSystem.Web.d
 C:\Projects\MVC\Scrap2\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.pdb
 C:\Projects\MVC\Scrap2\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.genruntimeconfig.cache
 C:\Projects\MVC\Scrap2\ScrapSystem.Web\obj\Debug\net8.0\ref\ScrapSystem.Web.dll
+C:\Projects\MVC\Scrap2\ScrapSystem.Web\bin\Debug\net8.0\ExcelDataReader.dll
+C:\Projects\MVC\Scrap2\ScrapSystem.Web\bin\Debug\net8.0\ExcelDataReader.DataSet.dll
+C:\Projects\MVC\Scrap2\ScrapSystem.Web\bin\Debug\net8.0\ClosedXML.dll
+C:\Projects\MVC\Scrap2\ScrapSystem.Web\bin\Debug\net8.0\ClosedXML.Parser.dll
+C:\Projects\MVC\Scrap2\ScrapSystem.Web\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Projects\MVC\Scrap2\ScrapSystem.Web\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+C:\Projects\MVC\Scrap2\ScrapSystem.Web\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\Projects\MVC\Scrap2\ScrapSystem.Web\bin\Debug\net8.0\RBush.dll
+C:\Projects\MVC\Scrap2\ScrapSystem.Web\bin\Debug\net8.0\System.IO.Packaging.dll

@@ -19,6 +19,7 @@ using ScrapSystem.Api.Repositories;
 using Serilog;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 using System.Text;
 using BC = BCrypt.Net.BCrypt;
@@ -242,6 +243,9 @@ namespace ScrapSystem.Api.Application.Service
                 throw;
             }
         }
+
+
+
 
         //ket noi sql khong dung FE 03.08.2025
         public async Task<UserDto?> LoginWithStoredProcedure(string userId, string password)

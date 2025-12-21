@@ -478,6 +478,9 @@ namespace ScrapSystem.Web.Controllers
         //End  CRUD // **************** // them sua xoa // *******************
 
 
-    }
+
+}
+
+
 
 }

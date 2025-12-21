@@ -1,0 +1,31 @@
+﻿@model ScrapSystem.Web.Models.Users
+
+<h5>@(Model.Id == 0 ? "Add User" : "Edit User")</h5>
+
+<form id="usersForm" asp-action="@(Model.Id == 0 ? "Create" : "Edit")" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label>UserID</label>
+        <input asp-for="UserID" class="form-control" />
+        <span asp-validation-for="UserID" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Password</label>
+        <input asp-for="U_Pass" type="password" class="form-control" />
+        <small class="text-muted">
+            @(Model.Id == 0 ? "" : "Leave blank if you don't want to change password")
+        </small>
+        <span asp-validation-for="U_Pass" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Section</label>
+        <input asp-for="Section" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+<partial name="_ValidationScriptsPartial" />

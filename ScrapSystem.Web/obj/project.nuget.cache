@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "6ap9QUS72Do=",
+  "dgSpecHash": "4lHQzwW6Kns=",
   "success": true,
   "projectFilePath": "C:\\Projects\\MVC\\Scrap2\\ScrapSystem.Web\\ScrapSystem.Web.csproj",
   "expectedPackageFiles": [
@@ -8,9 +8,16 @@
     "C:\\Users\\70K6885\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\70K6885\\.nuget\\packages\\closedxml\\0.105.0\\closedxml.0.105.0.nupkg.sha512",
+    "C:\\Users\\70K6885\\.nuget\\packages\\closedxml.parser\\2.0.0\\closedxml.parser.2.0.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",
+    "C:\\Users\\70K6885\\.nuget\\packages\\documentformat.openxml\\3.1.1\\documentformat.openxml.3.1.1.nupkg.sha512",
+    "C:\\Users\\70K6885\\.nuget\\packages\\documentformat.openxml.framework\\3.1.1\\documentformat.openxml.framework.3.1.1.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\epplus\\8.0.5\\epplus.8.0.5.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\epplus.interfaces\\8.0.0\\epplus.interfaces.8.0.0.nupkg.sha512",
+    "C:\\Users\\70K6885\\.nuget\\packages\\exceldatareader\\3.8.0\\exceldatareader.3.8.0.nupkg.sha512",
+    "C:\\Users\\70K6885\\.nuget\\packages\\exceldatareader.dataset\\3.8.0\\exceldatareader.dataset.3.8.0.nupkg.sha512",
+    "C:\\Users\\70K6885\\.nuget\\packages\\excelnumberformat\\1.1.0\\excelnumberformat.1.1.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
@@ -133,11 +140,12 @@
     "C:\\Users\\70K6885\\.nuget\\packages\\nuget.protocol\\6.11.0\\nuget.protocol.6.11.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\nuget.versioning\\6.11.0\\nuget.versioning.6.11.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\pdfsharpcore\\1.3.67\\pdfsharpcore.1.3.67.nupkg.sha512",
+    "C:\\Users\\70K6885\\.nuget\\packages\\rbush.signed\\4.0.0\\rbush.signed.4.0.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\serilog\\4.3.0\\serilog.4.3.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\serilog.sinks.console\\6.0.0\\serilog.sinks.console.6.0.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\serilog.sinks.file\\7.0.0\\serilog.sinks.file.7.0.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\sharpziplib\\1.4.2\\sharpziplib.1.4.2.nupkg.sha512",
-    "C:\\Users\\70K6885\\.nuget\\packages\\sixlabors.fonts\\1.0.0-beta17\\sixlabors.fonts.1.0.0-beta17.nupkg.sha512",
+    "C:\\Users\\70K6885\\.nuget\\packages\\sixlabors.fonts\\1.0.0\\sixlabors.fonts.1.0.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\sixlabors.imagesharp\\1.0.4\\sixlabors.imagesharp.1.0.4.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\swashbuckle.aspnetcore\\8.1.3\\swashbuckle.aspnetcore.8.1.3.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\8.1.3\\swashbuckle.aspnetcore.swagger.8.1.3.nupkg.sha512",
@@ -156,6 +164,7 @@
     "C:\\Users\\70K6885\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\system.formats.asn1\\9.0.5\\system.formats.asn1.9.0.5.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.10.0\\system.identitymodel.tokens.jwt.8.10.0.nupkg.sha512",
+    "C:\\Users\\70K6885\\.nuget\\packages\\system.io.packaging\\8.0.1\\system.io.packaging.8.0.1.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\system.io.pipelines\\9.0.5\\system.io.pipelines.9.0.5.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\system.reflection.metadataloadcontext\\7.0.0\\system.reflection.metadataloadcontext.7.0.0.nupkg.sha512",
@@ -170,5 +179,30 @@
     "C:\\Users\\70K6885\\.nuget\\packages\\x.pagedlist\\10.5.7\\x.pagedlist.10.5.7.nupkg.sha512",
     "C:\\Users\\70K6885\\.nuget\\packages\\x.pagedlist.mvc.core\\10.5.7\\x.pagedlist.mvc.core.10.5.7.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "message": "ScrapSystem.Web depends on ExcelDataReader (>= 3.7.1) but ExcelDataReader 3.7.1 was not found. ExcelDataReader 3.8.0 was resolved instead.",
+      "projectPath": "C:\\Projects\\MVC\\Scrap2\\ScrapSystem.Web\\ScrapSystem.Web.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Projects\\MVC\\Scrap2\\ScrapSystem.Web\\ScrapSystem.Web.csproj",
+      "libraryId": "ExcelDataReader",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "message": "ScrapSystem.Web depends on ExcelDataReader.DataSet (>= 3.7.1) but ExcelDataReader.DataSet 3.7.1 was not found. ExcelDataReader.DataSet 3.8.0 was resolved instead.",
+      "projectPath": "C:\\Projects\\MVC\\Scrap2\\ScrapSystem.Web\\ScrapSystem.Web.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Projects\\MVC\\Scrap2\\ScrapSystem.Web\\ScrapSystem.Web.csproj",
+      "libraryId": "ExcelDataReader.DataSet",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

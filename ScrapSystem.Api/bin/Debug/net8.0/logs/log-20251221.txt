@@ -1,0 +1,521 @@
+2025-12-21 10:07:50.669 [INF] User 2012757 logged in successfully
+2025-12-21 10:24:30.122 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 214
+2025-12-21 10:24:36.027 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 214
+2025-12-21 10:24:47.673 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 209
+2025-12-21 10:26:32.329 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 214
+2025-12-21 10:27:01.654 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 214
+2025-12-21 11:29:41.104 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 11:47:25.344 [ERR] An error occurred while logging in.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Id'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteReader(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsyncCallback(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.AuthService.LoginWithStoredProcedure(String userId, String password) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 263
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 206
+ClientConnectionId:14bcaf90-d947-4db2-bf84-372217a86542
+Error Number:207,State:1,Class:16
+2025-12-21 11:47:34.528 [ERR] An error occurred while logging in.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Id'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteReader(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsyncCallback(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.AuthService.LoginWithStoredProcedure(String userId, String password) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 263
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 206
+ClientConnectionId:14bcaf90-d947-4db2-bf84-372217a86542
+Error Number:207,State:1,Class:16
+2025-12-21 11:47:59.162 [ERR] An error occurred while logging in.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Id'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteReader(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsyncCallback(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.AuthService.LoginWithStoredProcedure(String userId, String password) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 263
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 206
+ClientConnectionId:14bcaf90-d947-4db2-bf84-372217a86542
+Error Number:207,State:1,Class:16
+2025-12-21 11:48:21.496 [ERR] An error occurred while logging in.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Id'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteReader(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsyncCallback(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at ScrapSystem.Api.Application.Service.AuthService.LoginWithStoredProcedure(String userId, String password) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 263
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 206
+ClientConnectionId:14bcaf90-d947-4db2-bf84-372217a86542
+Error Number:207,State:1,Class:16
+2025-12-21 11:51:42.715 [INF] User 2012757 logged in successfully
+2025-12-21 11:54:41.347 [INF] User 2012757 logged in successfully
+2025-12-21 11:58:58.159 [INF] User 2012757 logged in successfully
+2025-12-21 12:04:41.049 [INF] User 2012757 logged in successfully
+2025-12-21 12:08:16.868 [INF] User 2012757 logged in successfully
+2025-12-21 12:13:19.805 [INF] User 2012757 logged in successfully
+2025-12-21 13:13:36.300 [INF] User 2012757 logged in successfully
+2025-12-21 13:15:50.194 [INF] User 2012757 logged in successfully
+2025-12-21 13:20:01.860 [INF] User 2012757 logged in successfully
+2025-12-21 13:41:20.398 [INF] User 2012757 logged in successfully
+2025-12-21 13:45:50.943 [INF] User 2012757 logged in successfully
+2025-12-21 13:55:31.492 [INF] User 2012757 logged in successfully
+2025-12-21 14:13:50.416 [INF] User 2012757 logged in successfully
+2025-12-21 14:21:54.310 [INF] User 2012757 logged in successfully
+2025-12-21 14:23:31.519 [INF] User 2012757 logged in successfully
+2025-12-21 14:38:20.340 [INF] User 2012757 logged in successfully
+2025-12-21 14:43:08.134 [INF] User 2012757 logged in successfully
+2025-12-21 14:44:51.119 [INF] User 2012757 logged in successfully
+2025-12-21 14:48:37.891 [INF] User 2012757 logged in successfully
+2025-12-21 14:51:10.337 [INF] User 2012757 logged in successfully
+2025-12-21 14:53:45.207 [INF] User 2012757 logged in successfully
+2025-12-21 14:57:56.380 [INF] User 2012757b logged in successfully
+2025-12-21 15:06:53.983 [INF] User 2012757 logged in successfully
+2025-12-21 15:07:36.919 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:07:57.694 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:08:02.776 [INF] User 2012757 logged in successfully
+2025-12-21 15:08:17.811 [INF] User 2012757c logged in successfully
+2025-12-21 15:08:44.371 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:08:48.699 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:09:13.026 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:11:03.450 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 210
+2025-12-21 15:11:06.745 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 210
+2025-12-21 15:12:15.217 [INF] User 2012757 logged in successfully
+2025-12-21 15:12:54.274 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:13:02.370 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:13:12.797 [INF] User 2012757 logged in successfully
+2025-12-21 15:22:05.690 [INF] User 2012757 logged in successfully
+2025-12-21 15:25:28.908 [INF] User 2012757e logged in successfully
+2025-12-21 15:31:32.446 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:31:42.423 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:31:54.207 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 210
+2025-12-21 15:31:57.222 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 210
+2025-12-21 15:33:15.524 [INF] User 2012757 logged in successfully
+2025-12-21 15:33:31.141 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:33:38.456 [INF] User 2012757 logged in successfully
+2025-12-21 15:33:50.985 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:34:48.630 [ERR] An error occurred while logging in.
+System.InvalidCastException: Unable to cast object of type 'System.String' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadInt(DbDataReader reader, Int32 ordinal, ReaderColumn column)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.ReadRow()
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.BufferedDataRecord.InitializeAsync(DbDataReader reader, IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.BufferedDataReader.InitializeAsync(IReadOnlyList`1 columns, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at ScrapSystem.Api.Data.Repositories.UserRepository.GetUserByUserId(String userId) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Infrastructure\Repositories\UserRepository.cs:line 20
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 215
+2025-12-21 15:34:53.934 [INF] User 2012757 logged in successfully
+2025-12-21 15:35:47.920 [INF] User 2012442_1 logged in successfully
+2025-12-21 15:41:47.301 [INF] User 2012757 logged in successfully
+2025-12-21 16:22:46.110 [INF] User 2012757 logged in successfully
+2025-12-21 16:30:26.741 [INF] User 2012757 logged in successfully
+2025-12-21 16:39:01.406 [INF] User 2012757 logged in successfully
+2025-12-21 16:40:02.859 [INF] User 2012757f logged in successfully
+2025-12-21 16:42:22.231 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 210
+2025-12-21 16:42:27.615 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 210
+2025-12-21 16:42:34.825 [INF] User 2012757g logged in successfully
+2025-12-21 16:45:55.490 [INF] User 2012757 logged in successfully
+2025-12-21 16:53:35.854 [INF] User 2012757 logged in successfully
+2025-12-21 16:55:07.363 [INF] User 2012757g logged in successfully
+2025-12-21 18:45:50.972 [INF] User 2012757 logged in successfully
+2025-12-21 18:48:16.208 [INF] User 2012757 logged in successfully
+2025-12-21 18:56:01.930 [INF] User 2012757 logged in successfully

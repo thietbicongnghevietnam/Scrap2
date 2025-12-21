@@ -604,6 +604,18 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.105.0, )"
+            },
+            "ExcelDataReader": {
+              "target": "Package",
+              "version": "[3.7.1, )"
+            },
+            "ExcelDataReader.DataSet": {
+              "target": "Package",
+              "version": "[3.7.1, )"
+            },
             "Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter": {
               "target": "Package",
               "version": "[8.0.11, )"
