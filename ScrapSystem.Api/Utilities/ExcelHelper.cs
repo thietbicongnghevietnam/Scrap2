@@ -174,6 +174,11 @@ public class ExcelHelper
                     }                   
                     else
                     {
+                        //if (row == 58) 
+                        //{
+                        //    string materila = worksheetData1.Cells[row, 6].Text;
+                        //}
+
                         var scrapDetail1 = new ScrapDetailDto();
                         int.TryParse(worksheetData1.Cells[row, 1].Text, out int stt);
 

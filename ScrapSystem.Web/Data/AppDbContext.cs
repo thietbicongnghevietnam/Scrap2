@@ -18,5 +18,7 @@ namespace ScrapSystem.Web.Data
         }
 
         public DbSet<MaterSection> MaterSections { get; set; }
+        public DbSet<Users> Users { get; set; }
+
     }
 }

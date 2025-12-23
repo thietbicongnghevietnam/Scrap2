@@ -1,0 +1,24 @@
+﻿@model ScrapSystem.Web.Models.Users
+
+<dl class="row">
+    <dt class="col-sm-4">User ID</dt>
+    <dd class="col-sm-8">@Model.UserID</dd>
+
+    <dt class="col-sm-4">Section</dt>
+    <dd class="col-sm-8">@Model.Section</dd>
+
+    <dt class="col-sm-4">Department</dt>
+    <dd class="col-sm-8">@Model.Department</dd>
+
+    <dt class="col-sm-4">Created Date</dt>
+    <dd class="col-sm-8">@Model.CreatedDate?.ToString("dd/MM/yyyy HH:mm")</dd>
+
+    <dt class="col-sm-4">Created By</dt>
+    <dd class="col-sm-8">@Model.CreatedId</dd>
+
+    <dt class="col-sm-4">Updated Date</dt>
+    <dd class="col-sm-8">@Model.UpdatedDate?.ToString("dd/MM/yyyy HH:mm")</dd>
+
+    <dt class="col-sm-4">Updated By</dt>
+    <dd class="col-sm-8">@Model.UpdatedId</dd>
+</dl>
