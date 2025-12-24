@@ -250,10 +250,9 @@ namespace ScrapSystem.Web.Controllers
             ViewBag.StartDate = request.StartDate.ToString("yyyy-MM-dd");
             ViewBag.EndDate = request.EndDate.ToString("yyyy-MM-dd");
             ViewBag.Status = request.Status;
+
             ViewBag.Sanction = request.Sanction;
-
             ViewBag.issueout = request.issueout;
-
             ViewBag.PageSize = request.PageSize;
 
             var result = new ReportViewModel<ScrapViewDto>
