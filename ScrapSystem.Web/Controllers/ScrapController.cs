@@ -3,6 +3,7 @@ using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -17,6 +18,7 @@ using ScrapSystem.Api.Application.Response;
 using ScrapSystem.Api.Domain.Models;
 using ScrapSystem.Api.Repositories;
 using ScrapSystem.Api.Utilities;
+using ScrapSystem.Web.Data;
 using ScrapSystem.Web.Dtos;
 using ScrapSystem.Web.Models;
 using ScrapSystem.Web.Service.Interface;
@@ -27,10 +29,8 @@ using System.Diagnostics;
 using System.Security.Claims;
 using System.Text.Json;
 using X.PagedList;
-
-using ScrapSystem.Web.Data;
-using WebDb = ScrapSystem.Web.Data.AppDbContext;
 using ApiDb = ScrapSystem.Api.Repositories.AppDbContext;
+using WebDb = ScrapSystem.Web.Data.AppDbContext;
 
 namespace ScrapSystem.Web.Controllers
 {
@@ -60,17 +60,37 @@ namespace ScrapSystem.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(DateTime startDate, DateTime endDate, string sanction = "")
+        public async Task<IActionResult> Index(DateTime startDate, DateTime endDate, string sanction = "", string section = "")
         {
             try
             {
                 startDate = startDate == default ? DateTime.Now : startDate;
                 endDate = endDate == default ? DateTime.Now : endDate;
+
+                //Load danh sách Section (tên bộ phận)
+                var sections = await _context.MaterSections
+                    .Where(x => x.Flag_del == 0)
+                    .OrderBy(x => x.Section)
+                    .Select(x => new
+                    {
+                        x.Section,
+                        Display = x.Section + " - " + x.Description
+                    })
+                    .ToListAsync();
+
+                ViewBag.Sections = sections;
+                ViewBag.Section = section;
+
                 Dictionary<string, string> data = new Dictionary<string, string>();
                 data.Add("startDate", startDate.ToString("yyyy-MM-dd"));
                 data.Add("endDate", endDate.ToString("yyyy-MM-dd"));
+
                 if (!string.IsNullOrEmpty(sanction))
                     data.Add("sanction", sanction);
+
+                if (!string.IsNullOrEmpty(section))
+                    data.Add("section", section);
+
                 var res = await _apiClientService.GetAsync<ApiResult<MasterDetailDto<LabelListMasterDto, LabelListDetailDto>>>("api/Scrap/label-list", data);
                 if (!res.IsSuccess)
                     return View();

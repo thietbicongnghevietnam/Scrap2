@@ -272,8 +272,6 @@ namespace ScrapSystem.Web.Controllers
             }
         }
 
-        
-
         //public List<UserDto> GetUsers(string keyword)
         public List<Users> GetUsers(string keyword)
         {
@@ -303,15 +301,7 @@ namespace ScrapSystem.Web.Controllers
                     }
                 }
             }
-
             return users;
         }
-
-
-
     }
-
-
-
-
 }

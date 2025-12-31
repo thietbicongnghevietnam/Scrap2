@@ -375,7 +375,7 @@ namespace ScrapSystem.Api.Application.Service
             }
         }
 
-        public async Task<ApiResult<MasterDetailDto<LabelListMasterDto, LabelListDetailDto>>> GetLabelListAsync(DateTime startDate, DateTime endDate, string sanction)
+        public async Task<ApiResult<MasterDetailDto<LabelListMasterDto, LabelListDetailDto>>> GetLabelListAsync(DateTime startDate, DateTime endDate, string sanction, string section)
         {
             try
             {
@@ -388,7 +388,7 @@ namespace ScrapSystem.Api.Application.Service
                     };
                 }
 
-                var parameters = new { StartDate = startDate, EndDate = endDate, Sanction = sanction };
+                var parameters = new { StartDate = startDate, EndDate = endDate, Sanction = sanction, section = section };
 
                 var (master, details) = await _unitOfWork.ImageScrapRepository.ExecuteStoredProcedureMultiDataAsync<LabelListMasterDto, LabelListDetailDto>(
                     "GetBarcodes",

@@ -1,0 +1,228 @@
+﻿@{
+    ViewData["Title"] = "Scrap Details";
+}
+
+<h2 class="mb-3">Scrap Details</h2>
+
+<div class="row mb-3 align-items-center">
+    <div class="col-md-2">
+        <input type="date" id="fromDate" class="form-control" />
+    </div>
+
+    <div class="col-md-2">
+        <input type="date" id="toDate" class="form-control" />
+    </div>
+
+    <div class="col-md-2">
+        <input type="text" id="txtSearch" class="form-control" placeholder="Search..." />
+    </div>
+
+    <div class="col-md-2">
+        <select id="ddlSection" class="form-select">
+            <option value="">-- All Section --</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select id="ddlSanction" class="form-select">
+            <option value="">-- All Sanction --</option>
+        </select>
+    </div>
+
+    <div class="col-md-1">
+        <button class="btn btn-primary w-100" onclick="loadScrap()">Search</button>
+    </div>
+
+    <div class="col-md-1 text-end">
+        <button class="btn btn-success" onclick="openCreateModal()">Add</button>
+    </div>
+</div>
+
+<div class="table-responsive">
+    @* <table class="table table-bordered table-striped table-hover"> *@
+    <table class="table table-bordered table-striped table-hover table-responsive-sm">
+    <thead class="table-dark">
+    @* <thead style="background-color:#0070C0; color:white;"> *@
+        <tr>
+            <th>Sanction</th>
+            <th>Section</th>
+            <th>Material</th>
+            <th class="text-end">Qty</th>
+            <th class="text-end">Unit Price</th>
+            <th class="text-end">Amount</th>
+            <th>Cost Center</th>
+            <th>Plant</th>
+            <th>TypeName</th>
+            <th>MVT</th>
+            <th>MoveType</th>
+            <th>Sloc</th>
+            <th>ScarpSloc</th>
+            <th>Created Date</th>
+            <th style="width:140px">Action</th>
+        </tr>
+    </thead>
+    <tbody id="scrapBody">
+        <tr><td colspan="7" class="text-center">Loading...</td></tr>
+    </tbody>
+</table>
+</div>
+
+<div id="pagination" class="mt-2"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="scrapModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Scrap Detail</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+                let page = 1;
+        let pageSize = 5;
+        let keyword = "";
+
+        function loadScrap(p = 1) {
+            page = p;
+            keyword = $('#txtSearch').val();
+            let sanctionId = $('#ddlSanction').val();
+            let section = $('#ddlSection').val();
+
+            let fromDate = $('#fromDate').val();
+            let toDate = $('#toDate').val();
+
+            $.get('@Url.Action("List", "ScrapDetails")', { keyword,sanctionId,section,fromDate,toDate, page, pageSize }, function (res) {
+                // ---------------- RENDER TABLE ----------------
+                let html = '';
+                if (res.data.length === 0) {
+                    html = '<tr><td colspan="7" class="text-center">No data found</td></tr>';
+                } else {
+                    $.each(res.data, function (i, item) {
+                        html += `<tr id="row-${item.id}">
+                            <td>${item.sanction ?? ''}</td>
+                            <td>${item.section ?? ''}</td>
+                            <td>${item.material ?? ''}</td>
+                            <td class="text-end">${item.qty ?? ''}</td>
+                            <td class="text-end">${item.unitPrice?.toFixed(2) ?? ''}</td>
+                            <td class="text-end">${item.amount?.toFixed(2) ?? ''}</td>
+                            <td>${item.costCenter ?? ''}</td>
+                            <td>${item.plant ?? ''}</td>
+                            <td>${item.typeName ?? ''}</td>
+                            <td>${item.mvt ?? ''}</td>
+                            <td>${item.moveType ?? ''}</td>
+                            <td>${item.Sloc ?? ''}</td>
+                            <td>${item.ScrapSloc ?? ''}</td>
+                            <td>${item.createdDate ? new Date(item.createdDate).toLocaleDateString() : ''}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="openEditModal(${item.id})">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteScrap(${item.id})">Delete</button>
+                            </td>
+                        </tr>`;
+                    });
+                }
+                $('#scrapBody').html(html);
+
+                // ---------------- RENDER PAGINATION ----------------
+                let totalPages = Math.ceil(res.total / pageSize);
+                let pagHtml = '';
+
+                // Prev
+                if (page > 1) {
+                    pagHtml += `<button class="btn btn-sm btn-outline-primary me-1" onclick="loadScrap(${page - 1})">Prev</button>`;
+                }
+
+                // Hiển thị tối đa 5 trang
+                let startPage = Math.max(1, page - 2);
+                let endPage = Math.min(totalPages, startPage + 4);
+                if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+                for (let i = startPage; i <= endPage; i++) {
+                    pagHtml += `<button class="btn btn-sm me-1 ${i === page ? 'btn-primary' : 'btn-outline-primary'}" onclick="loadScrap(${i})">${i}</button>`;
+                }
+
+                // Next
+                if (page < totalPages) {
+                    pagHtml += `<button class="btn btn-sm btn-outline-primary" onclick="loadScrap(${page + 1})">Next</button>`;
+                }
+
+                $('#pagination').html(pagHtml);
+            });
+        }
+
+        function loadSanctionDropdown() {
+            $.get('/ScrapDetails/GetSanctions', function (res) {
+                let html = '<option value="">-- All Sanction --</option>';
+                $.each(res, function (i, item) {
+                    html += `<option value="${item.id}">${item.sanction}</option>`;
+                });
+                $('#ddlSanction').html(html);
+            });
+        }
+
+        function loadSectionDropdown() {
+            $.get('/ScrapDetails/GetSections', function (res) {
+                let html = '<option value="">-- All Section --</option>';
+                $.each(res, function (i, item) {
+                    html += `<option value="${item}">${item}</option>`;
+                });
+                $('#ddlSection').html(html);
+            });
+        }
+
+        $(document).ready(function () {
+            loadSectionDropdown();
+            loadSanctionDropdown();
+            loadScrap();
+             calculateAmount();
+        });
+
+        // Open Modal
+        function openCreateModal() {
+            $.get('/ScrapDetails/CreateModal', function (html) {
+                $('#modalBody').html(html);
+                $('#scrapModal').modal('show');
+            });
+        }
+
+        function openEditModal(id) {
+            $.get('/ScrapDetails/EditModal/' + id, function (html) {
+                $('#modalBody').html(html);
+                $('#scrapModal').modal('show');
+            });
+        }
+
+        // Save Create/Edit
+        function saveScrap() {
+            var form = $('#scrapForm');
+            $.post('/ScrapDetails/Save', form.serialize(), function (res) {
+                if (res.success) {
+                    $('#scrapModal').modal('hide');
+                    loadScrap(page); // reload current page
+                } else {
+                    $('#modalBody').html(res); // validation error
+                }
+            });
+        }
+
+        // Delete
+        function deleteScrap(id) {
+            if (!confirm("Are you sure to delete this record?")) return;
+            $.ajax({
+                url: '/ScrapDetails/Delete/' + id,
+                type: 'POST',
+                success: function () {
+                    loadScrap(page); // reload current page
+                },
+                error: function () {
+                    alert('Delete failed.');
+                }
+            });
+        }
+    </script>
+}

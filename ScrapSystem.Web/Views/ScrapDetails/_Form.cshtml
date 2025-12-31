@@ -1,0 +1,65 @@
+﻿@model ScrapSystem.Web.Models.ScrapDetail
+
+<form id="scrapForm">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="row">
+
+        <!-- Sanction dropdown -->
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Sanction</label>
+            <select asp-for="SanctionId"
+                    class="form-select"
+                    asp-items="@(new SelectList(ViewBag.Sanctions, "Id", "Sanction"))">
+                <option value="">-- Select Sanction --</option>
+            </select>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="Material" class="form-label"></label>
+            <input asp-for="Material" class="form-control" />
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="Qty" class="form-label"></label>
+            <input asp-for="Qty" class="form-control" />
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="UnitPrice" class="form-label"></label>
+            <input asp-for="UnitPrice" class="form-control" />
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="Amount" class="form-label"></label>
+            <input asp-for="Amount" class="form-control" readonly />
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="CostCenter" class="form-label"></label>
+            <input asp-for="CostCenter" class="form-control" />
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="Plant" class="form-label"></label>
+            <input asp-for="Plant" class="form-control" />
+        </div>
+
+    </div>
+
+    <div class="text-end mt-3">
+        <button type="button" class="btn btn-success" onclick="saveScrap()">Save</button>
+    </div>
+</form>
+
+<script>
+    function calculateAmount() {
+        let qty = parseFloat($('#Qty').val()) || 0;
+        let price = parseFloat($('#UnitPrice').val()) || 0;
+        $('#Amount').val((qty * price).toFixed(2));
+    }
+
+    $(document).on('input', '#Qty, #UnitPrice', function () {
+        calculateAmount();
+    });
+</script>

@@ -1,10 +1,11 @@
-﻿using ScrapSystem.Api.Application.DTOs.MaterialName;
+﻿using ScrapSystem.Api.Application.DTOs.LabelListDtos;
+using ScrapSystem.Api.Application.DTOs.MaterialName;
+using ScrapSystem.Api.Application.DTOs.ScrapDetailDtos;
 using ScrapSystem.Api.Application.DTOs.ScrapDtos;
-using ScrapSystem.Api.Application.Response;
 using ScrapSystem.Api.Application.DTOs.ScrapImageDtos;
 using ScrapSystem.Api.Application.Request;
-using ScrapSystem.Api.Application.DTOs.ScrapDetailDtos;
-using ScrapSystem.Api.Application.DTOs.LabelListDtos;
+using ScrapSystem.Api.Application.Response;
+using static System.Collections.Specialized.BitVector32;
 
 namespace ScrapSystem.Api.Application.Service.IServices
 {
@@ -14,7 +15,7 @@ namespace ScrapSystem.Api.Application.Service.IServices
         Task<ApiResult<MaterialNameDto>> ImportMaterialNameAsync(IFormFile file);
         Task<ApiResult<ScrapViewDto>> LoadData(ScrapRequest request);
         Task<ApiResult<MasterDetailDto<ScrapImageDto, ScrapImageDetailDto>>> LoadImage(string sanctionId, string pallet);
-        Task<ApiResult<MasterDetailDto<LabelListMasterDto, LabelListDetailDto>>> GetLabelListAsync(DateTime startDate, DateTime endDate, string sanction);
+        Task<ApiResult<MasterDetailDto<LabelListMasterDto, LabelListDetailDto>>> GetLabelListAsync(DateTime startDate, DateTime endDate, string sanction,string section);
 
         Task<ApiResult<bool>> UpdateQtyScrapDetail(int id, int qty);
 

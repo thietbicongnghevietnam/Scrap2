@@ -112,9 +112,9 @@ namespace ScrapSystem.Api.Controllers
         }
 
         [HttpGet("label-list")]
-        public async Task<IActionResult> GetLabelList([FromQuery]DateTime startDate, DateTime endDate, string sanction = "")
+        public async Task<IActionResult> GetLabelList([FromQuery]DateTime startDate, DateTime endDate, string sanction = "", string section = "")
         {
-            var rs = await _importScrapService.GetLabelListAsync(startDate, endDate, sanction);
+            var rs = await _importScrapService.GetLabelListAsync(startDate, endDate, sanction, section);
 
             if (!rs.IsSuccess)
             {

@@ -42,6 +42,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Projects/MVC/Scrap2/ScrapSystem.Web/Views/ScrapDetails/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2NyYXBEZXRhaWxzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projects/MVC/Scrap2/ScrapSystem.Web/Views/ScrapDetails/_Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2NyYXBEZXRhaWxzXF9Gb3JtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Projects/MVC/Scrap2/ScrapSystem.Web/Views/Scrap/Import.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2NyYXBcSW1wb3J0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

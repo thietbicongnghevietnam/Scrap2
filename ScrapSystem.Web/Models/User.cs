@@ -38,4 +38,6 @@ namespace ScrapSystem.Web.Models
         [StringLength(20)]
         public string? U_Pass { get; set; }
     }
+
+
 }
