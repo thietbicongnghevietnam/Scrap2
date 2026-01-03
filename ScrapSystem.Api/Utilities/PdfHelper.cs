@@ -421,17 +421,31 @@ public class PdfHelper
 
     }
 
+    //code old
+    //public static MemoryStream FixImageOrientation(string imagePath)
+    //{
+    //    using var image = Image.Load(imagePath); 
+    //    image.Mutate(x => x.AutoOrient()); 
+
+    //    var ms = new MemoryStream();
+    //    image.SaveAsJpeg(ms); 
+    //    ms.Position = 0;
+
+    //    return ms; 
+    //}
+    //code moi sau khi tai ve ban 7 plus
     public static MemoryStream FixImageOrientation(string imagePath)
     {
-        using var image = Image.Load(imagePath); 
-        image.Mutate(x => x.AutoOrient()); 
+        using var image = SixLabors.ImageSharp.Image.Load(imagePath);
+        image.Mutate(x => x.AutoOrient());
 
         var ms = new MemoryStream();
-        image.SaveAsJpeg(ms); 
+        image.SaveAsJpeg(ms);
         ms.Position = 0;
 
-        return ms; 
+        return ms;
     }
+
 
     private static void DrawStringWordWrapCentered(XGraphics gfx, string text, XFont font, XBrush brush, XRect rect, double lineHeight)
     {

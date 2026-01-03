@@ -64,7 +64,7 @@
             },
             "EPPlus": {
               "target": "Package",
-              "version": "[8.0.5, )"
+              "version": "[7.4.6, )"
             },
             "FluentValidation": {
               "target": "Package",

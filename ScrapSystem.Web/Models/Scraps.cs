@@ -19,6 +19,6 @@ public class Scrap
 
     [StringLength(50)]
     public string Section { get; set; }
-
+    //link key sang bang khac
     public ICollection<ScrapDetail>? ScrapDetails { get; set; }
 }

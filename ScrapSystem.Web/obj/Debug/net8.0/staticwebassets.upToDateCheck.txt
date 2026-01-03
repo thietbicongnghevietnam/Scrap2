@@ -175,4 +175,7 @@ wwwroot\lib\jquery\LICENSE.txt
 wwwroot\logo.png
 wwwroot\Panasonic.svg
 wwwroot\search.svg
+wwwroot\Templates\mau sraplist.xlsx
+wwwroot\Templates\Mau_DispositionProperty.xlsx
+wwwroot\Templates\Mau_IssueOutB.xlsx
 wwwroot\warning.svg

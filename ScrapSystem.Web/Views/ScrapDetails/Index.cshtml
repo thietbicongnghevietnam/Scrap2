@@ -29,12 +29,31 @@
         </select>
     </div>
 
-    <div class="col-md-1">
+    <div class="col-md-2">
+        <select id="ddlTypeName" class="form-select">
+            <option value="">-- All Type --</option>
+        </select>
+    </div>
+</div>
+<div class="row mb-3 align-items-center">
+    <div class="col-md-2">
         <button class="btn btn-primary w-100" onclick="loadScrap()">Search</button>
     </div>
 
-    <div class="col-md-1 text-end">
+    <div class="col-md-2 text-end">
         <button class="btn btn-success" onclick="openCreateModal()">Add</button>
+    </div>
+    <div class="col-md-2 text-end">
+        <button class="btn btn-success" onclick="exportIssueOut()">Export Issueout</button>
+    </div>
+    <div class="col-md-2 text-end">
+        <button class="btn btn-success" onclick="exportScrapList()">Export Scraplist</button>
+    </div>
+    <div class="col-md-2 text-end">
+        <button class="btn btn-success" onclick="exportFA()">Export FA PE</button>
+    </div>
+    <div class="col-md-2 text-end">
+        <button class="btn btn-primary" onclick="confirmIssueOut()">Confirm Issue Out</button>
     </div>
 </div>
 
@@ -84,7 +103,133 @@
 
 @section Scripts {
     <script>
-                let page = 1;
+        function confirmIssueOut() {
+            $.ajax({
+                url: '/ScrapDetails/Confirm_Issue_Out',
+                //Url.Action trong Razor  //url: '@Url.Action("Confirm_Issue_Out", "ScrapDetails")',
+                type: 'POST',
+                data: {
+                    fromDate: $('#fromDate').val(),
+                    toDate: $('#toDate').val(),
+                    sanction: $('#sanction').val(),
+                    issueOut: $('#issueOut').val(),
+                    bophan: $('#bophan').val()
+                },
+                success: function (res) {
+                    if (res.success) {
+                        //toastr.success(res.message);
+                        //alert(res.message);
+                        alert("SUCCESS: " + JSON.stringify(res));
+                    }
+                    else if (res.needConfirm) {
+                        if (confirm(res.message)) {
+                            // gọi API reset Issue Out
+                            alert('gọi API reset Issue Out');
+                        }
+                    }
+                    else {
+                        toastr.error(res.message);
+                        //alert(res.message);
+                    }
+                },
+                error: function (xhr) {
+                    alert("ERROR: " + xhr.status);
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        function exportFA() {
+            // if (!sanction || sanction === "==Sanction==") {
+            //     alert("NG, Du lieu Sanction or Issue out null!");
+            //     return;
+            // }
+             const params = new URLSearchParams({
+                fromDate: $('#fromDate').val(),
+                toDate: $('#toDate').val(),
+                sanction: $('#ddlSanction').val(),
+                issueOut: $('#ddlTypeName').val()
+            });
+             window.location.href = '/ScrapDetails/Export_FA_PE?' + params.toString();
+
+        }
+
+        function exportIssueOut() {
+            const params = new URLSearchParams({
+                fromDate: $('#fromDate').val(),
+                toDate: $('#toDate').val(),
+                sanction: $('#ddlSanction').val(),
+                issueOut: $('#ddlTypeName').val()
+            });
+
+            window.location.href = '/ScrapDetails/ExportIssueOut?' + params.toString();
+        }
+
+        function exportScrapList() {
+            const params = new URLSearchParams({
+                fromDate: $('#fromDate').val(),
+                toDate: $('#toDate').val(),
+                section: $('#ddlSection').val(),
+                sanctionId: $('#ddlSanction').val()
+            });
+
+            window.location.href = '/ScrapDetails/ExportScrapList?' + params.toString();
+        }
+    </script>
+
+    <script>
+        $('#ddlSanction').on('change', function () {
+            var sanctionId = $(this).val();
+
+            // reset TypeName
+            $('#ddlTypeName').empty();
+            $('#ddlTypeName').append('<option value="">-- All Type --</option>');
+
+            if (sanctionId === '') return;
+
+            $.ajax({
+                url: '/ScrapDetails/GetTypeNameBySanction',
+                type: 'GET',
+                data: { sanctionId: sanctionId },
+                success: function (res) {
+                    $.each(res, function (i, item) {
+                        $('#ddlTypeName').append(
+                            `<option value="${item}">${item}</option>`
+                        );
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $('#ddlSection').on('change', function () {
+            var section = $(this).val();
+
+            // reset sanction
+            $('#ddlSanction').empty();
+            $('#ddlSanction').append('<option value="">-- All Sanction --</option>');
+
+            if (section === '') return;
+
+            $.ajax({
+                url: '/ScrapDetails/GetSanctionsBySection',
+                type: 'GET',
+                data: { section: section },
+                success: function (res) {
+                    $.each(res, function (i, item) {
+                        $('#ddlSanction').append(
+                            `<option value="${item.id}">${item.sanction}</option>`
+                        );
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        let page = 1;
         let pageSize = 5;
         let keyword = "";
 
@@ -93,11 +238,12 @@
             keyword = $('#txtSearch').val();
             let sanctionId = $('#ddlSanction').val();
             let section = $('#ddlSection').val();
+            let typeName = $('#ddlTypeName').val();
 
             let fromDate = $('#fromDate').val();
             let toDate = $('#toDate').val();
 
-            $.get('@Url.Action("List", "ScrapDetails")', { keyword,sanctionId,section,fromDate,toDate, page, pageSize }, function (res) {
+            $.get('@Url.Action("List", "ScrapDetails")', { keyword,sanctionId,section,typeName,fromDate,toDate, page, pageSize }, function (res) {
                 // ---------------- RENDER TABLE ----------------
                 let html = '';
                 if (res.data.length === 0) {
@@ -179,7 +325,7 @@
             loadSectionDropdown();
             loadSanctionDropdown();
             loadScrap();
-             calculateAmount();
+            //calculateAmount();
         });
 
         // Open Modal

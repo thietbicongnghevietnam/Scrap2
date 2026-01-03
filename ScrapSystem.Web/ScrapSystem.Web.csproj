@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <Folder Include="App_Code\" />
+    <Folder Include="wwwroot\Templates\" />
   </ItemGroup>
 
 </Project>

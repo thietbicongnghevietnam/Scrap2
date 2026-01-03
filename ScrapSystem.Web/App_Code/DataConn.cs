@@ -15,20 +15,12 @@ namespace PMG_system.App_Code
 
         static DataConn()
         {
-            //source = @"Data Source=MRHIEN-PC\SQLEXPRESS;Initial Catalog=PROJECTOR_TRACE;User ID=sa;Password=12345678@@--10.92.186.30";
-            //source = @"Data Source=192.168.128.33;Initial Catalog=PMG_system;User ID=sa;Password=Psnvdb2013";
-            // source = @"Data Source=10.92.186.30;Initial Catalog=PMG_system;User ID=scan;Password=khong123";
-
-            //source = @"Data Source=10.92.186.30;Initial Catalog=PMG_system;User ID=scan;Password=khong123";
-            //source = @"Data Source=192.168.128.33;Initial Catalog=PMG_system;User ID=scan;Password=khong123";
-
-            //Data Source=./;Initial Catalog=DataNhaHang;User ID='sa';Password=''
-            //source = @"Data Source=./;Initial Catalog=OQC;User ID='sa';Password=''";
-
             //source = @"Server=192.168.128.1;Database=ScrapSystem;User Id=sa;Password=Psnvdb2013;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
-            source = @"Server=10.92.186.30;Database=ScrapSystem;User Id=sa;Password=Psnvdb2013;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
+            
+            //source = @"Server=10.92.186.30;Database=ScrapSystem;User Id=sa;Password=Psnvdb2013;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;";
 
-            //source = @"Data Source=192.168.128.116;Initial Catalog=OQC;User ID=sa;Password=Psnvdb2013";
+            source = @"Server=LT-DE2302026;Database=ScrapSystem;Integrated Security=True;TrustServerCertificate=True;";
+
             con = new SqlConnection(source);
             try
             {
@@ -138,6 +130,27 @@ namespace PMG_system.App_Code
             conn.Dispose();
             conn.Close();
             return ds.Tables[0];
+        }
+
+        public static DataTable StoreFillDS_new(string storeName,CommandType type,params SqlParameter[] parameters)
+        {
+            using (SqlConnection conn = new SqlConnection(source))
+            {
+                using (SqlCommand cmd = new SqlCommand(storeName, conn))
+                {
+                    cmd.CommandType = type;
+
+                    if (parameters != null)
+                        cmd.Parameters.AddRange(parameters);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
         }
 
         public static int SQLint(string query_object)

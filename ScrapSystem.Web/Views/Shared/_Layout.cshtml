@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="~/css/feather/feather.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
     <style>
         /* Sidebar cơ bản – nền sáng */
         .sidebar {
@@ -163,7 +166,7 @@
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Scrap">Label List</a></li>
                                 <li class="nav-item"><a class="nav-link" asp-action="Import" asp-controller="Scrap">Import ScrapList</a></li>
-                                <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="ScrapDetails">Scrap List abc</a></li>
+                                <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="ScrapDetails">Scrap List MVC</a></li>
                                 <li class="nav-item"><a class="nav-link" href="http://localhost:61772/frmUploadScraplist.aspx?token=@token" target="_blank">Scrap List</a></li>
                                 <li class="nav-item"><a class="nav-link" href="http://10.92.184.24:8096/frmConvertToll.aspx" target="_blank">Tool Convert</a></li>
                             </ul>
@@ -241,6 +244,9 @@
     <script src="~/js/settings.js" asp-append-version="true"></script>
     <script src="~/js/off-canvas.js" asp-append-version="true"></script>
     <script src="~/js/Vendors/vendor.bundle.base.js" asp-append-version="true"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
     @await RenderSectionAsync("Scripts", required: false)

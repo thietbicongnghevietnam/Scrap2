@@ -406,9 +406,6 @@ C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win-arm\native\
 C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
@@ -439,3 +436,5 @@ C:\Projects\MVC\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\refint\ScrapSystem.Api.d
 C:\Projects\MVC\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.pdb
 C:\Projects\MVC\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\ScrapSystem.Api.genruntimeconfig.cache
 C:\Projects\MVC\Scrap2\ScrapSystem.Api\obj\Debug\net8.0\ref\ScrapSystem.Api.dll
+C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\EPPlus.System.Drawing.dll
+C:\Projects\MVC\Scrap2\ScrapSystem.Api\bin\Debug\net8.0\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll
