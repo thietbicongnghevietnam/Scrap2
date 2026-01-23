@@ -121,7 +121,7 @@ namespace ScrapSystem.Api.Application.Service
             
         }
 
-        public async Task<ApiResult<ParentWithChildren<ScrapDto, ScrapDetailDto>>> ImportScrapAsync(IFormFile file, string sanction, string section, string issueout)
+        public async Task<ApiResult<ParentWithChildren<ScrapDto, ScrapDetailDto>>> ImportScrapAsync(IFormFile file, string sanction, string section, string issueout, bool IsMergeSanction)
         {
             try
             {
@@ -167,7 +167,18 @@ namespace ScrapSystem.Api.Application.Service
                         var dbConnection = _dbContext.Database.GetDbConnection();
                         await using var command = dbConnection.CreateCommand();
 
-                        command.CommandText = "ImportScrapAndDetails";
+                        if (IsMergeSanction == true)
+                        {
+                            //truong hop bo phan MCS => chia nho sanction
+                            command.CommandText = "ImportScrapAndDetails_MCS";
+                        }
+                        else 
+                        {
+                            //truong hop khong combine sanction ***other bo phan
+                            command.CommandText = "ImportScrapAndDetails";
+                        }
+
+                        //command.CommandText = "ImportScrapAndDetails";
                         command.CommandType = CommandType.StoredProcedure;
                         
                         command.Parameters.Add(new SqlParameter("@Sanction", sanction_new));
@@ -392,7 +403,7 @@ namespace ScrapSystem.Api.Application.Service
             }
         }
 
-        public async Task<ApiResult<MasterDetailDto<LabelListMasterDto, LabelListDetailDto>>> GetLabelListAsync(DateTime startDate, DateTime endDate, string sanction)
+        public async Task<ApiResult<MasterDetailDto<LabelListMasterDto, LabelListDetailDto>>> GetLabelListAsync(DateTime startDate, DateTime endDate, string sanction, string section)
         {
             try
             {
@@ -405,10 +416,10 @@ namespace ScrapSystem.Api.Application.Service
                     };
                 }
 
-                var parameters = new { StartDate = startDate, EndDate = endDate, Sanction = sanction };
-
-                var (master, details) = await _unitOfWork.ImageScrapRepository.ExecuteStoredProcedureMultiDataAsync<LabelListMasterDto, LabelListDetailDto>(
-                    "GetBarcodes",
+                var parameters = new { StartDate = startDate, EndDate = endDate, Sanction = sanction, section=section };
+                // "GetBarcodes",
+                var (master, details) = await _unitOfWork.ImageScrapRepository.ExecuteStoredProcedureMultiDataAsync<LabelListMasterDto, LabelListDetailDto>(                   
+                    "GetBarcodes_new",
                     parameters);
 
 

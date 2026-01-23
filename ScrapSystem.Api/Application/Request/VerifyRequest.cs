@@ -17,6 +17,9 @@ namespace ScrapSystem.Api.Application.Request
         public string Section { get; set; }
         public string issueout { get; set; }
 
+        // giá trị checkbox
+        public bool IsMergeSanction { get; set; }
+
 
         //// Các field khác (Sanction, IssueOut, ...)   //12.10.2025  //thay combox import.cshtml
         //public string SelectedSection { get; set; }

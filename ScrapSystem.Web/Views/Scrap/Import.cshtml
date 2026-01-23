@@ -462,6 +462,20 @@
     <!-- Input Fields Section -->
     <div class="input-section">
        @*  <h3></i> Thông tin bắt buộc</h3> *@
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-md-4">
+                <div class="d-flex align-items-center">
+                    <label for="combinesacntionID" class="form-label mb-0 me-2">
+                        Gộp Sanction
+                    </label>
+                    <input type="checkbox"
+                           id="IsMergeSanction"
+                           name="IsMergeSanction" />
+                </div>
+            </div>
+        </div>
+
+
         <div class="row" style="display:none;">
             <div class="col-md-4">
                 <div class="form-group">
@@ -596,6 +610,8 @@
     const progressFill = document.getElementById('progressFill');
     const statusMessage = document.getElementById('statusMessage');
     const sanctionInput = document.getElementById('sanctionInput');
+
+    //const IsMergeSanction = document.getElementById('IsMergeSanction');
     
     //const sectionInput = document.getElementById('sectionInput');
     const sectionInput = document.getElementById("SelectedSection").value;
@@ -690,6 +706,8 @@
         const sectionValue = document.getElementById("SelectedSection").value.trim();
         const issueoutValue = IssueOutInput.value.trim();
 
+        const isMergeSanction = document.getElementById("IsMergeSanction").checked;
+
         //alert(sectionValue);
 
         // if (!sanctionValue) {
@@ -722,6 +740,9 @@
         formData.append('Sanction', sanctionValue);
         formData.append('Section', sectionValue);
         formData.append('issueout', issueoutValue);
+
+        formData.append('IsMergeSanction', isMergeSanction);
+
         try {
             const response = await fetch('Import', {
                 method: 'POST',

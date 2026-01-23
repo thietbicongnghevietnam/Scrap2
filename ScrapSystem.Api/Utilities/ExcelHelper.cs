@@ -241,15 +241,17 @@ public class ExcelHelper
                         string ck_vendor = index >= 0 ? ck_MVT.Substring(0, index) : ck_MVT;
 
                         //string[] stringTypeID = { "2", "3", "4", "5", "8", "21" }; // Những Type sẽ phải điền Vendorcode
-                        if (ck_vendor == "2" || ck_vendor == "3" || ck_vendor == "4" || ck_vendor == "5" || ck_vendor == "8" || ck_vendor == "9" || ck_vendor == "19")  //bo 21
-                        {
-                            if (scrapDetail1.Vendor == "")
-                            {
-                                //scrapDetail1.Vendor = worksheetData1.Cells[row, 13].Text;
-                                //truong hop vendor null => khong cho nhap
-                                break;
-                            }
-                        }
+                        //van cho nhap vendor null vao ==> doan xuat dien tu show thong bao ==> vendor null ban nhap het
+
+                        //if (ck_vendor == "2" || ck_vendor == "3" || ck_vendor == "4" || ck_vendor == "5" || ck_vendor == "8" || ck_vendor == "9" || ck_vendor == "19")  //bo 21
+                        //{
+                        //    if (scrapDetail1.Vendor == "")
+                        //    {
+                        //        //scrapDetail1.Vendor = worksheetData1.Cells[row, 13].Text;
+                        //        //truong hop vendor null => khong cho nhap
+                        //        break;
+                        //    }
+                        //}
 
                         //tinh ra code phu luc
                         //scrapDetail1.Phuluc = worksheetData1.Cells[row, 27].Text;  //**** Quy tac cot Movetype se dua vao rule cua LOG ********** => cho ra du lieu cot phu luc

@@ -42,18 +42,35 @@
         <div class="card-title"> search </div>
         <div class="card-body p-0">
             <form class="row" id="filterForm">
-                <div class="col-md-3">
-                    <label>Ngày bắt đầu</label>
+                <div class="col-md-2">
+                    <label>Ngày bắt đầu <i style="color:blue;font-size:12px;">(Tháng/Ngày/Năm)</i></label>
                     <input type="date" name="startDate" value="@ViewBag.StartDate" class="form-control" />
                 </div>
-                <div class="col-md-3">
-                    <label>Ngày kết thúc</label>
+                <div class="col-md-2">
+                    <label>Ngày kết thúc <i style="color:blue;font-size:12px;">(Tháng/Ngày/Năm)</i></label>
                     <input type="date" name="endDate" value="@ViewBag.EndDate" class="form-control" />
                 </div>
-                <div class="col-md-3">
+               
+                <!-- 🔹 COMBOBOX SECTION -->
+                <div class="col-md-2">
+                    <label>Bộ phận</label>
+                    <select name="section" class="form-control">
+                        <option value="">-- Tất cả --</option>
+                        @foreach (var item in ViewBag.Sections)
+                        {
+                            <option value="@item.Section"
+                                    selected="@(item.Section == ViewBag.Section)">
+                                @item.Section
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-2">
                     <label>Sanction</label>
                     <input type="text" name="sanction" value="@ViewBag.Sanction" class="form-control" />
                 </div>
+
                 <div class="col-md-3 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary mr-3" asp-action="Index" asp-controller="Scrap">Tìm kiếm</button>
                     <a class="btn btn-primary" onclick="printSelectedBarcodes()">

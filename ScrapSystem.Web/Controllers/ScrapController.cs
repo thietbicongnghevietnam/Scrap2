@@ -105,21 +105,43 @@ namespace ScrapSystem.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(DateTime startDate, DateTime endDate, string sanction = "")
+        public async Task<IActionResult> Index(DateTime startDate, DateTime endDate, string sanction = "", string section="")
         {
             try
             {
                 // --GetBarcodes '2025-08-01','2025-08-03',''  ==> stored lay labelist ==> ten linh kien lay tu mater
                 startDate = startDate == default ? DateTime.Now : startDate;
                 endDate = endDate == default ? DateTime.Now : endDate;
-                Dictionary<string, string> data = new Dictionary<string, string>();
+
+                //Load danh sách Section (tên bộ phận)
+                var sections = await _context.MaterSections
+                    .Where(x => x.Flag_del == 0)
+                    .OrderBy(x => x.Section)
+                    .Select(x => new
+                    {
+                        x.Section,
+                        Display = x.Section + " - " + x.Description
+                    })
+                    .ToListAsync();
+
+                ViewBag.Sections = sections;
+                ViewBag.Section = section;
+
+                Dictionary<string, string> data = new Dictionary<string, string>();                
                 data.Add("startDate", startDate.ToString("yyyy-MM-dd"));
                 data.Add("endDate", endDate.ToString("yyyy-MM-dd"));
+
+
                 if (!string.IsNullOrEmpty(sanction))
                     data.Add("sanction", sanction);
+
+                if (!string.IsNullOrEmpty(section))
+                    data.Add("section", section);
+
                 var res = await _apiClientService.GetAsync<ApiResult<MasterDetailDto<LabelListMasterDto, LabelListDetailDto>>>("api/Scrap/label-list", data);
                 if (!res.IsSuccess)
-                    return View();
+                    return View();      
+                
                 ViewBag.StartDate = startDate.ToString("yyyy-MM-dd");
                 ViewBag.EndDate = endDate.ToString("yyyy-MM-dd");
                 ViewBag.Sanction = sanction;
@@ -268,6 +290,8 @@ namespace ScrapSystem.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Import(ImportRequest request)
         {
+            bool isMerge = request.IsMergeSanction;
+
             Dictionary<string, IFormFile> files = new Dictionary<string, IFormFile>();
             Dictionary<string, string> param = new Dictionary<string, string>();
 
@@ -291,6 +315,8 @@ namespace ScrapSystem.Web.Controllers
             param.Add("sanction", "sanction");
             param.Add("section", "section");            
             param.Add("issueout", "issueout");
+            //truyền checkbox xuống API
+            param.Add("isMergeSanction", isMerge.ToString());
 
             //param.Add("sanction", request.Sanction);
             //param.Add("section", request.Section);
