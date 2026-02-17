@@ -183,7 +183,14 @@
                                 <li class="nav-item"><a class="nav-link" href="http://10.92.184.24:8096/frmMaterialname.aspx" target="_blank">Material Name</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#" target="_blank">Material Vendor</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#" target="_blank">Material MVT</a></li>
-                                <li class="nav-item"><a class="nav-link" asp-action="MaterSection" asp-controller="Scrap">Mater Section</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       asp-action="MaterSection"
+                                       asp-controller="MaterSection">
+                                        Mater Section
+                                    </a>
+                                </li>
+
                                 @* <li class="nav-item"><a class="nav-link" asp-action="Users" asp-controller="Scrap">Mater User</a></li> *@
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Users" asp-action="Users">Mater User</a>
@@ -245,9 +252,7 @@
     <script src="~/js/off-canvas.js" asp-append-version="true"></script>
     <script src="~/js/Vendors/vendor.bundle.base.js" asp-append-version="true"></script>
 
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

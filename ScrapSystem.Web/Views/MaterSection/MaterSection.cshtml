@@ -1,0 +1,249 @@
+﻿@using ScrapSystem.Web.Models
+@model IEnumerable<MaterSection> 
+
+<h3>Mater Section</h3>
+
+
+<form method="get">
+    <div class="row mb-2">
+        <div class="col-md-2">
+            <input type="text" name="keyword" value="@ViewBag.Keyword" class="form-control" placeholder="Search section..." />
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="dateFrom" value="@ViewBag.DateFrom?.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="dateTo" value="@ViewBag.DateTo?.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="col-md-auto">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+        <div class="col-md-auto">
+            <a href="@Url.Action("CreateMaterSection")" class="btn btn-success">Add</a>
+        </div>
+    </div>
+</form>
+
+<!-- Bảng hiển thị dữ liệu -->
+<table class="table table-bordered table-striped" id="tblMater">
+    <thead class="table-primary">
+        <tr>
+            <th>#</th>
+            <th>Section</th>
+            <th>Description</th>
+            <th>Flag</th>
+            <th width="150">Action</th>
+        </tr>
+    </thead>
+    <tbody id="materBody">
+        @{
+            int index = 1 + ((ViewBag.Page - 1) * ViewBag.PageSize);
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@index</td>
+                <td>@item.Section</td>
+                <td>@item.Description</td>
+                <td>@item.Flag_del</td>
+                <td>
+                    <button class="btn btn-sm btn-info btn-detail" data-id="@item.Id">Detail</button>
+                    <button class="btn btn-sm btn-warning btn-edit" data-id="@item.Id">Edit</button>
+                    <button class="btn btn-sm btn-danger btn-delete" data-id="@item.Id">Delete</button>
+                </td>
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>
+
+<!-- Phân trang -->
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= (int)Math.Ceiling((double)ViewBag.Total / ViewBag.PageSize); i++)
+        {
+            <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                <a class="page-link" href="@Url.Action("MaterSection", new { page = i, pageSize = ViewBag.PageSize, keyword = ViewBag.Keyword, dateFrom = ViewBag.DateFrom, dateTo = ViewBag.DateTo })">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
+
+<!-- MODAL -->
+<div class="modal fade" id="materModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mater Section</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+        var page = @ViewBag.Page;
+        var pageSize = @ViewBag.PageSize;
+        let keyword = '';
+
+            // LOAD DATA FUNCTION
+            function loadMater(keyword = '', dateFrom = '', dateTo = '') {
+                $.get('@Url.Action("MaterSectionList")', {
+                    keyword: keyword,
+                    page: page,
+                    pageSize: pageSize,
+                    dateFrom: dateFrom,
+                    dateTo: dateTo
+                }, function (res) {
+                    let html = '';
+                    $.each(res.data, function (i, d) {
+                        html += `
+                            <tr id="row_${d.id}">
+                                <td>${d.id}</td>
+                                <td class="section">${d.section}</td>
+                                <td class="desc">${d.description ?? ''}</td>
+                                <td class="flag">${d.flag_del}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info btn-detail" data-id="${d.id}">Detail</button>
+                                    <button class="btn btn-sm btn-warning btn-edit" data-id="${d.id}">Edit</button>
+                                    <button class="btn btn-sm btn-danger btn-delete" data-id="${d.id}">Delete</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    $('#materBody').html(html);
+                    //renderPager(res.total);
+                });
+            }
+
+    // =========================
+        // Mở modal chỉnh sửa
+        // =========================
+        $(document).on('click', '.btn-edit', function () {
+            var id = $(this).data('id');
+            $.get('@Url.Action("EditMaterSection")', { id: id }, function (res) {
+                $('#modalBody').html(res);
+                $('#materModal').modal('show');
+                bindForm(); // Gọi sau khi load partial
+            });
+        });
+
+        // =========================
+        // Chi tiết
+        // =========================
+        $(document).on('click', '.btn-detail', function () {
+            var id = $(this).data('id');
+            $.get('@Url.Action("MaterSectionDetail")', { id: id }, function (res) {
+                $('#modalBody').html(res);
+                $('#materModal').modal('show');
+            });
+        });
+
+        // =========================
+        // Xóa
+        // =========================
+        $(document).on('click', '.btn-delete', function () {
+            var id = $(this).data('id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This record will be deleted!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Delete'
+            }).then((result) => {
+                if (!result.isConfirmed) return;
+
+                $.post('@Url.Action("DeleteMaterSection")', { id: id }, function (res) {
+                    if (res.success) {
+                        $('#row_' + res.id).remove();
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'Record deleted successfully',
+                            timer: 1200,
+                            showConfirmButton: false
+                        });
+                        loadMater(); // Tải lại danh sách
+                    }
+                });
+            });
+        });
+
+        // =========================
+        // Submit form tạo hoặc chỉnh sửa
+        // =========================
+        function bindForm() {
+            $('#materForm').off('submit').on('submit', function (e) {
+                e.preventDefault();
+                var form = $(this);
+
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function (res) {
+                        // Nếu validation thất bại
+                        if (!res.success) {
+                            $('#modalBody').html(res);
+                            bindForm(); // Gọi lại để bind lại form mới
+                            return;
+                        }
+
+                        var d = res.data;
+                        var rowId = '#row_' + d.id;
+                        var isEdit = $(rowId).length > 0;
+
+                        // Thêm mới
+                        if (!isEdit) {
+                            $('#tblMater tbody').append(`
+                                <tr id="row_${d.id}">
+                                    <td>${d.id}</td>
+                                    <td class="section">${d.section}</td>
+                                    <td class="desc">${d.description ?? ''}</td>
+                                    <td class="flag">${d.flag_del}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning btn-edit" data-id="${d.id}">Edit</button>
+                                        <button class="btn btn-sm btn-danger btn-delete" data-id="${d.id}">Delete</button>
+                                    </td>
+                                </tr>
+                            `);
+                            Swal.fire({
+                                toast: true,
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Added successfully',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        } else {
+                            // Cập nhật
+                            var row = $(rowId);
+                            row.find('.section').text(d.section);
+                            row.find('.desc').text(d.description);
+                            row.find('.flag').text(d.flag_del);
+                            Swal.fire({
+                                toast: true,
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Updated successfully',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+
+                        loadMater(); // Reload danh sách
+                        $('#materModal').modal('hide'); // Đóng modal
+                    }
+                });
+            });
+        }
+
+        
+
+            
+</script>
+}

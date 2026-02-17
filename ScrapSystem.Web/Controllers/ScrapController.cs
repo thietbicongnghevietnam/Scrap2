@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using Dapper;
+using DocumentFormat.OpenXml.Vml;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -38,13 +39,16 @@ namespace ScrapSystem.Web.Controllers
     public class ScrapController : BaseController
     {
         private readonly IApiClientService _apiClientService;
+        //private readonly IMaterSectionService _service;         //them service mater section
+
         //private readonly AppDbContext _context;
         private readonly WebDb _context;
         //public ScrapController(IApiClientService apiClientService, AppDbContext context) //, AppDbContext context //API
-        public ScrapController(IApiClientService apiClientService, WebDb context)
+        public ScrapController(IApiClientService apiClientService, WebDb context)  //, IMaterSectionService service
         {
             _apiClientService = apiClientService;
             _context = context;
+            //_service = service; //them service mater section
         }
 
         [HttpGet]
@@ -381,125 +385,238 @@ namespace ScrapSystem.Web.Controllers
             }
         }
 
+        //// CRUD // **************** // them sua xoa mater section// *******************
+        ////not service
+        ////public IActionResult MaterSectionList(string keyword = "", int page = 1, int pageSize = 10, string dateFrom = "", string dateTo = "")
+        ////{
+        ////    try
+        ////    {
+        ////        DateTime? df = null;
+        ////        DateTime? dt = null;
 
-        // CRUD // **************** // them sua xoa mater section// *******************
-        [HttpGet]
-        public IActionResult MaterSectionList(string keyword, int page = 1, int pageSize = 10, DateTime? dateFrom = null, DateTime? dateTo = null)
-        {
-            var query = _context.MaterSections.AsQueryable();
+        ////        if (DateTime.TryParse(dateFrom, out var dfVal))
+        ////            df = dfVal;
 
-            if (!string.IsNullOrEmpty(keyword))
-                query = query.Where(x => x.Section.Contains(keyword));
+        ////        if (DateTime.TryParse(dateTo, out var dtVal))
+        ////            dt = dtVal;
 
-            if (dateFrom.HasValue)
-                query = query.Where(x => x.Createdate >= dateFrom.Value);
+        ////        var query = _context.MaterSections.AsQueryable();
 
-            if (dateTo.HasValue)
-                query = query.Where(x => x.Createdate <= dateTo.Value.AddDays(1));
+        ////        if (!string.IsNullOrEmpty(keyword))
+        ////            query = query.Where(x => x.Section.Contains(keyword));
 
-            int total = query.Count();
+        ////        if (df.HasValue)
+        ////            query = query.Where(x => x.Createdate >= df.Value);
 
-            var data = query
-                .OrderBy(x => x.Id)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .Select(x => new
-                {
-                    x.Id,
-                    x.Section,
-                    x.Description,
-                    x.Flag_del
-                })
-                .ToList();
+        ////        if (dt.HasValue)
+        ////            query = query.Where(x => x.Createdate <= dt.Value.AddDays(1));
 
-            return Json(new { data, total });
-        }
+        ////        var total = query.Count();
 
-        //button thong tin chi tiet mater
-        [HttpGet]
-        public IActionResult MaterSectionDetail(int id)
-        {
-            var item = _context.MaterSections.FirstOrDefault(x => x.Id == id);
+        ////        var data = query
+        ////            .OrderBy(x => x.Id)
+        ////            .Skip((page - 1) * pageSize)
+        ////            .Take(pageSize)
+        ////            .ToList();
 
-            if (item == null)
-                return NotFound();
+        ////        return Json(new
+        ////        {
+        ////            data = data,
+        ////            total = total,
+        ////            page = page,
+        ////            pageSize = pageSize
+        ////        });
+        ////    }
+        ////    catch (Exception ex)
+        ////    {
+        ////        return StatusCode(500, ex.Message); // để debug
+        ////    }
+        ////}
 
-            return PartialView("MaterSection/_MaterSectionDetail", item);
-        }
+        //public async Task<IActionResult> MaterSectionList(string keyword = "", int page = 1, int pageSize = 10, string dateFrom = "", string dateTo = "")
+        //{
+        //    DateTime? df = DateTime.TryParse(dateFrom, out var d1) ? d1 : null;
+        //    DateTime? dt = DateTime.TryParse(dateTo, out var d2) ? d2 : null;
 
-        public IActionResult MaterSection()
-        {
-            var list = _context.MaterSections.AsNoTracking().ToList();
-            return View("MaterSection/MaterSection", list);
-        }
+        //    var (data, total) = await _service.GetPagedAsync(keyword, page, pageSize, df, dt);
 
-        // GET CREATE
-        public IActionResult CreateMaterSection()
-        {
-            return PartialView("MaterSection/_CreateEditMaterSection", new MaterSection());
-        }
+        //    return Json(new
+        //    {
+        //        data,
+        //        total,
+        //        page,
+        //        pageSize
+        //    });
+        //}
 
-        // POST CREATE
-        [HttpPost]
-        public IActionResult CreateMaterSection(MaterSection model)
-        {
-            if (!ModelState.IsValid)
-                return PartialView("MaterSection/_CreateEditMaterSection", model);
+        ////not service
+        ////public IActionResult MaterSection(string keyword = "",int page = 1,int pageSize = 10,DateTime? dateFrom = null,DateTime? dateTo = null)
+        ////{
+        ////    var query = _context.MaterSections.AsQueryable();
 
-            _context.MaterSections.Add(model);
-            _context.SaveChanges();
+        ////    // SEARCH
+        ////    if (!string.IsNullOrEmpty(keyword))
+        ////        query = query.Where(x => x.Section.Contains(keyword));
 
-            return Json(new
-            {
-                success = true,
-                data = model
-            });
-        }
+        ////    if (dateFrom.HasValue)
+        ////        query = query.Where(x => x.Createdate >= dateFrom.Value);
 
-        // GET EDIT
-        public IActionResult EditMaterSection(int id)
-        {
-            var data = _context.MaterSections.Find(id);
-            if (data == null) return NotFound();
+        ////    if (dateTo.HasValue)
+        ////        query = query.Where(x => x.Createdate <= dateTo.Value.AddDays(1));
 
-            return PartialView("MaterSection/_CreateEditMaterSection", data);
-        }
+        ////    int total = query.Count();
 
-        // POST EDIT
-        [HttpPost]
-        public IActionResult EditMaterSection(MaterSection model)
-        {
-            if (!ModelState.IsValid)
-                return PartialView("MaterSection/_CreateEditMaterSection", model);
+        ////    var data = query
+        ////        .OrderBy(x => x.Id)
+        ////        .Skip((page - 1) * pageSize)
+        ////        .Take(pageSize)
+        ////        .ToList();
 
-            _context.MaterSections.Update(model);
-            _context.SaveChanges();
+        ////    // truyền pagination qua ViewBag
+        ////    ViewBag.Page = page;
+        ////    ViewBag.PageSize = pageSize;
+        ////    ViewBag.Total = total;
+        ////    ViewBag.Keyword = keyword;
+        ////    ViewBag.DateFrom = dateFrom;
+        ////    ViewBag.DateTo = dateTo;
 
-            return Json(new
-            {
-                success = true,
-                data = model
-            });
-        }
+        ////    return View("MaterSection/MaterSection", data);
+        ////}
+        //// ================= LIST VIEW =================
+        //public async Task<IActionResult> MaterSection(string keyword = "", int page = 1, int pageSize = 10, DateTime? dateFrom = null, DateTime? dateTo = null)
+        //{
+        //    var (data, total) = await _service.GetPagedAsync(keyword, page, pageSize, dateFrom, dateTo);
+        //    ViewBag.Page = page;
+        //    ViewBag.PageSize = pageSize;
+        //    ViewBag.Total = total;
+        //    ViewBag.Keyword = keyword;
+        //    ViewBag.DateFrom = dateFrom;
+        //    ViewBag.DateTo = dateTo;
 
-        // DELETE
-        [HttpPost]
-        public IActionResult DeleteMaterSection(int id)
-        {
-            var data = _context.MaterSections.Find(id);
-            if (data == null)
-                return Json(new { success = false });
-
-            _context.MaterSections.Remove(data);
-            _context.SaveChanges();
-
-            return Json(new { success = true, id = id });
-        }
-        //End  CRUD // **************** // them sua xoa // *******************
+        //    return View("MaterSection/MaterSection", data);
+        //}
 
 
+        ////button thong tin chi tiet mater  //not service
+        ////[HttpGet]
+        ////public IActionResult MaterSectionDetail(int id)
+        ////{
+        ////    var item = _context.MaterSections.FirstOrDefault(x => x.Id == id);
 
-}
+        ////    if (item == null)
+        ////        return NotFound();
+
+        ////    return PartialView("MaterSection/_MaterSectionDetail", item);
+        ////}
+        //public async Task<IActionResult> MaterSectionDetail(int id)
+        //{
+        //    var item = await _service.GetByIdAsync(id);
+        //    if (item == null) return NotFound();
+
+        //    return PartialView("MaterSection/_MaterSectionDetail", item);
+        //}
+
+        //// GET CREATE
+        //public IActionResult CreateMaterSection()
+        //{
+        //    return PartialView("MaterSection/_CreateEditMaterSection", new MaterSection());
+        //}
+
+        //// POST CREATE  //not service
+        ////[HttpPost]
+        ////public IActionResult CreateMaterSection(MaterSection model)
+        ////{
+        ////    if (!ModelState.IsValid)
+        ////        return PartialView("MaterSection/_CreateEditMaterSection", model);
+
+        ////    _context.MaterSections.Add(model);
+        ////    _context.SaveChanges();
+
+        ////    return Json(new
+        ////    {
+        ////        success = true,
+        ////        data = model
+        ////    });
+        ////}
+
+        //[HttpPost]
+        //public async Task<IActionResult> CreateMaterSection(MaterSection model)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return PartialView("MaterSection/_CreateEditMaterSection", model);
+
+        //    var result = await _service.CreateAsync(model);
+
+        //    return Json(new { success = true, data = result });
+        //}
+
+        //// GET EDIT  //not service
+        ////public IActionResult EditMaterSection(int id)
+        ////{
+        ////    var data = _context.MaterSections.Find(id);
+        ////    if (data == null) return NotFound();
+
+        ////    return PartialView("MaterSection/_CreateEditMaterSection", data);
+        ////}
+        //public async Task<IActionResult> EditMaterSection(int id)
+        //{
+        //    var data = await _service.GetByIdAsync(id);
+        //    if (data == null) return NotFound();
+
+        //    return PartialView("MaterSection/_CreateEditMaterSection", data);
+        //}
+
+        //// POST EDIT  //not service
+        ////[HttpPost]
+        ////public IActionResult EditMaterSection(MaterSection model)
+        ////{
+        ////    if (!ModelState.IsValid)
+        ////        return PartialView("MaterSection/_CreateEditMaterSection", model);
+
+        ////    _context.MaterSections.Update(model);
+        ////    _context.SaveChanges();
+
+        ////    return Json(new
+        ////    {
+        ////        success = true,
+        ////        data = model
+        ////    });
+        ////}
+
+        //[HttpPost]
+        //public async Task<IActionResult> EditMaterSection(MaterSection model)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return PartialView("MaterSection/_CreateEditMaterSection", model);
+
+        //    var result = await _service.UpdateAsync(model);
+
+        //    return Json(new { success = true, data = result });
+        //}
+
+        //// DELETE //not service
+        ////[HttpPost]
+        ////public IActionResult DeleteMaterSection(int id)
+        ////{
+        ////    var data = _context.MaterSections.Find(id);
+        ////    if (data == null)
+        ////        return Json(new { success = false });
+
+        ////    _context.MaterSections.Remove(data);
+        ////    _context.SaveChanges();
+
+        ////    return Json(new { success = true, id = id });
+        ////}
+
+        //[HttpPost]
+        //public async Task<IActionResult> DeleteMaterSection(int id)
+        //{
+        //    var ok = await _service.DeleteAsync(id);
+        //    return Json(new { success = ok, id });
+        //}
+        ////End  CRUD // **************** // them sua xoa // *******************
+
+    }
 
 
 

@@ -9,12 +9,11 @@ using ScrapSystem.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
-
-
 // Add builder.Services to the container.
 builder.Services.AddControllersWithViews();
+
+//add Service DI (Dependency Injection)
+builder.Services.AddScoped<IMaterSectionService, MaterSectionService>();
 
 builder.Services.AddSession(options =>
 {
@@ -72,8 +71,6 @@ app.UseRouting();
 app.UseSession(); 
 app.UseAuthentication();
 app.UseAuthorization();
-
-
 
 app.MapControllerRoute(
     name: "default",

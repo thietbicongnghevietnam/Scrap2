@@ -1,0 +1,28 @@
+2026-02-17 04:17:59.585 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 210
+2026-02-17 04:18:04.844 [INF] User 2012757 logged in successfully
+2026-02-17 06:05:30.581 [INF] User 2012757 logged in successfully
+2026-02-17 06:11:33.185 [INF] User 2012757 logged in successfully
+2026-02-17 06:35:37.049 [INF] User 2012757 logged in successfully
+2026-02-17 06:44:26.894 [INF] User 2012757 logged in successfully
+2026-02-17 06:49:08.413 [ERR] An error occurred while logging in.
+System.UnauthorizedAccessException: Invalid username or password
+   at ScrapSystem.Api.Application.Service.AuthService.LoginAsync(UserLoginDto model) in C:\Projects\MVC\Scrap2\ScrapSystem.Api\Application\Service\AuthService.cs:line 210
+2026-02-17 06:49:18.501 [INF] User 2012757 logged in successfully
+2026-02-17 06:53:14.223 [INF] User 2012757 logged in successfully
+2026-02-17 07:02:51.614 [INF] User 2012757 logged in successfully
+2026-02-17 07:17:31.208 [INF] User 2012757 logged in successfully
+2026-02-17 07:32:00.511 [INF] User 2012757 logged in successfully
+2026-02-17 07:35:15.093 [INF] User 2012757 logged in successfully
+2026-02-17 07:40:33.178 [INF] User 2012757 logged in successfully
+2026-02-17 07:43:01.883 [INF] User 2012757 logged in successfully
+2026-02-17 17:04:16.569 [INF] User 2012757 logged in successfully
+2026-02-17 17:08:02.776 [INF] User 2012757 logged in successfully
+2026-02-17 17:14:05.074 [INF] User 2012757 logged in successfully
+2026-02-17 18:25:31.880 [INF] User 2012757 logged in successfully
+2026-02-17 18:52:14.321 [INF] User 2012757 logged in successfully
+2026-02-17 19:06:39.287 [INF] User 2012757 logged in successfully
+2026-02-17 19:12:28.428 [INF] User 2012757 logged in successfully
+2026-02-17 19:21:18.778 [INF] User 2012757 logged in successfully
+2026-02-17 19:24:44.680 [INF] User 2012757 logged in successfully

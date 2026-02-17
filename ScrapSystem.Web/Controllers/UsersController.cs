@@ -140,10 +140,7 @@ namespace ScrapSystem.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult UsersList(
-        string keyword = "",
-        int page = 1,
-        int pageSize = 5)
+        public IActionResult UsersList(string keyword = "",int page = 1,int pageSize = 5)
         {
             var query = _context.Users.AsNoTracking();
 
