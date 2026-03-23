@@ -35,5 +35,6 @@
         public decimal UnitPriceAC { get; set; }
         public decimal AmountAC { get; set; }
         public string Remark { get; set; }  //them cot 
+        public string BoxNO { get; set; }  //them cot 23.03.2026
     }
 }

@@ -33,8 +33,11 @@
         .delete-btn:hover {
             color: red;
         }
+    
 
 </style>
+
+
 
 <h3>@ViewData["Title"]</h3>
 <div class=" grid-margin ">
@@ -593,7 +596,7 @@
                                                                                 <style>
                                                                                     @@media print {
                                                                                         @@page {
-                                                                                            margin: 0;
+                                                                                                margin: 5mm;
                                                                                             size: A4 portrait;
                                                                                         }
 
@@ -797,7 +800,7 @@
           <svg class="barcode" data-code="${master.barcode}"></svg>
                   <div style="margin-left: 30px;"> ${master.barcode || 'N/A'}</div>
         </div>
-        <div style="flex: 2; text-align: center;">
+            <div style="flex: 2; text-align: center; margin-left:40px;width: 400px;">
           <div class="title" style="font-weight: bold;">
             LABEL HÀNG HỦY THÁNG ${currentMonthYear}
           </div>
@@ -814,13 +817,17 @@
                                                                                                         </tr>
 
                                                                                                     <tr>
-                                                                                                        <th style="width: 8%; text-align: center;">STT No.</th>
-                                                                                                        <th style="width: 30%;">Part number</th>
-                                                                                                        <th style="width: 35%;">Part name<br>(English name)</th>
-                                                                                                        <th style="width: 10%; text-align: center;">Qty</th>
-                                                                                                        <th style="width: 17%; text-align: center;">Pallet</th>
+                                                                                                        <th style="width: 5%; text-align: center;">STT No.</th>
+                                                                                                        <th style="width: 15%;">Part number</th>
+                                                                                                        <th style="width: 20%;">Part name<br>(English name)</th>
+                                                                                                        <th style="width: 7%; text-align: center;">Qty</th>
+                                                                                                        <th style="width: 8%; text-align: center;">Pallet</th>
+
+                                                                                                        <th style="width: 8%; text-align: center;">BoxNO</th>
                                                                                                             
-                                                                                                        <th style="width: 17%; text-align: center;">No</th>
+                                                                                                        <th style="width: 10%; text-align: center;">STT Issue</th>
+                                                                                                        <th style="width: 12%; text-align: center;">Issue sloc</th>
+                                                                                                        <th style="width: 10%; text-align: center;">Scrap sloc</th>
                                                                                                     </tr>
                                                                                                 </thead>
                                                                                                 <tbody>`;
@@ -834,7 +841,11 @@
                                                                                                         <td style="text-align: center;">${detail.qty || 'N/A'}</td>
                                                                                                         <td style="text-align: center;">${master.pallet || 'N/A'}</td>
 
-                                                                                                                <td style="text-align: center;">${detail.noid || 'N/A'}</td>
+                                                                                                        <td style="text-align: center;">${detail.boxno || ''}</td>
+
+                                                                                                        <td style="text-align: center;">${detail.noid || 'N/A'}</td>
+                                                                                                        <td style="text-align: center;">${detail.sloc || ''}</td>
+                                                                                                        <td style="text-align: center; padding-right: 8px;">${detail.scrapsloc || ''}</td>
                                                                                                     </tr>`;
             });
 

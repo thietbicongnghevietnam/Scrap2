@@ -1,8 +1,8 @@
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ScrapSystem.Api.deps.json
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ScrapSystem.Api.runtimeconfig.json
-F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ScrapSystem.Api.exe
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\appsettings.Development.json
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\appsettings.json
+F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ScrapSystem.Api.exe
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\appsettings.Web.Development.json
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\appsettings.Web.json
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\appsettings.Web.Production.json
@@ -16,9 +16,16 @@ F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\AutoMapper.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\Azure.Core.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\Azure.Identity.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\BCrypt.Net-Next.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ClosedXML.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ClosedXML.Parser.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\Dapper.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\EPPlus.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\EPPlus.Interfaces.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ExcelDataReader.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ExcelDataReader.DataSet.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ExcelNumberFormat.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\FluentValidation.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
@@ -52,6 +59,7 @@ F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\Microsoft.SqlServer.Serve
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\Newtonsoft.Json.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\PdfSharpCore.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\RBush.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\Serilog.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\Serilog.Sinks.Console.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\Serilog.Sinks.File.dll
@@ -67,6 +75,7 @@ F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\System.Diagnostics.Diagno
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\System.Drawing.Common.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\System.Formats.Asn1.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\System.IO.Packaging.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\System.IO.Pipelines.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\System.Memory.Data.dll
 F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\System.Runtime.Caching.dll
@@ -105,6 +114,7 @@ F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.MvcApplic
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.MvcApplicationPartsAssemblyInfo.cache
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.RazorAssemblyInfo.cache
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.RazorAssemblyInfo.cs
+F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.sourcelink.json
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\staticwebassets.build.json
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\staticwebassets.development.json
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\staticwebassets\msbuild.ScrapSystem.Web.Microsoft.AspNetCore.StaticWebAssets.props
@@ -121,13 +131,3 @@ F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\refint\ScrapSystem.Web.dl
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.pdb
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.genruntimeconfig.cache
 F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ref\ScrapSystem.Web.dll
-F:\HA_IT\Scrap_System\ScrapSystem.Web\obj\Debug\net8.0\ScrapSystem.Web.sourcelink.json
-F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ClosedXML.dll
-F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ClosedXML.Parser.dll
-F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
-F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
-F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ExcelDataReader.dll
-F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ExcelDataReader.DataSet.dll
-F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\ExcelNumberFormat.dll
-F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\RBush.dll
-F:\HA_IT\Scrap_System\ScrapSystem.Web\bin\Debug\net8.0\System.IO.Packaging.dll

@@ -199,10 +199,31 @@ public class ExcelHelper
                         //them cot remark   19.12.2025
                         scrapDetail1.Remark = worksheetData1.Cells[row, 12].Text;
 
-                        scrapDetail1.Pallet = worksheetData1.Cells[row, 15].Text;           //12.10.2025 theo mau issue out moi
-                        scrapDetail1.Noid = stt;         //12.10.2025 theo mau issue out moi
+                        //request new 23.03.2026  ==> in them box no va so palet '01-01
+                        string input = worksheetData1.Cells[row, 15].Text;// "01-01";
+                        string[] parts = input.Split('-');
+                        if (parts.Length == 2)
+                        {
+                            //string part1 = parts[0];
+                            //string part2 = parts[1];
+                            scrapDetail1.Pallet = int.Parse(parts[0].ToString()).ToString();
+                            scrapDetail1.BoxNO = parts[1].ToString();
+                            scrapDetail1.Barcode = sanction_new + ";" + int.Parse(parts[0].ToString()).ToString() + ";" + section_new + ";" + subType;
+                        }
+                        else
+                        {
+                            // xử lý lỗi
+                            scrapDetail1.Pallet = worksheetData1.Cells[row, 15].Text;
+                            scrapDetail1.BoxNO = "";
+                            scrapDetail1.Barcode = sanction_new + ";" + worksheetData1.Cells[row, 15].Text + ";" + section_new + ";" + subType;
+                        }
+                        //scrapDetail1.Pallet = worksheetData1.Cells[row, 15].Text;           //12.10.2025 theo mau issue out moi
                         //scrapDetail1.Barcode = sanction_new + ";" + worksheetData1.Cells[row, 15].Text + ";" + section_new;         //12.10.2025 theo mau issue out moi
-                        scrapDetail1.Barcode = sanction_new + ";" + worksheetData1.Cells[row, 15].Text + ";" + section_new + ";" + subType;
+                        //scrapDetail1.Barcode = sanction_new + ";" + worksheetData1.Cells[row, 15].Text + ";" + section_new + ";" + subType;
+                        
+
+                        scrapDetail1.Noid = stt;         //12.10.2025 theo mau issue out moi
+                        
 
                         //========= // them moi cac cot 25.10.2025 //=====================
                         //scrapDetail1.Vendor = worksheetData1.Cells[row, 13].Text;

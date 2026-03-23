@@ -170,12 +170,14 @@ namespace ScrapSystem.Api.Application.Service
                         if (IsMergeSanction == true)
                         {
                             //truong hop bo phan MCS => chia nho sanction
-                            command.CommandText = "ImportScrapAndDetails_MCS";
+                            //command.CommandText = "ImportScrapAndDetails_MCS";
+                            command.CommandText = "ImportScrapAndDetails_MCS2";
                         }
                         else 
                         {
                             //truong hop khong combine sanction ***other bo phan
-                            command.CommandText = "ImportScrapAndDetails";
+                            //command.CommandText = "ImportScrapAndDetails";
+                            command.CommandText = "ImportScrapAndDetails2"; //them BoxNO
                         }
 
                         //command.CommandText = "ImportScrapAndDetails";
