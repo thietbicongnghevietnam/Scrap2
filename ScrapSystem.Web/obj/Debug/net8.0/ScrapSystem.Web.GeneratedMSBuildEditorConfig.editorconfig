@@ -42,6 +42,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0ZXJTZWN0aW9uXE1hdGVyU2VjdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Projects/MVC/Scrap2/ScrapSystem.Web/Views/MaterSection/MaterSectionScript.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0ZXJTZWN0aW9uXE1hdGVyU2VjdGlvblNjcmlwdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Projects/MVC/Scrap2/ScrapSystem.Web/Views/MaterSection/_CreateEditMaterSection.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0ZXJTZWN0aW9uXF9DcmVhdGVFZGl0TWF0ZXJTZWN0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,1533 @@
+G:\QC\04 GQC\25.Daily quality meeting\1.3 Quality DX Project	*** link moi
+
+
+
+0======================== // man hinh trace tong //=========================
+1. MCS	(thong tin PO, DA, vendor, deliverydate)
+2. IQC	(thong tin lot check dau vao + vendor)
+3. SMT	(thong tin PCBID - LINE)
+4. DIP	(thong tin pcbid - line)
+5. FCT	(thong tin checker)
+6. FA	(thong tin can - pallet)
+7. OQC	(lot kiem tra)
+8. SCM	(Shiment)
+
+9. Thong tin 4M
+10.Thong tin Quality
+
+1======================== // . man trace detail MCS
+-----------//Man hinh trace detail    : 3. dashboard Material traceability list kitting MCS
+-------------------------------------------------- dashboard Material traceability list kitting MCS ----------------
+--buoc 1:
+select  top 100 * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where  ktl.Model='SA-AU1F-S-T-V4'  and ktl.Deliverydate='2026-08-20' and ktld.UpdatedDate< '2026-08-22 6:10:43' and ktld.SupplyStatus = 1 and ktld.Line='IS1' order by ktl.UpdatedDate desc   
+
+--dieu kien: >= luot kitting cuoi cung (top2) and < time san xuat 
+--cach lay top 2 dau tien  : 2026-05-19 02:02:08.493 => sua lai thanh TOP 1
+WITH cte AS
+(
+    SELECT
+        ktld.KittingListID,
+        MAX(ktld.UpdatedDate) AS MaxUpdated
+    FROM tblKittingListDetail (nolock) ktld
+    LEFT JOIN tblKittingList ktl
+        ON ktld.KittingListID = ktl.ID
+    WHERE ktl.Model = 'SA-AU1F-S-T-V4'
+	and ktl.KittingType <> 3 --khac kitting outside
+      --AND ktl.Deliverydate = '2026-08-20'
+      AND ktld.UpdatedDate < '2026-08-22 6:10:43'
+      AND ktld.SupplyStatus = 1
+      AND ktld.Line = 'IS1'
+    GROUP BY ktld.KittingListID
+),
+rn AS
+(
+    SELECT *,
+           ROW_NUMBER() OVER (
+               ORDER BY MaxUpdated DESC
+           ) AS RowNum
+    FROM cte
+)
+SELECT
+    KittingListID,
+    MaxUpdated AS UpdatedDate
+FROM rn
+WHERE RowNum = 1
+
+----------ket qua lay ra thoi gian kitting list top 2 desc ==> where: 2026-08-21 02:56:03.050
+--select  top 100 * from tblKittingListDetail ktld 
+--left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+--left join tblKittingCard ktc on ktld.Id =ktc.KittingListDetailId
+--where  ktl.Model='SA-AU1F-S-T-V4'  and ktl.Deliverydate='2026-05-18' and ktld.UpdatedDate< '2026-05-19 05:09:00.220' and ktld.UpdatedDate > '2026-05-18 15:51:51.527' and ktld.SupplyStatus = 1 and ktld.Line='EW1' order by ktl.UpdatedDate desc  
+
+--danh sach cac truong can show
+select  top 100 ktl.ID, ktld.ID,ktld.Material,ktld.Sloc,ktld.ReceiptSloc,ktld.LocationName,ktld.Quantity,ktld.PickedQuantity,ktld.Descriptions,ktld.Category,
+ktl.Model,ktl.Deliverydate,ktl.Line,ktld.UpdatedDate,
+ktc.RCID,ktc.Plant,
+cd.Codedate
+from tblKittingListDetail ktld 
+left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+left join tblKittingCard ktc on ktld.Id =ktc.KittingListDetailId  --- lay ra thong tin recevingcardid
+left join tblHistoryCodeDate cd on cd.KittingCardID = ktc.KittingCardID
+where  ktl.Model='SA-AU1F-S-T-V4'  
+and ktl.KittingType <> 3 --khac kitting outside
+--and ktl.Deliverydate='2026-08-17' 
+and ktld.UpdatedDate< '2026-08-22 6:10:43' and ktld.UpdatedDate >= '2026-08-21 02:56:03.050' 
+and ktld.SupplyStatus = 1 and ktld.Line='IS1' order by ktl.UpdatedDate desc 
+
+--select * from tblReceivingCard (nolock) where ReceivingCardID in (516151,517521)  --nut show PO va Vendor
+--thong tin PO va vendor show le 1 man khac
+--link thong tin shipment
+--link thong tin OQC
+
+2.======================== // man trace detail SMT
+---------------------- //Man hinh trace detail  SMT   : 1. nut SMT Part
+--- trace Material detail theo PCBID => list link kien cam tren PCB => link sang MCS=> lay invoice, lot IQC 
+
+--buoc 1: searche theo PCBID
+select * FROM [TestDB].[dbo].[tblMessageTest] (nolock) where  CONVERT(date,CreatedDate)='2026-10-14' and PCBID='2F-2610100230261' order by CreatedDate desc
+ --tong ban mach PCB ID  : theo Line Name : LineName='SMT20' and
+ --select count(MesssageID) FROM [TestDB].[dbo].[tblMessageTest] (nolock) where LineName='SMT20' and CONVERT(date,CreatedDate)='2026-10-14' and Result='OK'
+  --2319
+
+--buoc 2: lay thong tin khac laze  ==> lay thong tin code date  ****phu thuoc PE ***  ==> thong tin code date theo log file sinh ra **** pending ***
+   select * from LaserMarking_Test (nolock) where PCBID like '%2F-2610100230261%'
+ --model: LPME31H1YA
+ --PCBID: 2F-2610100230261
+ --pcbpartcard: PN-PNLB3007YA-5NRI-P261014P0020QT-1950
+ --thong tin xuat hang ban mach trang tu ke hoach
+ SELECT TOP (2) * FROM [EDISystem].[dbo].[tbl_History_PartCard_PCB] where  Model like '%LPME31H1YA%' and SReelID like '%P261014P0020%'  order by Create_date desc
+
+ --lay panacim theo ma va ngay tao partcard: trace theo khoang thang - nam : D26010601584   %26010%  ==> lay ra ma ban mach trang : CD2601300772    CD2601300775
+---******************peniding ban mach trang => trace lai MCS  *******
+ SELECT TOP (20) * FROM [EDISystem].[dbo].[tblReelCuttingTransaction] (nolock) where sPartNo like '%PNLB3007YA-5%' and sReelIDorigin like '%26010%'
+
+ --buoc 3: thong tin mouting tat ca cac ma cam len ban mach (click vao may panacim) => an theo PCBID
+--panacim zen 1
+select top 1000* from [TestDB].[dbo].[tblDataMouting_2020] (nolock) where PartNumber like '%PNMC1110ZB/V1%' and MaterialBarcode like '%D26091800013%'
+--where WORK_DATE=CONVERT(date,GETDATE()) order by StartTime desc
+--panacim zen 2
+select top 1000* from [TestDB].[dbo].[tblDataMouting_Zen2] where WORK_DATE=CONVERT(date,GETDATE()) order by StartTime desc
+select top 1000* from [TestDB].[dbo].[tblDataMouting_Zen2] (nolock) where PartNumber like '%PNMC1110ZB/V1%' and MaterialBarcode like '%TD2605120759%' --WORK_DATE='2026-10-13'
+
+ --buoc 4: thong tin cat chia panacim kho SMT
+ --main PCBID: 1D-2608131210192
+ --http://10.92.184.24:8079/Traceability/TraceabilitySMT.aspx?PCBID=1D-2608131210192&cate=SB
+ --http://10.92.184.24:8079/Traceability/ReelDetail_New.aspx?sReelID=A26072000051
+
+ --buoc 5 => chia 2 loai: loai 1 panacim tu MCS , loai 2 tray va room
+---buoc 5a: Tu MaterialBarcode , code panacim
+--- FROM [EDISystem].[dbo].[tblLabelTraySMTdata] (nolock) where barcode like '%TD2605120759%'
+--PN-PNMC1110ZB/V1RI-TD2605120759QT-45
+--3a. IC tray => scan panacim goc MCS => trace luon ve MCS  ==> lay ra code date link kien ROOM va tray
+--select * FROM [SWMS_DEV].[dbo].[tblDefine_SMT] (nolock) where sReelID like '%D26091800013%'
+
+--5b. IC room => trace nguoc lai bang cat chia SMT  ==> lay ra code date link kien ROOM va tray
+-- vi du chuan OK :*** Flow 2:  tem duoc cat chia long sat => chuyen sang line panacim phu de cat chia tiep
+   --PN-C3ABQY000112RI-TD2610071328QT-108
+   select * from [EDISystem].[dbo].[tblLabelTraySMTdata] where barcode='PN-PNLPMGE30H2ZA-V4RI-TD2610071173QT-20'
+   --lay ra label input (ma reel co 2 ky tu) : PN-PNLPMGE30H2ZA-V4RI-CD2610060040QT-400
+   select * FROM [EDISystem].[dbo].[tblReelCuttingTransaction] where sReelID='CD2610060040'
+  --lay ra goc : sReelIDorigin='D23041804599'--  
+--bang cu: => lay ra vendor
+	--select * FROM [EDISystem].[dbo].[tblDefine_SMT] (nolock) where sReelID like '%D23041804599%'
+	 --FROM [EDISystem].[dbo].[tblStockCard_MCS_SMT] (nolock) where BarcodeID='202304180088'
+	--bang moi: => lay ra vendor
+	--bang tblrecevingcard
+--bang moi: => lay ra vendor => theo ID receving card
+
+--buoc 6: link tu cac ma panacim => show ra du lieu MCS goc => show vendor , invoice cua link kien
+--select * FROM [SWMS_DEV].[dbo].[tblDefine_SMT] (nolock) where sReelID like '%D26042000002%'
+--select * from tblReceivingCard where ReceivingCardID='437228'
+--lay ra PO, DA vendor,
+
+--buoc 7: lay ra lot IQC
+--thong tin lot IQC, thong tin check lot, thong tin cpk, thong tin quality
+
+--buoc 8: 
+--1b. thong tin detail cac process (thong tin check cua may) : SP, SPI, Panacim 1, Panacim2, AOI => show detail cac buoc
+
+--buoc 9. du lieu 4 M
+--buoc 10. du lieu Quality
+
+
+3.======================== // Man hinh trace detail    : 3. nut FA
+---------------------- //Man hinh trace detail    : 3. nut FA
+--buoc 1:
+select top 1000 * FROM [WeightSys].[dbo].[Weight_DP] (nolock) where STR_PROCESS_FACTORY='VL-SVE720KF-V4'
+--buoc 2:--double shipment, log shipping offline, tuy tung plan => ship ment khac nhau ***
+select * FROM [WeightSys].[dbo].[SB_TBL_Data_Checker_DP] (nolock) where Model='VL-SVE720KF'
+--buoc 3: trace DP : sach giay
+select * from [DP_TRACE].[dbo].[TBL_TRACE_CONTENT] (nolock) where MODEL='VL-SVE720KF-V4' and FGDP='6ICCF003814'
+--Main PCB code:1R-2609150852084;Power PCB code:1S-2609151141294;
+--MANUAL/Paper/OI:PNQX9337ZA;Serial warranty:#... code CLUB Panasonic:PNQW6065ZA;MANUAL/Paper/IG:PNQX9348ZA;
+--Serial main monitor 1:6ICCF003814;Serial main monitor 2:6ICCF003814;Serial door station:6ICCC003814;Screw monitor:#PNQH1073ZA;Screw Camera:#PNQH1074ZA;
+--Trace DP link PCBID: => cho ra PCBID gan voi Serial NO va Model Name
+--buoc 4: trace PCBID  ==> Trace tem phu line lap rap
+select * FROM [DP_TRACE].[dbo].[TBL_LOGPCB] where ModelName='VL-SWE720KS-V4' and SerialNo='6HACF009999' --and SerialNo is not null
+--buoc 5: code date
+--trace code date theo Model va Serial No:
+select * FROM [DP_TRACE].[dbo].[tblHistoryCodeDateFA] where Material='VL-V523LU-N-V4' and Serialno='0123456789'
+
+--buoc 6: Trace du lieu log checker  (*** API Son => PE chua  set up soft***)
+--API cua Son cac log file checker con lai: PL test, assembly, manual Inspection,  shipping setupdate ***da co, VC (visula check)...
+
+--buoc 7: Pallet ID => data shrink FA
+--buoc 8: data shipment SCM => du lieu OQC (***lay tam du lieu he thong cu SCM link sang OQC***)
+
+--buoc 9: du lieu Quality history ****
+--buoc 10: du lieu 4M history ****
+
+4.======================== // man hinh trace cua DIP  //========================  CC-DIP4-IN
+cat chia dip : thihanh.tran@vn.panasonic.com
+FROM [EDISystem].[dbo].[tbl_Traceability] where ProductionPlantID = '475924' and Month(Date_Traceability)=10 and YEAR(Date_Traceability)='2026' order by Date_Traceability desc  
+   -------------- // Process DIP //-----------------
+  --buoc 1 : ban trace dip : tbl_Traceability
+  --buoc 2: Show thong tin kitting list MCS 
+  --select top 100 * from tblKittingList where ID=475924
+
+  -------------- // function check kitting list MCS cap du theo list sang SMT chua ? //-----------------
+--buoc 1 (scan list): check xem scan du kitting list hay chua?		Query_checkitting_SMT
+	-->: insert vao bang [SWMS_DEV].[dbo].[TBL_Data_DP_part_Temp]   ************
+	--if not exists(select * from TBL_Data_DP_part_Temp (nolock) where Line=@line and Model=@model and Part_No=@partcode and Delivery_date=@Deliverydate)
+--buoc 2 (scan partcard) :Query_check_temppartcard
+	--check bang temp da duoc scan chua?
+--buoc 3: Query_update_temppartcard
+	--insert vao bang history : TBL_Data_DP_part  ***********
+	--update TBL_Data_DP_part_Temp set [Status]='OK',Flag='1'
+	--if if(double.parse(lbcount.toString()) == double.parse(lblTotal.toString()))
+	--xao toan bo bang temp:	Query_delete_temppartcard
+	
+	-------------- // function scan date code cho kitting card mcs //-----------------******* pending
+	--ly date code theo kitting card MCS
+select ktl.Plant,ktl.Model,ktl.ModelQuantity,--ktc.PosMCS,ktc.PosFA,
+ktld.PickedQuantity,ktld.Quantity,ktld.SupplyStatus,ktld.Line,
+cd.Codedate,ktc.Model,ktc.RCID--ktc.PartNo,ktc.Model,ktc.Quantity,
+from tblKittingListDetail ktld 
+left join tblKittingList ktl on ktld.KittingListID=ktl.ID
+left join tblKittingCard ktc on ktld.KittingListID=ktc.KittingListDetailId
+left join tblHistoryCodeDate cd on cd.KittingCardID=ktc.KittingCardID
+where ktl.ID='475924' and ktld.SupplyStatus=1
+
+--danh sach kititng card: 
+--1AP1F606X371ABP;G4C3AAG00009;Dip 03;500;;6220;2026-10-12;VG01;06:00;6170;UploadNo;MW;MW;DIP;2695567
+--select * from tblKittingCard where KittingListDetailId in (
+--2839411,
+--2839412,
+--2839413,
+--2839414,
+--2839415
+--)
+	-------------- // function Scan partcard tong vao line SMT //-----------------******* pending	
+	--gan line vao cac mã theo kitting lits MCS  : muc dinh biet chinh xac line can chia 
+	--select top 100 * from TBL_Data_DP_part order by Delivery_date desc
+
+-------------- // function Chia partcard theo partcard tong vao line SMT //-----------------
+
+
+5.======================== // man hinh trace cua FCT  //========================
+cac log file FCT
+
+
+============================== //12.10.2026 => trace nguoc
+FLow 1*** tu code date may khac laze => lay all PCBID => TRace len FA => gom tat ca theo serial NO *****
+ FROM [TestDB].[dbo].[LaserMarking_Test] (nolock) where PCBID like '%1T-2610072147333%' order by ServerTime desc
+ FROM [TestDB].[dbo].[tblMessageTest] (nolock) where PCBID like '%1T-2610072147333%' order by ServerTime desc
+
+FLow 2*** luong code date IC tray va IC room
+select * FROM [EDISystem].[dbo].[tblLabelTraySMTdata] (nolock) where  labelinput like '%PN-MN103SW55RI-D26091101587QT-320%'  order by id desc 
+
+  --dau vao room:
+  --PN-C3FBNY000434RI-P261012T0009QT-896   
+  --C3FBNY000434
+  --P261012T0009
+  --FROM [EDISystem].[dbo].[tblROM_History] (nolock) where BlankIC='C3FBNY000434'  order by Create_date desc
+  --dau vao PCB :
+  --PN-MN103SW55RI-D26091101587QT-320
+  --FROM [EDISystem].[dbo].[tbl_History_PartCard_PCB] (nolock)  where  PCB like '%MN103SW55%'   order by ID desc
+
+**** khong trace duoc vao bang IN-OUt **** khong khop ban manh trang + PCBID ****
+  FROM [TestDB].[dbo].[tblMessageTest] (nolock)  order by ServerTime desc
+  -- where FinishBoard like '%1RE2LPMN35AH1ZA%' 
+  --where PCBID like '%1T-2610072147333%' order by ServerTime desc
+
+
+
+
+============================== //08.10.2026 => 08.10.2026   //====================== // them code date vao bang : tblLabelTraySMTdata => trace nguoc
+PCB_SMT
+tbl_History_PartCard_PCB
+tbl_Traceability
+tblLabelTraySMTdata		(in tem nho cut chia panacim)  ==>  them cot codedate vao bang
+tblMasterModel_SMT
+tblMasterSMTLocation
+tblReelCuttingTransaction
+
+==> 2 bang can back up ***
+DataLabelTray_SMT			(bang mater IC tray va IC room)  
+bang moi : 	tblCodeDateSMT		(***bang code date SMT***)  	NEW
+		tblCodeDateMaster
+
+stored: Save_Partcard_Codedate		(luu thong tin code date)	NEW
+	Save_Partcard_Codedate		(insert code date IC room va IC tray)
+	Get_Codedate_By_Partcard	(check xem code co ton tai hay chua)  => tra lai client ***
+	Check_CodeDate_ICroom_tray_SMT	(trace code theo master => SMT co can phai ban hay khong?)
+	Select_master_codedate		(master code date)
+	Select_master_codedate_loc	(loc dieu kien)
+	insert_mastercodedate_smt	(insert master code date)
+	delete_mastercodedate_smt	(delete)
+	delete_mastercodedate_smt_all	(delete all)
+stored insert them code date: SP_InserttblLabelTraySMTdata_new2026
+
+
+    --*** Flow 1: di thang tu MCS sang => cat chia luon
+  --buoc 1 : select * FROM [EDISystem].[dbo].[tblLabelTraySMTdata] where barcode like '%TD2610081193%'
+  --PN-PNMC1110ZB/V1RI-TD2610081193QT-45	(tem phu in tu cat chia 2)
+  --buoc 2 : lay ra ma panacim & material => lay ra label input (ma reel co 1 ky tu) : PN-PNMC1110ZB/V1RI-D26091800013QT-2700  (goc in tu cat chia)
+  --buoc 3: trace lai bang goc MCS
+  --select * FROM [SWMS_DEV].[dbo].[tblDefine_SMT] (nolock) where sReelID like '%D26091800013%'
+
+
+  --*** Flow 2:  *** mai tim nguyen nhan
+  --****(truong hop khong thay du lieu) ****
+  --tem phu cut chia 2: PN-C3FBNY000434RI-TD2610081133QT-455
+  --tem panacim : PN-C3FBNY000434RI-P261012T0009QT-896
+
+
+  --PN-ZN2IR-130PN-20RI-TD2605261063QT-5000
+  --PN-ZN2IR-130PN-20RI-TD2605261063QT-5000
+  --PN-ZN2IR-130PN-20RI-TD2605261063QT-5000
+
+   --*** Flow 2:  tem duoc cat chia long sat => chuyen sang line panacim phu de cat chia tiep
+   --select * from [EDISystem].[dbo].[tblLabelTraySMTdata] where barcode='PN-PNLPMGE20H2YA-V4RI-TD2610091068QT-20'
+   --lay ra panacim cat chia => PN-PNLPMGE20H2YA-V4RI-CD2610080070QT-312
+   --quay lai bang cat chia goc:  select * FROM [EDISystem].[dbo].[tblReelCuttingTransaction] where sReelID='CD2610080070'
+   --lay ra panacim goc: sReelIDorigin='TD2104022097'--
+  -- qua sang bang tblDefine_SMT (MCS tim)
+
+   -- vi du chuan OK :*** Flow 2:  tem duoc cat chia long sat => chuyen sang line panacim phu de cat chia tiep
+   --PN-C3ABQY000112RI-TD2610071328QT-108
+   select * from [EDISystem].[dbo].[tblLabelTraySMTdata] where barcode='PN-PNLPMGE30H2ZA-V4RI-TD2610071173QT-20'
+   --lay ra label input (ma reel co 2 ky tu) : PN-PNLPMGE30H2ZA-V4RI-CD2610060040QT-400
+
+   select * FROM [EDISystem].[dbo].[tblReelCuttingTransaction] where sReelID='CD2610060040'
+  --lay ra goc : sReelIDorigin='D23041804599'--
+  
+  --bang cu: => lay ra vendor
+	--select * FROM [EDISystem].[dbo].[tblDefine_SMT] (nolock) where sReelID like '%D23041804599%'
+	 --FROM [EDISystem].[dbo].[tblStockCard_MCS_SMT] (nolock) where BarcodeID='202304180088'
+	--bang moi: => lay ra vendor
+	--bang tblrecevingcard
+
+================================ // Trace ban mach trang SMT //===========================
+1. upload in partcard
+SELECT TOP (1000) * FROM [ParcardSMT].[dbo].[D1_Pull_Data] where Material='H6575-3K20' order by Create_date desc
+2. ban mach trang line in - out
+SELECT TOP (100)  * FROM [TestDB].[dbo].[tblMessageTest] (nolock) where WhiteBoard in ('H6575-3K20') order by CreatedDate des
+3. khac laze
+SELECT TOP (1000) * FROM [TestDB].[dbo].[LaserMarking_Test] (nolock) where PCBID like '%1C-2608261411413%'  order by ServerTime desc
+
+PN-H6575-3K20RI-A260828P0005QT-21  (partcard duoc in ra)  ****==> trace lai thong tin ban mach trang
+==> scan panacim => tra lai thong tin MCS
+
+================================ // Trace ICtray, ICroom SMT //===========================  tool scan panacim + partcard + code date 
+1. stored: [dbo].[Print_Partcard_PCB_ReelID_Model_Line] **** => duoc mang ra line in-out de input ban mach:  ==> model o bang tbl_History_PartCard_PCB : Y+tenmodel(1RE1LPVH576F1ZA)  ***
+SELECT TOP (100)  * FROM [TestDB].[dbo].[tblMessageTest] (nolock) where FinishBoard in ('Y1RE1LPVH576F1ZA')  and WhiteBoard='PNLB3020ZA-YY' order by CreatedDate desc
+=> lay ra ngay tao (ngay sanxuat): => trace lai history : CONVERT(date,Product_Date)<='2026-09-05'  (***** doan nay dung tool ban de luu vao ban history ***)=> thay cho bang:[tbl_History_PartCard_PCB
+SELECT TOP (2) * FROM [EDISystem].[dbo].[tbl_History_PartCard_PCB] where  Model='1RE1LPVH576F1ZA' and Line like '%SMT16%' and PCB like '%PNLB3020ZA-YY%' and CONVERT(date,Product_Date)<='2026-09-05'  order by Create_date desc
+
+scan partcard => ra ngay : Product_Date='2026-09-07' ===> luu bang history thong tin Panacim
++ lay them thong tin tu bang vao panacim => FROM [EDISystem].[dbo].[tbl_History_PartCard_PCB] where  PCB like '%PNLB3023ZA-RL%' and SReelID='P260907P0012'  --=> ra duoc ngay san xuat
+
+2.Icroom: Print_partcard_ROM_Model_new
++ scan parcard co thong tin : FROM [EDISystem].[dbo].[tblROM_History]  where ROM like '%1VJ1LPMGE30H2ZA%' and SReelID='P260907R0001'
+*** khong co thong tin link voi PCBID (in-out) *********
+
+========= // PCB, ICtray, ICroom SMT //======
+3. ====> trace theo thong tin IN -OUT SMT
+ FROM [TestDB].[dbo].[tblDataMouting_2020] (nolock) where PartNumber='C3BBJY000028'
+  --PartNumber='C3ABUY000117'  --IC trace    == > duoc cat chia Panacim nho theo ke hoach
+  --PartNumber='C3FBYY000083' ---IC Rom    == > duoc cat chia Panacim nho theo ke hoach
+[TestDB].[dbo].[tblDataMouting_Zen2] (nolock) where PartNumber='C3BBJY000028' order by WORK_DATE desc
+
+
+
+==> scan thong tin => code date (ma PCB)
+==> scan panacim => trace lai thong tin MCS
+
+
+
+
+
+
+====================// IQC ghep SWMS //=========================
+================ // 22.09.2026  (loi giao dien UserID) //=============================
+Future<void> autogetuser() async {
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final id = prefs.getString('username') ?? '';
+    final id = await getIt<AuthRepository>().getUserID();
+    print(id);
+
+    if (!mounted) return;
+    setState(() {
+      userId = id;
+    });
+  }
+
+
+
+Cách tạo IQCMenuRoute
+1. Tạo page IQC Menu : lib/views/pages/iqc/iqc_menu_page.dart
+2. Đăng ký route trong AppRouter  : router.dart
+AutoRoute(page: IQCMenuRoute.page),
+Sau đó chạy lại lệnh generate:
+flutter packages pub run build_runner build --delete-conflicting-outputs
+3. Sau khi generate xong, bạn dùng như sau trên HomePage
+HomeItemWidget(
+  title: 'IQC',
+  image: Assets.images.icInventory.image(width: 70, height: 70), // thay icon sau
+  onPressed: () {
+    context.pushRoute(const IQCMenuRoute());
+  },
+),
+============ // 2 // ==========
+sua trong file : api_IQC.dart
+// old
+    //List<dynamic> responseData = json.decode(response.body);
+    //2026
+    final List<dynamic> responseData = json.decode(response.body) as List<dynamic>;
+
+***  "SLNG": SLNG.toString(),  ==> bao :SLNG khong sring***
+
+//old
+    //return dataList.map((json) => Get_Recheck.fromJson(json)).toList();
+    //2026
+    return dataList.map((json) => Get_Recheck.fromJson(json as Map<String, dynamic>)).toList();
+
+****class_api_IQC.dart
+json['NameRecheck'] có kiểu dynamic, nên khi dùng ?? '' sẽ bị báo lỗi type.
+
+*** loi giao dien
+body:SafeArea(
+      child:SingleChildScrollView(
+
+**** lay userID
+class AuthRepository ==> them viec goi UsereiD trong:  auth_AuthRepository.dart
+
+**** cài them flutter pub add qr_flutter => hien thi QC khi in lai receving card
+  # Stepper widgets
+  easy_stepper: ^0.8.3
+  qr_flutter: ^4.1.0
+
+***** them receiving_card_template.dart => mau tem in vao : lib/subsystem/printer/
+
+============// bang history => auto sap //========
+bang : [SWMS_DEV].[dbo].[DM_History_RePrintRC]
+SELECT TOP (1000) * FROM [SWMS_DEV].[dbo].[tblReceivingCard] where Barcode='535307;PNPK4370001ZA/V1;2;1140;VR01;VE041;DP' order by ReceivingCardID desc
+  -- where ReceivingCardID in (534056,534770)
+  --525231;XYFBFE4+AF8V3;24000;6120;VG01;VE071;MW
+  --dinh danh barcode Receving card: 
+  --ID;Material;soluong_textbox;Sloc;Plant;VendorCode;category
+
+ ----============// test 24.09.2026 // =========
+  select top 1000 * from tblReceivingCard where Barcode='42333;ERZV14D621CS;12000;8170;VB014Y;V501;PAP'  
+  select top 10 * from tblReceivingCardDetail where ReceivingCardID='42333' order by CreatedDate desc
+  --H01088K31BP;20;14-Sep;PSNV;76a97975-9203-4ba1-9a01-fb5a4e308350;DYNAPAC;;;;16
+  select * from tblReceivingCard where ReceivingCardID in ('538317','538321')
+  --- tblReceivingCard set Status=1 where ReceivingCardID in ('538317','538321')
+  select * from tblStorageTicketDetail where Material='ERZV14D621CS' and CONVERT(date,CreatedDate)='2026-09-24'
+  --tblStorageTicketDetail set Status=1 where Material='ERZV14D621CS' and CONVERT(date,CreatedDate)='2026-09-24'
+
+  --co can nhap receploc hay khong?
+  --co can Tcode hay khong?
+  --ly do tu chon
+
+--------// test 02.10.2026 //----------- truong hop IQC Danh NG hang tu kho OK va Kho NG MCS ----------
+--buoc 1: insert tu kho OK ve Kho NG MCS => phai o dang **97   (***IQC check tu kho OK***)
+select top 1000 * from tblReceivingCard (nolock) where Barcode='542733;J621B3E82APS;168;6180;VG01;VF160;MW' order by CreatedDate desc
+--select * from tblReceivingCard where ReceivingCardID=542733
+
+--buoc 2: tu kho NG MCS => sang 1 kho OK MCS  (***IQC check tu kho NG***)
+select * from tblReceivingCard   (nolock) where ReceivingCardID in (542820,542822,542823,542824)
+--542820;J621B3E82APS;2;6180;VG01;VF160;MW
+
+select * from tblStorageTicketDetail where Material='J621B3E82APS' and CONVERT(date,CreatedDate)='2026-10-02'
+-- tblStorageTicketDetail set Status=1 where Material='J621B3E82APS' and CONVERT(date,CreatedDate)='2026-10-02'
+
+--------// test 02.10.2026 //----------- truong hop MCS nhan hang FA return in kitting card ----------
+select top 100 * from tblKittingCard where Barcode='H200A-3L10;F2116-3L10;WD1;62;;6110;2026-10-05;06:00;1;VG01;MW;MW;0;P;2675211' order by CreatedDate desc
+
+select * from tblReceivingCard where ReceivingCardID in (483858,542905)
+--483858;F2116-3L10;600;6110;VG01;VB013;MW
+--483858
+
+============// receving card test **** ==> funtion tao RC FA return va IQC // =========
+  select *  FROM [SWMS_DEV].[dbo].[tblReceivingCard] where CreatedBy='2012757' and ReceivingCardID in (535258,535280,535285,535286,535307,535323)
+
+============// Function tao update kitting card => lay thong tin kitting outside // =========
+--buoc 1: tu kitting card : => ban kitting card show line, model va partno cap hang  => co can xac nhan line khong ?=> upadte time kitting list
+--buoc 2: van lay theo luot kitting gan nhat voi con san pham duoc san xuat ra.
+--buoc 3: union voi listkitting FA 
+
+===================== // stored :  //===================== https://github.com/thietbicongnghevietnam/printer
+	Query_ReceivingCard_Reprint 	=> stored lay ra theo receving card (IQC) or kitting card (FA return) => de in lai
+	Query_PrinterDevice_List	=> danh sach may in
+	Query_List_Lydo311		=> danh sach ly do => kitting out side
+	Query_List_Tcode		=> danh sach Tcode
+	Insert_ReceivingCard_RepLoc	=> bang history: DM_History_RePrintRC
+	Query_KittingCard_Outside	=> list thong tin kitting outside
+	Update_SupplyKittingOutside	=> update thong tin kitting outside (time gan nhat)
+
+bang history: [SWMS_DEV].[dbo].[DM_History_RePrintRC]
+
+07.10.2026
+Query_Check_ReceivingCard_Printed	(stored check xem da duoc in hay chua? )
+{
+    "material": "PNHR2509ZA/AS",
+    "quantity": "1",
+    "printDate":"2025-01-21", 
+    "typeSource": "KittingCard"
+  }
+Delete_RecevingCard_PrintAgain 		(stored xoa recveing card cu)
+Query_ReceiptSloc_ByBarcode		(stored lay reploc tu FA => cho MCS) => chuc nang in hang thua cua MCS
+
+print Receving card tu panacim SMT :
+
+
+
+
+====================// 29.09.206 //trace theo code date kitting card MCS theo bang kitting card //=========================
+select * from  tblKittingCard where Status in (5) and KittingListDetailId in  (
+select ktld.ID from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where ktl.Deliverydate = ('2026-09-09') and ktld.KittingTypeDetail is not null and ktl.KittingType=0
+) order by DateTimeKitting desc
+
+=====ben MCS ===== master code date ==== 
+bang master: 
+[SWMS_DEV].[dbo].[tblMasterCodeDate]
+stored lay code mau : Get_Master_CodeDate
+
+================= //
+stored: Upload_DateCode_MCS
+bang: insert into [SWMS_DEV].[dbo].[tblHistoryCodeDate]		****=> bang nay can them cot barcode: ****
+
+
+=====ben FA ====
+stored: Upload_DateCode_MCS => Upload_DateCode_FA	(them list serial cung codedate FA) 	
+	GetStandardModelDatecode 			(lay ra standard Qty => codedate) 	
+bang: 	[DP_TRACE].[dbo].[tblHistoryCodeDateFA]							
+	tblStandardModelDatecode			(master so luot scan code date theo model FA)	
+
+=====ben FA ==== 13.10.2026 = master code date ====
+bang: tblStandardModelDatecode
+DP_TRACE_MASTER_INSERT_codedate
+DP_TRACE_MASTER_DELETE_codedate
+
+
+
+
+
+
+================================ // AOI - SMT du lieu sql //===========================
+FROM [KY_Result_202636].[dbo].[TB_AOIResult] where BarCode='1R-2609031454044'
+  --link voi nhau qua: PCBGUID='AF89E09D-10E8-412A-82B9-00135ED0C41C'
+  --PCBGUID='AF89E09D-10E8-412A-82B9-00135ED0C41C'
+FROM [KY_Result_202636].[dbo].[TB_AOIDefect] where PCBGUID='AF89E09D-10E8-412A-82B9-00135ED0C41C'
+FROM [KY_Result_202636].[dbo].[TB_AOIDefectDetail] where PCBGUID='AF89E09D-10E8-412A-82B9-00135ED0C41C'
+*** them du lieu vao bang:
+---buoc 1: bang 1 (ban mach)
+--PCBResultBefore (co 2 dang) : 11000000 -> 13000000
+--11000000 : Ok
+--11000000 : NG
+
+--PCBResultAfter (xem lai con 12000000) => xac nhan co OK hay khong?
+--12000000 : xac nhan lai
+--chinh xac la NG chi la : 13000000 => dinh thi la NG
+
+
+--buoc 2: xem chi tiet nhung link kien NG tren con: 13000000 trong bang  : TB_AOIDefect
+--PCBGUID, PartNumber, ResultBefore (khong can),ResultAfter
+
+--buoc 3: thong tin bang detail
+--PCBGUID,LeadName,,[LeadName]
+      --,[LeadID]
+      --,[LandName]
+      --,[LandID]
+      --,[FOVNo]
+      --,[ROILeft]
+      --,[ROITop]
+      --,[ROIRight]
+      --,[ROIBottom]
+================================ // SPI - SMT du lieu sql //===========================
+
+
+
+================================ // Trace DIP ban mach khong QR code //===========================
+
+
+
+
+================================ // trace Immersvie sound ===> stored: Trace_select_weight_MCS_ImmersiveSB  // ========http://localhost:60098/Traceability/TraceSBImmersive.aspx
+--buoc 1:
+select  top 100 * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where  ktl.Model='SA-AU1F-S-T-V4'  and ktl.Deliverydate='2026-08-20' and ktld.UpdatedDate< '2026-08-22 6:10:43' and ktld.SupplyStatus = 1 and ktld.Line='IS1' order by ktl.UpdatedDate desc   
+
+--dieu kien: >= luot kitting cuoi cung (top2) and < time san xuat 
+--cach lay top 2 dau tien  : 2026-05-19 02:02:08.493 => sua lai thanh TOP 1
+WITH cte AS
+(
+    SELECT
+        ktld.KittingListID,
+        MAX(ktld.UpdatedDate) AS MaxUpdated
+    FROM tblKittingListDetail (nolock) ktld
+    LEFT JOIN tblKittingList ktl
+        ON ktld.KittingListID = ktl.ID
+    WHERE ktl.Model = 'SA-AU1F-S-T-V4'
+	and ktl.KittingType <> 3 --khac kitting outside
+      --AND ktl.Deliverydate = '2026-08-20'
+      AND ktld.UpdatedDate < '2026-08-22 6:10:43'
+      AND ktld.SupplyStatus = 1
+      AND ktld.Line = 'IS1'
+    GROUP BY ktld.KittingListID
+),
+rn AS
+(
+    SELECT *,
+           ROW_NUMBER() OVER (
+               ORDER BY MaxUpdated DESC
+           ) AS RowNum
+    FROM cte
+)
+SELECT
+    KittingListID,
+    MaxUpdated AS UpdatedDate
+FROM rn
+WHERE RowNum = 1
+
+----------ket qua lay ra thoi gian kitting list top 2 desc ==> where: 2026-08-21 02:56:03.050
+--select  top 100 * from tblKittingListDetail ktld 
+--left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+--left join tblKittingCard ktc on ktld.Id =ktc.KittingListDetailId
+--where  ktl.Model='SA-AU1F-S-T-V4'  and ktl.Deliverydate='2026-05-18' and ktld.UpdatedDate< '2026-05-19 05:09:00.220' and ktld.UpdatedDate > '2026-05-18 15:51:51.527' and ktld.SupplyStatus = 1 and ktld.Line='EW1' order by ktl.UpdatedDate desc  
+
+--danh sach cac truong can show
+select  top 100 ktl.ID, ktld.ID,ktld.Material,ktld.Sloc,ktld.ReceiptSloc,ktld.LocationName,ktld.Quantity,ktld.PickedQuantity,ktld.Descriptions,ktld.Category,
+ktl.Model,ktl.Deliverydate,ktl.Line,ktld.UpdatedDate,
+ktc.RCID,ktc.Plant,
+cd.Codedate		--show thong tin code date MCS  
+from tblKittingListDetail ktld 
+left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+left join tblKittingCard ktc on ktld.Id =ktc.KittingListDetailId  --- lay ra thong tin recevingcardid
+left join tblHistoryCodeDate cd on cd.KittingCardID = ktc.KittingCardID
+where  ktl.Model='SA-AU1F-S-T-V4'  
+and ktl.KittingType <> 3 --khac kitting outside
+--and ktl.Deliverydate='2026-08-17' 
+and ktld.UpdatedDate< '2026-08-22 6:10:43' and ktld.UpdatedDate >= '2026-08-21 02:56:03.050' 
+and ktld.SupplyStatus = 1 and ktld.Line='IS1' order by ktl.UpdatedDate desc 
+
+--select * from tblReceivingCard (nolock) where ReceivingCardID in (516151,517521)  --nut show PO va Vendor
+--thong tin PO va vendor show le 1 man khac
+--link thong tin shipment
+--link thong tin OQC
+
+
+
+------------- kitting outside: ktl.KittingType=3 ----------- co model, line , gio kitting => *** can update khi kitting vao dau line
+select  top 100 * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where   ktl.KittingType=3 
+and ktl.Deliverydate='2026-08-20'
+and ktld.SupplyStatus = 1 and ktld.Line='IS1' --and ktl.Model='SA-AU1F-S-T-V4'  --and ktld.UpdatedDate< '2026-08-22 6:10:43'
+order by ktl.UpdatedDate desc 
+
+---- **** kitting outside => ten model khooong dung
+
+--buoc 2: lay list kitting gan nhat cua (out side) urgernt
+WITH cte AS
+(
+    SELECT
+        ktld.KittingListID,
+        MAX(ktld.UpdatedDate) AS MaxUpdated
+    FROM tblKittingListDetail (nolock) ktld
+    LEFT JOIN tblKittingList ktl
+        ON ktld.KittingListID = ktl.ID
+    WHERE 
+	ktl.Model = 'SA-AU1F-S-T-V4'
+	and ktl.KittingType = 3 --khac kitting outside
+      --AND ktl.Deliverydate = '2026-08-20'
+      AND ktld.UpdatedDate < '2026-08-22 6:10:43'
+      AND ktld.SupplyStatus = 1
+      AND ktld.Line = 'IS1'
+    GROUP BY ktld.KittingListID
+),
+rn AS
+(
+    SELECT *,
+           ROW_NUMBER() OVER (
+               ORDER BY MaxUpdated DESC
+           ) AS RowNum
+    FROM cte
+)
+SELECT
+    KittingListID,
+    MaxUpdated AS UpdatedDate
+FROM rn
+WHERE RowNum = 1
+
+
+-------------
+select top 100 * from tblKittingCard where KittingListDetailId in (
+2701002,
+2701003
+)
+
+--buoc 1: tu kitting card : => ban kitting card show line, model va partno cap hang  => co can xac nhan line khong ?=> upadte time kitting list
+--buoc 2: van lay theo luot kitting gan nhat voi con san pham duoc san xuat ra.
+--buoc 3: union voi listkitting FA 
+ 
+
+============================== // trace PE  checker == double ID,mac,private key... //===============
+  FROM [DP_TRACE].[dbo].[TBL_TRACE_CONTENT] where MODEL like '%720%' order by CREATE_DATE desc
+  FROM [WeightSys].[dbo].[SB_TBL_Data_Checker_DP] (nolock) where Model like '%720%' and Serial_No='6ECCD003844'
+
+================================// trace PMD  + kitting out side (theo line, deliver date) //=======================
+---kitting outside  -- lay 2, 3 luot xuat hang gan nhat?   
+**** => kitting outside se union voi kitting FA  
+**** => lay luot kitting trong ngay hom day (Kong xac dinh duoc luot kiting nao => co nhieu luot kitting) = ngay tao kitting ? => ban trong thoi gian ngay san xuat ?
+select  top 1000 * from tblKittingListDetail ktld 
+left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where   ktl.KittingType=3 and ktl.Deliverydate='2026-06-19'  and ktl.Category='DP' and ktl.Line like '%5M%' and ktld.SupplyStatus=1 
+
+******************************
+
+--- thong tin kiting PMD
+select  top 100 * from tblKittingListDetail ktld 
+left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where   ktl.KittingType=3 and ktl.Category='PMD' and ktl.Deliverydate='2026-06-19' 
+
+--- thong tin chi tiet
+select ktld.ID,ktld.Material,ktld.Quantity,ktld.PickedQuantity,ktld.Category,ktld.LocationName,
+ktl.Deliverydate,ktl.Line,ktl.Plant,ktl.Model,ktl.CreatedDate
+from tblKittingListDetail ktld 
+left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where   ktl.KittingType=3 and ktl.Category='PMD' and ktl.Deliverydate='2026-06-19' 
+---- thong tin rececivg card
+select top 10 * from tblKittingCard (nolock) where KittingListDetailId in (
+'2499632',
+'2499914',
+'2499915',
+'2499916',
+'2499917'
+)
+---lay thong receving card
+select  top 100 *  from tblReceivingCard (nolock) where ReceivingCardID='469298'
+--buoc 4:---> trace theo PO va PO_item
+
+
+================================// trace DIP - SMT //=======================
+--flow 1: luong tu kitting MCS
+  ---lay du lieu tu SMT
+   ---SELECT TOP (1000) * FROM [EDISystem].[dbo].[tbl_Traceability] where ProductionPlantID='409616' order by Date_Traceability desc
+
+--list kitting ==> lay ra ngay delivery date
+select  top 10 * from tblKittingList where ID=409616  order by CreatedDate desc
+
+  select * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where ktl.Deliverydate='2026-06-06' and ktld.KittingListID='409616' 
+
+--lay thong tin can
+ select ktld.ID,ktld.Material,ktld.Quantity,ktld.PickedQuantity,ktld.Descriptions,
+ ktl.Line,ktl.Deliverydate,ktl.Model,ktl.ModelQuantity,ktl.Plant,ktl.Category,ktl.Time
+ from tblKittingListDetail ktld 
+ left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where ktl.Deliverydate='2026-06-06' and ktld.KittingListID='409616'
+
+-- truyen 1 chuooix nhieu RC : 385775,397676
+select  top 100 * from tblKittingCard where KittingListDetailId in  (
+'2440409',
+'2440410',
+'2440411',
+'2440412',
+'2440413'
+)
+---trace PO,DA, vendor
+select top 100 * from tblReceivingCard where ReceivingCardID in (
+'390703',
+'410261',
+'435605',
+'417992',
+'252773'
+)
+
+------- luong tu  SMT
+ FROM [EDISystem].[dbo].[tbl_Traceability]  order by Date_Traceability desc
+  --where ProductionPlantID='409616'
+  --link ra model,line, time, delivey date, QTY...
+  ---select  top 10 * from tblKittingList where ID=409616  order by CreatedDate desc
+  --flow 2: luong tu SMT
+  --co cac dong model special ==> phan check special : *** procTraceability_ModelCheck  ***
+  --1. nam trong bang mater: TBL_MODEL_DIFF => qua khau khac lazel, ==> khong qua in out)
+  --2. mot so model dac biet
+
+  --buoc 1:
+ ---  FROM [TestDB].[dbo].[tblMessageTest] (nolock) where PCBID like '%2S-2605050006572%'
+--where PCBID like '%2S-2605050006572%'  -- co ca in va out
+--2T-2605041427192  -- chi co Out
+
+--buoc 2: ==> tu in out lay ra mounting
+--buoc 3: ==> PO, vendor
+
+============================== // Trace Sound biz //============== 19.05.206===============http://localhost:60098/Traceability/TraceSBImmersive.aspx
+stored: Trace_select_weight_MCS_ImmersiveSB
+--buoc 1:
+select  top 100 * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where  ktl.Model='SB-VS1-K-V4'  and ktl.Deliverydate='2026-08-17' and ktld.UpdatedDate< '2026-08-18 10:50:07.000' and ktld.SupplyStatus = 1 and ktld.Line='IS1' order by ktl.UpdatedDate desc   
+
+--dieu kien: >= luot kitting cuoi cung (top2) and < time san xuat 
+--cach lay top 2 dau tien  : 2026-05-19 02:02:08.493 => sua lai thanh TOP 1
+WITH cte AS
+(
+    SELECT
+        ktld.KittingListID,
+        MAX(ktld.UpdatedDate) AS MaxUpdated
+    FROM tblKittingListDetail (nolock) ktld
+    LEFT JOIN tblKittingList ktl
+        ON ktld.KittingListID = ktl.ID
+    WHERE ktl.Model = 'SB-VS1-K-V4'
+      AND ktl.Deliverydate = '2026-08-17'
+      AND ktld.UpdatedDate < '2026-08-18 10:50:07.000'
+      AND ktld.SupplyStatus = 1
+      AND ktld.Line = 'IS1'
+    GROUP BY ktld.KittingListID
+),
+rn AS
+(
+    SELECT *,
+           ROW_NUMBER() OVER (
+               ORDER BY MaxUpdated DESC
+           ) AS RowNum
+    FROM cte
+)
+SELECT
+    KittingListID,
+    MaxUpdated AS UpdatedDate
+FROM rn
+WHERE RowNum = 1
+
+----------ket qua lay ra thoi gian kitting list top 2 desc ==> where: 2026-08-17 13:39:34.417
+select  top 100 * from tblKittingListDetail ktld 
+left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+left join tblKittingCard ktc on ktld.Id =ktc.KittingListDetailId
+where  ktl.Model='SB-VS1-K-V4'  and ktl.Deliverydate='2026-05-18' and ktld.UpdatedDate< '2026-05-19 05:09:00.220' and ktld.UpdatedDate > '2026-05-18 15:51:51.527' and ktld.SupplyStatus = 1 and ktld.Line='EW1' order by ktl.UpdatedDate desc  
+
+--danh sach cac truong can show
+select  top 100 ktld.ID,ktld.Material,ktld.Sloc,ktld.ReceiptSloc,ktld.LocationName,ktld.Quantity,ktld.PickedQuantity,ktld.Descriptions,ktld.Category,
+ktl.Model,ktl.Deliverydate,ktl.Line,ktld.UpdatedDate,
+ktc.RCID,ktc.Plant
+from tblKittingListDetail ktld 
+left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+left join tblKittingCard ktc on ktld.Id =ktc.KittingListDetailId  --- lay ra thong tin recevingcardid
+where  ktl.Model='SB-VS1-K-V4'  and ktl.Deliverydate='2026-08-17' and ktld.UpdatedDate< '2026-08-18 10:50:07.000' and ktld.UpdatedDate >= '2026-08-17 13:39:34.417' 
+and ktld.SupplyStatus = 1 and ktld.Line='IS1' order by ktl.UpdatedDate desc 
+
+
+===============// trace PMD //=============
+------ // check trace PMD //------------
+select  top 100 * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where ktl.Deliverydate='2026-08-21' and  Material='H30016P01AP/AS' order by ktl.Deliverydate desc   --and ktl.Model='SA-AU1-S-V4' -- and  --  ktld.Category='PMD' and
+--and ktld.UpdatedDate< '8/20/2026 8:33:08 AM' 
+--and ktld.SupplyStatus = 1 and ktld.Line='PL17' order by ktl.UpdatedDate desc 
+
+select * from tblKittingList where ID in (
+'452305',
+'452327',
+'452334',
+'452354',
+'452362',
+'452376'
+)
+
+select * from tblKittingListDetail where KittingListID in (
+'452305',
+'452327',
+'452334',
+'452354',
+'452362',
+'452376'
+)
+
+select * from tblKittingCard where KittingListDetailId in (
+'2694789',
+'2694790',
+'2694791',
+'2694792',
+'2694793',
+'2694794',
+'2694795',
+'2694796',
+'2694935',
+'2694936',
+'2694937',
+'2694961',
+'2694962',
+'2694963',
+'2694964',
+'2694965',
+'2695050',
+'2695051',
+'2695052',
+'2695096',
+'2695097',
+'2695098',
+'2695099',
+'2695100',
+'2695101',
+'2695102',
+'2695103',
+'2695167',
+'2695168',
+'2695169'
+) and RCID in (
+'515423',
+'515529',
+'517137',
+'517436'
+)
+
+---PMD dua hang F/G sang MCS theo box card : => MCS in receving card
+select * from tblReceivingCard where ReceivingCardID in (
+'508863',
+'508863',
+'515901',
+'506929',
+'506929',
+'515901',
+'514754',
+'514754',
+'514754',
+'514714',
+'514714',
+'514714',
+'515423',
+'515423',
+'515529',
+'515529',
+'515529',
+'515529',
+'518050',
+'518050',
+'518050',
+'518050',
+'518050',
+'518050',
+'517137',
+'517436',
+'517436',
+'517436',
+'517436',
+'517436'
+) and ReceivingType=2
+
+--and PartNo='H1081-3G61/AS'
+
+
+==================== // *********** //=============
+---stored: Trace_select_weight_MCS_ImmersiveSB
+--buoc 1:
+select  top 100 * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where  ktl.Model='SA-AU1-S-V4'  and ktl.Deliverydate='2026-08-19' and ktld.UpdatedDate< '8/20/2026 8:35:19 AM' and ktld.SupplyStatus = 1 and ktld.Line='IS1' order by ktl.UpdatedDate desc   
+
+--dieu kien: >= luot kitting cuoi cung (top2) and < time san xuat 
+--cach lay top 2 dau tien  : 2026-05-19 02:02:08.493 => sua lai thanh TOP 1 : 2026-08-19 08:14:19.740
+WITH cte AS
+(
+    SELECT
+        ktld.KittingListID,
+        MAX(ktld.UpdatedDate) AS MaxUpdated
+    FROM tblKittingListDetail (nolock) ktld
+    LEFT JOIN tblKittingList ktl
+        ON ktld.KittingListID = ktl.ID
+    WHERE ktl.Model = 'SA-AU1-S-V4'
+      AND ktl.Deliverydate = '2026-08-19'
+      AND ktld.UpdatedDate < '8/20/2026 8:35:19 AM'
+      AND ktld.SupplyStatus = 1
+      AND ktld.Line = 'IS1'
+    GROUP BY ktld.KittingListID
+),
+rn AS
+(
+    SELECT *,
+           ROW_NUMBER() OVER (
+               ORDER BY MaxUpdated DESC
+           ) AS RowNum
+    FROM cte
+)
+SELECT
+    KittingListID,
+    MaxUpdated AS UpdatedDate
+FROM rn
+WHERE RowNum = 1
+
+----------ket qua lay ra thoi gian kitting list top 2 desc ==> where: 2026-08-17 13:39:34.417
+select  top 100 * from tblKittingListDetail ktld 
+left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+left join tblKittingCard ktc on ktld.Id =ktc.KittingListDetailId
+where  ktl.Model='SA-AU1-S-V4'  and ktl.Deliverydate='2026-08-19' and ktld.UpdatedDate< '8/20/2026 8:35:19 AM' and ktld.UpdatedDate > '2026-08-19 08:14:19.740' and ktld.SupplyStatus = 1 and ktld.Line='EW1' order by ktl.UpdatedDate desc  
+
+--danh sach cac truong can show
+select  top 100 ktld.ID,ktld.Material,ktld.Sloc,ktld.ReceiptSloc,ktld.LocationName,ktld.Quantity,ktld.PickedQuantity,ktld.Descriptions,ktld.Category,
+ktl.Model,ktl.Deliverydate,ktl.Line,ktld.UpdatedDate,
+ktc.RCID,ktc.Plant
+from tblKittingListDetail ktld 
+left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+left join tblKittingCard ktc on ktld.Id =ktc.KittingListDetailId  --- lay ra thong tin recevingcardid
+where  ktl.Model='SA-AU1-S-V4'  and ktl.Deliverydate='2026-08-19' and ktld.UpdatedDate< '8/20/2026 8:35:19 AM' and ktld.UpdatedDate >= '2026-08-19 08:14:19.740' 
+and ktld.SupplyStatus = 1 and ktld.Line='IS1' order by ktl.UpdatedDate desc 
+
+
+============================== // Trace FA  DP //============== 19.05.206 ============= http://localhost:60098/Traceability/TraceMenuALL.aspx
+ /Traceability/TraceDP.aspx
+/Traceability/MenuTraceFA.aspx
+/Traceability/TraceMW.aspx
+/Traceability/TraceMenuALL.aspx
+/Traceability/TracePanacimZen12.aspx
+http://localhost:60098/Traceability/TraceMenuALL.aspx
+
+http://localhost:60098/OQC_Inspection/visualizeMessageQC.aspx
+
+--buoc 1:  FROM [WeightSys].[dbo].[Weight_DP] where CONVERT(date,TMR_DATE) ='2026-05-19'
+--buoc 2: 
+--select * FROM [DP_TRACE].[dbo].[TBL_TRACE_CONTENT] (nolock) where MODEL='VL-SE355XDE-V4' and FGDP='6EBCA001204'
+  --Serial main monitor:6EBCA001204;
+  --MANUAL/Paper/OI:PNQX9169XA;
+  --MANUAL/Paper/IG:PNQX9170YA;POS 
+  --code inner:4549980523001;
+ -- PNQX9170YA/V1
+  --PNQX9170YA			---list cap hang co ma sach giay
+
+
+--buoc 3: dang link theo dieu kien Model + Line 
+select  top 100 * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where  ktl.Model='VL-SE355XDE-V4'  and ktl.Deliverydate='2026-05-18' and ktld.UpdatedDate< '2026-05-19 05:09:00.220' and ktld.SupplyStatus = 1 and ktld.Line='EW1' order by ktl.UpdatedDate desc   
+
+--dieu kien: >= luot kitting cuoi cung (top2) and < time san xuat 
+--cach lay top 2 dau tien  : 2026-05-19 02:02:08.493
+WITH cte AS
+(
+    SELECT
+        ktld.KittingListID,
+        MAX(ktld.UpdatedDate) AS MaxUpdated
+    FROM tblKittingListDetail (nolock) ktld
+    LEFT JOIN tblKittingList ktl
+        ON ktld.KittingListID = ktl.ID
+    WHERE ktl.Model = 'VL-SE355XDE-V4'
+      AND ktl.Deliverydate = '2026-05-18'
+      AND ktld.UpdatedDate < '2026-05-19 05:09:00.220'
+      AND ktld.SupplyStatus = 1
+      AND ktld.Line = 'EW1'
+    GROUP BY ktld.KittingListID
+),
+rn AS
+(
+    SELECT *,
+           ROW_NUMBER() OVER (
+               ORDER BY MaxUpdated DESC
+           ) AS RowNum
+    FROM cte
+)
+SELECT
+    KittingListID,
+    MaxUpdated AS UpdatedDate
+FROM rn
+WHERE RowNum = 2
+
+----------ket qua lay ra thoi gian kitting list top 2 desc ==> where: 2026-05-18 15:51:51.527
+select  top 100 * from tblKittingListDetail ktld 
+left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+left join tblKittingCard ktc on ktld.Id =ktc.KittingListDetailId
+where  ktl.Model='VL-SE355XDE-V4'  and ktl.Deliverydate='2026-05-18' and ktld.UpdatedDate< '2026-05-19 05:09:00.220' and ktld.UpdatedDate > '2026-05-18 15:51:51.527' and ktld.SupplyStatus = 1 and ktld.Line='EW1' order by ktl.UpdatedDate desc  
+
+--danh sach cac truong can show
+select  top 100 ktld.ID,ktld.Material,ktld.Sloc,ktld.ReceiptSloc,ktld.LocationName,ktld.Quantity,ktld.PickedQuantity,ktld.Descriptions,ktld.Category,
+ktl.Model,ktl.Deliverydate,ktl.Line,ktld.UpdatedDate,
+ktc.RCID,ktc.Plant
+from tblKittingListDetail ktld 
+left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+left join tblKittingCard ktc on ktld.Id =ktc.KittingListDetailId  --- lay ra thong tin recevingcardid
+where  ktl.Model='VL-SE355XDE-V4'  and ktl.Deliverydate='2026-05-18' and ktld.UpdatedDate< '2026-05-19 05:09:00.220' and ktld.UpdatedDate > '2026-05-18 15:51:51.527' 
+and ktld.SupplyStatus = 1 and ktld.Line='EW1' order by ktl.UpdatedDate desc 
+
+
+---PNMG1012ZA/V1
+select top 10 * from tblKittingCard (nolock) where KittingListDetailId in (
+'2365152',
+'2365151',
+'2365150',
+'2365149',
+'2365148'
+)
+select  top 100 *  from tblReceivingCard (nolock) where ReceivingCardID='435154'
+--buoc 4:---> trace theo PO va PO_item
+
+---buoc 5: trace shipping PE
+--check xem co mater checker khong?
+--select NameModel FROM [WeightSys].[dbo].[SB_TBL_Mater_Model]-- where NameModel='VL-SE355XDE' --and Categogy='DP'
+---FROM [WeightSys].[dbo].[SB_TBL_Data_Checker_DP] (nolock) --where Model='VL-SE355XDE' and Serial_No='6EBCA001204'
+
+------*** truong hop trace theo PCBID
+---------------- // trace PCBID  theo  ban mach SMT //-----------------
+--buoc 1: neu conten like PCB code: thi trace theo SMT
+---select top 1000 * FROM [DP_TRACE].[dbo].[TBL_TRACE_CONTENT] (nolock) where model='VL-SE31XL-V4' and FGDP in ('6EBCA317843','6EBCA317842') order by CREATE_DATE desc
+--PCB code:1I-2605121022341;
+--PCB code:1I-2605111755561;Serial main monitor 1:6EBCA317843;Serial main monitor 2:VL-SE31XL   .6EBCA317843;Serial door station:VL-SE31XL   .6EBCA317843...
+
+--buoc 2:
+ --select * FROM [TestDB].[dbo].[tblMessageTest] (nolock) where PCBID like '%1I-2605111755561%'
+--buoc 3: loc theo mouting tu time in - time out
+--buoc 4: trace theo reelID
+--buoc 5: trace theo 
+
+
+----============================== // Trace FA  MW //============== 19.05.206 =============
+-----------------// ****trace theo list kitting MCS  cate MW //----------------- 
+--buoc 1: lay ra time san xuat : 2026-05-19 11:07:51.000 => delivery date = n -1, model name, line name
+--select * FROM [WeightSys].[dbo].[Weight_MW] where STR_PROCESS_FACTORY='NE-21521AUR-V4' and CONVERT(date,TMR_DATE)='2026-05-19' order by TMR_DATE desc
+select  top 1000 * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where  ktl.Model='NE-21521AUR-V4'  and 
+ktl.Deliverydate='2026-05-18' and ktld.UpdatedDate< '2026-05-19 11:07:51.000' and ktld.SupplyStatus=1 and ktld.Line='MW2' order by ktld.UpdatedDate desc  
+--dieu kien: >= luot kitting cuoi cung (top2) and < time san xuat 
+
+--buoc 2: cach lay top 2 dau tien  : 2026-05-19 02:02:08.493
+WITH cte AS
+(
+    SELECT
+        ktld.KittingListID,
+        MAX(ktld.UpdatedDate) AS MaxUpdated
+    FROM tblKittingListDetail (nolock) ktld
+    LEFT JOIN tblKittingList ktl
+        ON ktld.KittingListID = ktl.ID
+    WHERE ktl.Model = 'NE-21521AUR-V4'
+      AND ktl.Deliverydate = '2026-05-18'
+      AND ktld.UpdatedDate < '2026-05-19 11:07:51.000'
+      AND ktld.SupplyStatus = 1
+      AND ktld.Line = 'MW2'
+    GROUP BY ktld.KittingListID
+),
+rn AS
+(
+    SELECT *,
+           ROW_NUMBER() OVER (
+               ORDER BY MaxUpdated DESC
+           ) AS RowNum
+    FROM cte
+)
+SELECT
+    KittingListID,
+    MaxUpdated AS UpdatedDate
+FROM rn
+WHERE RowNum = 2
+
+----------ket qua lay ra thoi gian kitting list top 2 desc ==> where: 2026-05-19 02:02:08.493
+select  top 1000 * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where  ktl.Model='NE-21521AUR-V4'  and 
+--ktld.UpdatedDate between '2026-05-18 10:00:00' and '2026-05-19 11:07:51.000' and ktld.SupplyStatus=1 and ktld.Line='MW2'
+ktl.Deliverydate='2026-05-18' and ktld.UpdatedDate< '2026-05-19 11:07:51.000' and ktld.UpdatedDate > '2026-05-19 02:02:08.493' and ktld.SupplyStatus=1 and ktld.Line='MW2' order by ktld.UpdatedDate desc 
+--buoc 4
+--select top 10 * from tblKittingCard (nolock) where KittingListDetailId in (...)
+--select  top 100 *  from tblReceivingCard (nolock) where ReceivingCardID='...'
+--buoc 5:---> trace theo PO va PO_item
+
+------*** truong hop trace theo PCBID
+--buoc 1: FROM [WeightSys].[dbo].[Weight_MW] where STR_PROCESS_FACTORY='NE-21521AUR-V4' and CONVERT(date,TMR_DATE)='2026-05-19'
+--buoc 2:
+-- TH1: lay tu bang tbl_FA 
+--FROM [Microwave_Trace].[dbo].[tbl_FA] (nolock) where len(Filter_PCB)=17 order by Dateinsert desc--where Pannal_PCB <>''
+  --co 3 ban mach: Filter_PCB, Filter_PCB2 (khong co du lieu), Pannal_PCB  ==> link theo 3 ban mach do
+  --neu len(Pannal_PCB)=17 ==> vao bang mat xanh mat vang lay ID goc => trace SMT
+  --neu len
+  --1L-26040300007178
+  --1K-2604200848511
+  -- TH2: lay tu bang  tbl_FA_18L
+  -- TH 2: tbl_FA_18L
+  -- FROM [Microwave_Trace].[dbo].[tbl_FA_18L] order by Dateinsert desc
+  --ModeName='NE-21521AUR' and SerialNo='6C56180139'
+  --cot PCPID:
+  --Step:1/PCB:2P-26051500003411,Step:2/PCB:3B-26051500025846,Step:3/PCB:3N-26051500026886
+  --2P-26051500003411 (17 ky tu)  
+  --3B-26051500025846
+  --3N-26051500026886
+  -- neu PCBID > 16 ky tu thi quay vao bang mat xanh mat vang => lay ID goc ==> trace SMT
+  -- neu PCBID = 16 lay bang SMT  (*** check xem truong hop nay co khong***)
+  --buoc 3: vao bang mat xanh vang => lay ra ID goc
+  --[TestDB].[dbo].[tbl_ScanQR_PCB_MW] (nolock) where SerialNo_New like '%2P-26051500003411%' order by DateInsert desc
+  --buoc 4: trace nguoc lai SMT
+  --[TestDB].[dbo].[tblMessageTest] (nolock) where PCBID like '%2P-2605111958233%'
+
+
+
+----============================== // Trace FA  sound biz //============== 20.05.206 =============
+-----------------------**** khong trace duoc ban mach SMT -----------------------------------------  Model sound biz   ==> khong co duoi V4
+  select  top 1000 * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where  ktl.Model='K-SRB20'  and 
+ktl.Deliverydate='2026-05-19' and ktld.UpdatedDate< '2026-05-20 13:33:59.000' and ktld.SupplyStatus=1 and ktld.Line='SB1' order by ktld.UpdatedDate desc    -- and ktld.Line='SB1'
+
+--dieu kien: >= luot kitting cuoi cung (top2) and < time san xuat 
+
+--buoc 2: cach lay top 2 dau tien  : 2026-05-19 02:02:08.493
+WITH cte AS
+(
+    SELECT
+        ktld.KittingListID,
+        MAX(ktld.UpdatedDate) AS MaxUpdated
+    FROM tblKittingListDetail (nolock) ktld
+    LEFT JOIN tblKittingList ktl
+        ON ktld.KittingListID = ktl.ID
+    WHERE ktl.Model = 'K-SRB20'
+      AND ktl.Deliverydate = '2026-05-19'
+      AND ktld.UpdatedDate < '2026-05-20 13:33:59.000'
+      AND ktld.SupplyStatus = 1
+      AND ktld.Line = 'SB1'
+    GROUP BY ktld.KittingListID
+),
+rn AS
+(
+    SELECT *,
+           ROW_NUMBER() OVER (
+               ORDER BY MaxUpdated DESC
+           ) AS RowNum
+    FROM cte
+)
+SELECT
+    KittingListID,
+    MaxUpdated AS UpdatedDate
+FROM rn
+WHERE RowNum = 2
+
+----------ket qua lay ra thoi gian kitting list top 2 desc ==> where: 2026-05-19 07:33:29.620
+select  top 1000 * from tblKittingListDetail ktld left join tblKittingList ktl ON ktld.KittingListID = ktl.ID 
+where  ktl.Model='K-SRB20'  and 
+--ktld.UpdatedDate between '2026-05-18 10:00:00' and '2026-05-19 11:07:51.000' and ktld.SupplyStatus=1 and ktld.Line='MW2'
+ktl.Deliverydate='2026-05-19' and ktld.UpdatedDate< '2026-05-19 11:07:51.000' and ktld.UpdatedDate > '2026-05-19 07:33:29.620' and ktld.SupplyStatus=1 and ktld.Line='SB1' order by ktld.UpdatedDate desc 
+
+--buoc 4
+--select top 10 * from tblKittingCard (nolock) where KittingListDetailId in (...)
+--select  top 100 *  from tblReceivingCard (nolock) where ReceivingCardID='...'
+--buoc 5:---> trace theo PO va PO_item
+
+
+
+============================== // 2026 job auto panacim zen 2 (1 tieng chay 1 lan) //==============
+zen 1 chuong trinh cua phong tren con .13
+buoc 1: dat job 
+192.168.128.54
+vn\administrator
+Panasonic123
+D:\JobAutoPancimZen2\UploadFilePanaCim\UploadFilePanaCim.exe
+--mater duong dan luu file chay
+
+chay cac line: cho mấy line Gen2: 1,2,3,4,15,16,17,18,20
+---mater line chay theo file text trong thu muc goc: ==> bo sung vao mater bo sung
+Line-01,SMT01
+Line-02,SMT02
+Line-03,SMT03
+Line-04,SMT04
+Line15,SMT15
+Line16,SMT16
+Line17,SMT17
+Line18,SMT18
+Line20,SMT20
+
+
+buoc 2: sua stored : IT request
+http://10.92.184.24/Traceability/TracePBX.aspx  (thieu line)
+Get_All_Category		(thieu ten line qua bang message **** => khong trace duoc)
+
+========================== // ***** cac buoc trace SMT ***** //================
+1.TraceabilitySMT.aspx (lay tu line SMT IN-OUT )
+	trace_panacim_SMT_line_inout
+
+2. MoutingDetail_New.aspx	(lay union tu 2 bang panacim zen 1 & panacim zen 2)
+	CheckBetweenTime2
+
+3. ReelDetail_New.aspx
+	tblReelCuttingTransaction_SelectByReelID 'C26050600142'   (lay gia bang du lieu cat panacim cua SMT)
+		bang thong tin: ID, sreelID,iqty,iparentID,dcreatedate,screatedby,istatus,sreelname,itransID,sreeldorigin,spartno,splantid,sremark, marketname, rootID, level=1
+		select *,ID as RootID,'1' [Level] from tblReelCuttingTransaction where sReelID=@sReelID
+	[getInfoFromReelID_SMT] 'C26050600142'			  (link sang bang MCS ==> kho mcs cat chia)
+		bang thong tin: //material , referentce, Pstgdate, vendor, vendorName, LotnoCode, Category, sPlant, KL_PL, sLocation, BarcodeID
+
+/Traceability/TraceabilitySMT.aspx	danh sach in out
+MoutingDetail_New.aspx			danh sach mouting
+/Traceability/ReelDetail_New.aspx	danh sach cat chia SMT	
+TracePO.aspx				danh sach PO
+
+
+
+
+
+
+http://10.92.184.24/Traceability/MoutingDetail_New.aspx?PCBID=2M-2605042059322&&Side1LineIn=SMT10&&StartTime=05/06/2026%2000:48:09&&EndTime=05/06/2026%2000:48:09
+CheckBetweenTime2	(sua unione)
+
+
+============================== // 07.05.2026   //====================== ***** Trace Zen 2 *****--------------- // du lieu dau vao zen 2 //--------------------
+SELECT TOP (10000)*
+  FROM [TestDB].[dbo].[tblDataMouting_Zen2] where WORK_DATE in ('2026-05-06') and LineName='Line-02'  AND LEFT(MaterialBarcode,2)<>'TD'
+
+--buoc 2: click Materialbarcode => PCBID
+
+--  ==> truong hop nay la cua IC rom SMT  -- --> khong where theo sPartNo='PNLPMGE30H2ZA-V4'
+--buoc 3a:  lay ban ghi goc (cha) tu SMT  (**** truong hop doi Plan phai link theo sPartNo ****)
+-- FROM [EDISystem].[dbo].[tblReelCuttingTransaction] where   
+-- -- sPartNo='PNLPMGE30H2ZA-V4'
+
+---trace ic rom
+--check mater khi scan QR code panacim: SP_QQtyMasterTray_SMT
+-- insert vao bang history: SP_InserttblLabelTraySMTdata_new
+-- bang history in:  FROM [EDISystem].[dbo].[tblLabelTraySMTdata] order by timep desc
+--step 1:  FROM [EDISystem].[dbo].[tblLabelTraySMTdata] (nolock) where barcode like '%TD2605050773%' order by timep desc  --where theo ma icrom
+--loc theo label input: PN-PNLPMGE30H2ZA-V4RI-CD2605040514QT-192
+--step 2: 
+--SELECT TOP (1000) * FROM [EDISystem].[dbo].[tblReelCuttingTransaction] (nolock) where sReelID like '%D23041804599%' ==> lay theo sreelIDorgin
+--step 3:lay bang MCS
+--select * FROM [SWMS_DEV].[dbo].[tblDefine_SMT] (nolock) where sReelID='D23041804599' 
+--step 4: lay barcode ID => recevingcard  => ra vendor
+
+
+--buoc 3c: => lay ban ghi goc (cha -- sreelIDorgin) tu SMT -- FROM [EDISystem].[dbo].[tblReelCuttingTransaction] where  
+step 1: lay ban ghi goc (cha -- sreelIDorgin)
+SELECT TOP (1000) * FROM [EDISystem].[dbo].[tblReelCuttingTransaction] (nolock) where sReelID like '%CD2605040142%'
+step 2:
+ select * FROM [SWMS_DEV].[dbo].[tblDefine_SMT] (nolock) where sReelID='D26040200756' order by dCreated desc
+--step 3:lay bang MCS
+--step 4: lay barcode ID => recevingcard  => ra vendor
+
+
+--buoc 3b: => khong co trong bang : tblReelCuttingTransaction
+if SELECT TOP (1000) * FROM [EDISystem].[dbo].[tblReelCuttingTransaction] (nolock) where sReelID like '%D26030500743%'
+	khong co ban ghi
+else
+	select *  FROM [SWMS_DEV].[dbo].[tblDefine_SMT] (nolock) where sReelID='D26030500743' order by dCreated desc
+--step 3:lay bang MCS
+--step 4: lay barcode ID => recevingcard  => ra vendor
+
+============================== // 07.05.2026   //====================== ***** Trace Zen 1 *****
+tuong tu zen2
+
+
+============================== // 2026 them market stock //==============
+SELECT top 10 *
+  FROM [SWMS_DEV].[dbo].[tblDefine_SMT] p 
+  inner join  tblReceivingCard rc on p.sBarcodeID = rc.ReceivingCardID and rc.VendorName like '%Market%'
+ 
+  select top 100 * from [SWMS_DEV].[dbo].[tblReceivingCard]  where VendorName like '%Market%'
+
+  --VP015
+  --Market Stock-FUTREX
+  ---------------------------
+
+SELECT top 10 *
+  FROM [SWMS_DEV].[dbo].[tblDefine_SMT] where sReelID='M26050500054'
+
+
+  -- lay ra vendorname
+  SELECT TOP 1   r.VendorName FROM tblDefine_SMT p WITH (NOLOCK)
+LEFT JOIN tblReceivingCard r WITH (NOLOCK) ON p.sBarcodeID = r.ReceivingCardID
+WHERE p.sReelID = 'M26050500054'
+
+
+
+SELECT top 10 *
+  FROM [SWMS_DEV].[dbo].[tblDefine_SMT] where sReelID='M26050500054'
+
+ -- lay ra vendorname
+ ============================ // lay ra PO, po item : chia theo ReceivingType => lay ra PO, PO item  //============================ ***************
+  SELECT TOP 1  p.sReelID,p.sPartNoID,p.iQuantity,p.sPlant,p.sCategory,r.VendorCode, r.VendorName,r.ReceivingCardDate,r.DAInvDetailId,r.DAInvId,r.ReceivingType,r.ReceivingCardID FROM tblDefine_SMT p WITH (NOLOCK)
+LEFT JOIN tblReceivingCard r WITH (NOLOCK) ON p.sBarcodeID = r.ReceivingCardID
+WHERE p.sReelID = 'M26050500054'
+
+select * from tblReceivingCard (nolock) where ReceivingCardID=435140
+
+--hang invoice
+select * from tblInvoice (nolock) where InvoiceID=49883
+select * from tblInvoiceDetail (nolock) where InvoiceDetailID=195561
+select * from tblInvoiceItemDetail (nolock) where InvoiceDetailID=195561
+---cau lenh slect
+select a.DeliveryDate,a.Plant,a.Material,
+b.PlanQuantity,b.PONo,b.POItem,
+c.InvoiceNo as DaNo, c.InvoiceDate as DaDate
+from tblInvoiceDetail (nolock) a 
+left join tblInvoiceItemDetail (nolock) b on a.InvoiceDetailID=b.InvoiceDetailID
+left join tblInvoice (nolock) c on a.InvoiceID =c.InvoiceID
+where a.InvoiceDetailID=195561
+
+--hang DA
+select top 10 * from tblDA where DAID = 74416
+select top 10 * from tblDADetail where DADetailID = 240968
+select top 10 * from tblDAItemDetail where DADetailID in (240968)
+---cau lenh
+select a.DeliveryDate,a.Plant,a.Material,
+b.PlanQuantity,b.PONo,b.POItem,
+c.DANo as DaNo, c.DADate as DaDate
+from tblDADetail (nolock) a 
+left join tblDAItemDetail (nolock) b on a.DADetailID=b.DADetailID
+left join tblDA (nolock) c on a.DAID=c.DAID
+where a.DADetailID = 240968
+
+
+  -------------------------------------------------------- // begin  Tạo Linked Server //------------------
+
+-- EXEC sp_addlinkedserver 
+--    @server = 'SWMS',              -- tên bạn sẽ dùng trong query
+--    @srvproduct = '',
+--    @provider = 'SQLNCLI',        -- hoặc MSOLEDBSQL (tùy version)
+--    @datasrc = '192.168.128.130'  -- IP server đích
+
+
+--	EXEC sp_addlinkedsrvlogin 
+--    @rmtsrvname = 'SWMS',
+--    @useself = 'false',
+--    @rmtuser = 'sa',
+--    @rmtpassword = 'Psnvdb2013'
+
+--	SELECT top 10 * 
+--FROM [SWMS].[SWMS_DEV].[dbo].[tblDefine_SMT]
+
+cau lenh kiem tra link server:
+SELECT *
+FROM sys.servers
+
+SELECT TOP 1  @marketstock = r.VendorName FROM [SWMS].[SWMS_DEV].[dbo].[tblDefine_SMT] p WITH (NOLOCK)
+			LEFT JOIN [SWMS].[SWMS_DEV].[dbo].[tblReceivingCard] r WITH (NOLOCK) ON p.sBarcodeID = r.ReceivingCardID
+			WHERE p.sReelID = @ReelID
+--------------------------------------------------------  // end //------------------
+
+  ------------------------- Foss old ---
+  --bang : tblReelCuttingTransaction => them cot : MarketName
+  --view : viw_PrintLabel_Cutting	=> them cot : MarketName
+  --buoc 1: insert them cot market name khi cat chia
+  ---------------procReelCuttingTransaction_add2_Test_marketstock
+  ---procReelCuttingTransaction_add2_Test_marketstock 'M26050500054', '1','1',0,'2012757','0','M26050500054','M','J900C3J91BP','VG01(CM)','SPLIT'   ----test du lieu 05.05.2026
+  --buoc 2: show panacim
+  ---------------TA_procReelCuttingTransaction_getBy_Socuon_marketstock 'D26040200027','1'
+
+---buoc 3: test truon hop in tiep => cuon con chia tiep theo: show panacim
+	procReelCuttingTransaction_getBy	(them cot : MarketName)
+
+*************** // SMT gui request len => hien thi PL tren tem pancim //=============
+
+***pending : => linh voi mater upload: 
+FROM [EDISystem].[dbo].[tblMasterSMTLocation] where sLocation like '%Pl%'
+cu co chu PL trong truong sLocation thi them PL*****
+
+==> them 2 report: 
+	1 report co ca M + PL
+	1 report co PL only
+
+stored: TA_procReelCuttingTransaction_getBy_Socuon_marketstock  ===> them cot Location  ** co chu PL.
+//them ca PL len panacim : 06.05.206
+        rptLocation_PLSMT rptprint_PLSMT = new rptLocation_PLSMT();
+        rptLocation_marketstock_PLSMT rptprint_M_PL = new rptLocation_marketstock_PLSMT();
+
+
+============================== // 2026 them market stock  == end //==============
+
+
+
+case 2: chuong trinh day file du lieu cua SWMS sang panacim zen2
+========= // in panacim SWMS //======= 
+GetReceivingCardByReceivingCardId
+getPanacimLabel_SMT
+
+du lieu trong bang : [SWMS_DEV].[dbo].[tblDefine_SMT] where sReelID='A25101600001'
+A25101500511,C2DBYY002169,,,,,,,,720,,,,,,,,,,,,MCS,
+D25101500716,PNMC1018ZA/M1,,,,,,,,3780,,,,,,,,,,,,MCS,
+A25101600001,F2A1H470C343,,,,,,,,2000,,,,,,,,,,,,MCS,
+  
+=====2 view === EDISystem***** ===> ngay mai check lai SWMS  ===> sang PEM
+PK_View_MCS_GR_NEW
+PK_View_MCS_StockCardSMT_29
+
+====mail  : FW: [EAMS] FOSS View mapping  *** mai gui mail anh chung
+Hi Teramoto-san,
+Thank you for your information. We got the following 3 type QR Code.
+Id	Name	Format	View Name
+1	invoice_code_1	21100600397;VR01;1210;C0DBAYY01694;75039;10/06/2021;VB014;RECHECK;PK_SMT	PK_View_MCS_GR_NEW
+2	invoice_code_2	21100500267;VB01;5210;G1C2R2ZA0449;5000;10-05-2021;VF019;2100000697;PK_SMT	PK_View_MCS_GR_NEW
+3	invoice_code_3	202110080028;VB01;5210;F1H0J2250006;8000;VF018;4101010752;PK_SMT	PK_View_MCS_StockCardSMT_29
+If you have any concern on our ask-knowledgement , feel free, point us.
+Thank you.
+My best regards,
+
+
+
+
+case 1 : View cho Dung PV ============= // Panacim SMT (View) Foss cu //=============== cho cat chia
+user: view_dung
+Pass : dung@123
+Database: EDISystem
+view: view_TransactionCuttingReel
+
+===================
+
+[EDISystem].[dbo].[view_TransactionCuttingReel]   
+SELECT        ID, sReelID, iQty, iParentID, dCreatedDate, sCreatedBy, iStatus, sReelName, iTransID, sReelIDorigin, sPartNo, sPlantID, sRemark
+FROM            dbo.tblReelCuttingTransaction
+
+
+
+
+========================== //  tao view //====================
+
+  --------------Tao view cho SMT tu (SWMS) : view1 : PK_View_MCS_StockCardSMT_29
+  select a.Plant,a.Material,c.sBarcodeID,a.ReceivingCardDate,a.PL,'' as UL,a.Rohs,a.Sloc,a.TotalQuantity,a.DAInvNo,a.VendorName,a.Urgent
+  from tblReceivingCard a 
+  LEFT OUTER JOIN tbl_SMT_StockCard_Master b on a.Material = b.Material and a.Plant=b.Plant --and b.Category='SMT-DP'
+  left join tblDefine_SMT c on a.Material = c.sPartNoID and b.Category=c.sCategory and a.ReceivingCardDate=c.PstgDate
+  ---left join tblVendor d on a.VendorCode = d.VendorCode    
+  where  a.ReceivingCardDate='2025-10-16' ---a.Material='G1C2R2MA0392' and  --and c.PstgDate='2025-10-16'  (*** gioi han ngay ****)
+  group by a.Plant,a.Material,a.ReceivingCardDate,a.PL,a.Rohs,a.Sloc,a.TotalQuantity,a.DAInvNo,a.VendorCode ,c.sBarcodeID,a.VendorName,a.Urgent
+
+  --------------Tao view cho SMT tu (SWMS) : view2 : PK_View_MCS_GR_NEW
+  select a.Plant,a.Material, a.Reason,a.MaterialType,a.DAInvDetailId,a.ReceivingCardDate,a.Sloc,a.TotalQuantity,
+  a.MaterialFrequency,a.DAInvNo,'' as PO,'' as POitem,a.VendorCode,a.PL,a.Rohs,a.Status,a.Category,c.sBarcodeID 
+  from tblReceivingCard a 
+  LEFT OUTER JOIN tbl_SMT_StockCard_Master b on a.Material = b.Material and a.Plant=b.Plant --and b.Category='SMT-DP'
+  left join tblDefine_SMT c on a.Material = c.sPartNoID and b.Category=c.sCategory and a.ReceivingCardDate=c.PstgDate
+  where a.ReceivingCardDate='2025-10-16'  
+  group by a.Plant,a.Material, a.Reason,a.MaterialType,a.DAInvDetailId,a.ReceivingCardDate,a.Sloc,a.TotalQuantity,
+  a.MaterialFrequency,a.DAInvNo,a.VendorCode,a.PL,a.Rohs,a.Status,a.Category,c.sBarcodeID 
+
+
+  ----------------cac bang panacim EDI odl ---------------
+  --tbl_Master_Header_SMT_Checker
+  --tbl_SMT_Master_Material
+  --tblDefine_SMT
+  --tblReelControl_SMT
+
+  --view 1: [PK_View_MCS_StockCardSMT_29] --------------gom cac colum: 
+--  SELECT        TOP (100) PERCENT dbo.tblStockCard_MCS_SMT.Plant, 
+--dbo.tblStockCard_MCS_SMT.Material, 
+--dbo.tblStockCard_MCS_SMT.BarcodeID, 
+--dbo.tblStockCard_MCS_SMT.PstgDate, 
+--dbo.tblStockCard_MCS_SMT.CtrlKey, 
+--                         dbo.tblCheck_SMT.UL, 
+--dbo.tblStockCard_MCS_SMT.T AS INSKM, 
+--dbo.tblStockCard_MCS_SMT.SLoc, 
+--SUM(dbo.tblStockCard_MCS_SMT.Quantity) AS Quantity, 
+--dbo.tblStockCard_MCS_SMT.Reference, 
+--                         dbo.tblStockCard_MCS_SMT.Vendor,
+--                             (SELECT        TOP (1) VenderName
+--                               FROM            dbo.tblVender
+--                               WHERE        (VenderCode = dbo.tblStockCard_MCS_SMT.Vendor)) AS VenderName, dbo.tblCheck_SMT.Status AS Note_status
+--FROM            dbo.tblStockCard_MCS_SMT LEFT OUTER JOIN
+--                         dbo.tblCheck_SMT ON dbo.tblStockCard_MCS_SMT.Material = dbo.tblCheck_SMT.Material
+--GROUP BY dbo.tblStockCard_MCS_SMT.Plant, dbo.tblStockCard_MCS_SMT.Material, dbo.tblStockCard_MCS_SMT.PstgDate, dbo.tblStockCard_MCS_SMT.CtrlKey, dbo.tblStockCard_MCS_SMT.T, dbo.tblStockCard_MCS_SMT.SLoc, 
+--                         dbo.tblStockCard_MCS_SMT.Reference, dbo.tblStockCard_MCS_SMT.Vendor, dbo.tblStockCard_MCS_SMT.BarcodeID, dbo.tblCheck_SMT.UL, dbo.tblCheck_SMT.Status
+--ORDER BY dbo.tblStockCard_MCS_SMT.Vendor, dbo.tblStockCard_MCS_SMT.Reference DESC
+
+ --view 2: [PK_View_MCS_GR_NEW] 
+-- SELECT        TOP (100) PERCENT Plant, Material, description, MvT, Item, DocDate, PstgDate, SLoc, Quantity, Unit, Reference, PO, POItem, Vendor, EntryDte, CtrlKey, T, MatDoc, Status, Time, Category, BarcodeID, Create_Date
+--FROM            dbo.tblStockCard_MCS_SMT
+
+
+

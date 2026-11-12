@@ -1,0 +1,61 @@
+SELECT TOP (1000) [TestRunId]
+      ,[StationId]
+      ,[ProductionDate]
+      ,[TestTime]
+      ,[Judge]
+      ,[TactSec]
+      ,[SerialNo]
+      ,[ModelId]
+      ,[PcbNo]
+      ,[TestDateTime]
+  FROM [PSNV.QMS].[Log].[TestRun]
+
+
+---danh sach log file FCT checker
+  select 
+  a.TestRunId,
+  --a.ModelId,
+  c.ModelCode,
+  a.SerialNo, 
+  a.PcbNo,
+  a.ProductionDate,
+  a.TestTime,
+  a.Judge,
+  a.TactSec,
+  a.TestDateTime,
+  b.StationCode,
+  --a.StationId,
+  d.FirstAt,
+  d.FirstJudge,
+  d.Outcome,
+  --d.FirstTestRunId
+  '' as LineFCT,
+  '' as LineFA
+   from Log.TestRun a 
+    left join Log.TestStation b on a.StationId = b.StationId	--station code
+    left join Log.ProductModel c on a.ModelId = c.ModelId		--master model
+	left join Log.TestBoardOutcome d on d.PcbNo=a.PcbNo			-- link so lan count check
+    where a.PcbNo='6GACA356898' order by a.TestDateTime asc		-- list danh sach cac station log FCT chay qua
+	--SerialNo = '6GACA356898'
+
+
+---list detail
+SELECT TOP (1000) [ResultId]
+      ,[TestRunId]
+      ,a.[StepDefId]
+      ,[RawValue]
+      ,[NumericValue]
+      ,[StepJudge]
+	  --,b.StationId
+	  ,c.StationCode
+	  ,b.StepName
+	  ,b.StepNo
+	  ,b.Unit
+	  ,b.LowerLimit
+	  ,b.UpperLimit
+  FROM [PSNV.QMS].[Log].[TestStepResult] a 
+  left join [PSNV.QMS].[Log].[TestStepDef] b on a.StepDefId=b.StepDefId
+  left join Log.TestStation c on b.StationId = c.StationId 
+  where a.TestRunId='420'
+
+

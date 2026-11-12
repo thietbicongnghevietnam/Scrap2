@@ -22,6 +22,8 @@ namespace ScrapSystem.Web.Controllers
             DateTime? dateFrom = null,
             DateTime? dateTo = null)
         {
+
+
             var (data, total) = await _service.GetPagedAsync(keyword, page, pageSize, dateFrom, dateTo);
 
             ViewBag.Page = page;

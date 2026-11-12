@@ -3,7 +3,6 @@
 
 <h3>Mater Section</h3>
 
-
 <form method="get">
     <div class="row mb-2">
         <div class="col-md-2">
@@ -18,11 +17,29 @@
         <div class="col-md-auto">
             <button class="btn btn-primary" type="submit">Search</button>
         </div>
-        <div class="col-md-auto">
+        @* <div class="col-md-auto">
             <a href="@Url.Action("CreateMaterSection")" class="btn btn-success">Add</a>
+        </div> *@
+        <div class="col-md-auto">
+            <button type="button" id="btnAdd" class="btn btn-success">
+                Add
+            </button>
+        </div>
+
+    </div>
+    <!-- DÒNG MỚI: Chọn số bản ghi / trang -->
+    <div class="row mb-3">
+        <div class="col-md-2 d-flex align-items-center">
+            <label for="ddlPageSize" class="me-2 mb-0">PageSize:</label>
+            @Html.DropDownList("ddlPageSize",
+                        new SelectList(new int[] { 5, 10, 20, 50 }, ViewBag.PageSize),
+                        htmlAttributes: new { @class = "form-select", id = "ddlPageSize" })
         </div>
     </div>
+
+
 </form>
+
 
 <!-- Bảng hiển thị dữ liệu -->
 <table class="table table-bordered table-striped" id="tblMater">
@@ -57,8 +74,8 @@
     </tbody>
 </table>
 
-<!-- Phân trang -->
-<nav>
+<!-- Phân trang 1-->
+@* <nav>
     <ul class="pagination">
         @for (int i = 1; i <= (int)Math.Ceiling((double)ViewBag.Total / ViewBag.PageSize); i++)
         {
@@ -67,7 +84,13 @@
             </li>
         }
     </ul>
-</nav>
+</nav> *@
+<!-- Pagination dynamic phan trang 2 -->
+@* <nav>
+    <ul class="pagination" id="pagination"></ul>
+</nav> *@
+<!-- Pagination phan trang 3-->
+<div id="pagination" class="mt-2"></div>
 
 <!-- MODAL -->
 <div class="modal fade" id="materModal">
@@ -83,167 +106,5 @@
 </div>
 
 @section Scripts{
-<script>
-        var page = @ViewBag.Page;
-        var pageSize = @ViewBag.PageSize;
-        let keyword = '';
-
-            // LOAD DATA FUNCTION
-            function loadMater(keyword = '', dateFrom = '', dateTo = '') {
-                $.get('@Url.Action("MaterSectionList")', {
-                    keyword: keyword,
-                    page: page,
-                    pageSize: pageSize,
-                    dateFrom: dateFrom,
-                    dateTo: dateTo
-                }, function (res) {
-                    let html = '';
-                    $.each(res.data, function (i, d) {
-                        html += `
-                            <tr id="row_${d.id}">
-                                <td>${d.id}</td>
-                                <td class="section">${d.section}</td>
-                                <td class="desc">${d.description ?? ''}</td>
-                                <td class="flag">${d.flag_del}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-info btn-detail" data-id="${d.id}">Detail</button>
-                                    <button class="btn btn-sm btn-warning btn-edit" data-id="${d.id}">Edit</button>
-                                    <button class="btn btn-sm btn-danger btn-delete" data-id="${d.id}">Delete</button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                    $('#materBody').html(html);
-                    //renderPager(res.total);
-                });
-            }
-
-    // =========================
-        // Mở modal chỉnh sửa
-        // =========================
-        $(document).on('click', '.btn-edit', function () {
-            var id = $(this).data('id');
-            $.get('@Url.Action("EditMaterSection")', { id: id }, function (res) {
-                $('#modalBody').html(res);
-                $('#materModal').modal('show');
-                bindForm(); // Gọi sau khi load partial
-            });
-        });
-
-        // =========================
-        // Chi tiết
-        // =========================
-        $(document).on('click', '.btn-detail', function () {
-            var id = $(this).data('id');
-            $.get('@Url.Action("MaterSectionDetail")', { id: id }, function (res) {
-                $('#modalBody').html(res);
-                $('#materModal').modal('show');
-            });
-        });
-
-        // =========================
-        // Xóa
-        // =========================
-        $(document).on('click', '.btn-delete', function () {
-            var id = $(this).data('id');
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'This record will be deleted!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                confirmButtonText: 'Delete'
-            }).then((result) => {
-                if (!result.isConfirmed) return;
-
-                $.post('@Url.Action("DeleteMaterSection")', { id: id }, function (res) {
-                    if (res.success) {
-                        $('#row_' + res.id).remove();
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Deleted!',
-                            text: 'Record deleted successfully',
-                            timer: 1200,
-                            showConfirmButton: false
-                        });
-                        loadMater(); // Tải lại danh sách
-                    }
-                });
-            });
-        });
-
-        // =========================
-        // Submit form tạo hoặc chỉnh sửa
-        // =========================
-        function bindForm() {
-            $('#materForm').off('submit').on('submit', function (e) {
-                e.preventDefault();
-                var form = $(this);
-
-                $.ajax({
-                    url: form.attr('action'),
-                    type: 'POST',
-                    data: form.serialize(),
-                    success: function (res) {
-                        // Nếu validation thất bại
-                        if (!res.success) {
-                            $('#modalBody').html(res);
-                            bindForm(); // Gọi lại để bind lại form mới
-                            return;
-                        }
-
-                        var d = res.data;
-                        var rowId = '#row_' + d.id;
-                        var isEdit = $(rowId).length > 0;
-
-                        // Thêm mới
-                        if (!isEdit) {
-                            $('#tblMater tbody').append(`
-                                <tr id="row_${d.id}">
-                                    <td>${d.id}</td>
-                                    <td class="section">${d.section}</td>
-                                    <td class="desc">${d.description ?? ''}</td>
-                                    <td class="flag">${d.flag_del}</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-warning btn-edit" data-id="${d.id}">Edit</button>
-                                        <button class="btn btn-sm btn-danger btn-delete" data-id="${d.id}">Delete</button>
-                                    </td>
-                                </tr>
-                            `);
-                            Swal.fire({
-                                toast: true,
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Added successfully',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        } else {
-                            // Cập nhật
-                            var row = $(rowId);
-                            row.find('.section').text(d.section);
-                            row.find('.desc').text(d.description);
-                            row.find('.flag').text(d.flag_del);
-                            Swal.fire({
-                                toast: true,
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Updated successfully',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        }
-
-                        loadMater(); // Reload danh sách
-                        $('#materModal').modal('hide'); // Đóng modal
-                    }
-                });
-            });
-        }
-
-        
-
-            
-</script>
+    @await Html.PartialAsync("MaterSectionScript")
 }

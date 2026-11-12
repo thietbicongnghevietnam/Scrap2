@@ -1,0 +1,225 @@
+﻿<script>
+    var page = @ViewBag.Page;
+    var pageSize = @ViewBag.PageSize;
+    let keyword = '';
+
+    // Load lần đầu
+    $(document).ready(function() {
+        let keyword = $('input[name="keyword"]').val();
+        let dateFrom = $('input[name="dateFrom"]').val();
+        let dateTo = $('input[name="dateTo"]').val();
+        loadMater(keyword, dateFrom, dateTo);
+    });
+    // =========================
+    // Thay đổi số bản ghi / trang
+    // =========================
+    $('#ddlPageSize').on('change', function() {
+        pageSize = parseInt($(this).val());  // cập nhật biến pageSize
+        page = 1; // reset về trang 1 khi đổi pageSize
+        let dateFrom = $('input[name="dateFrom"]').val();
+        let dateTo = $('input[name="dateTo"]').val();
+        let keyword = $('input[name="keyword"]').val();
+
+        loadMater(keyword, dateFrom, dateTo);
+    });
+
+
+    // LOAD DATA FUNCTION
+    function loadMater(keyword = '', dateFrom = '', dateTo = '') {
+        $.get('@Url.Action("MaterSectionList")', {
+            keyword: keyword,
+            page: page,
+            pageSize: pageSize,
+            dateFrom: dateFrom,
+            dateTo: dateTo
+        }, function (res) {
+            let html = '';
+            $.each(res.data, function (i, d) {
+                html += `
+                    <tr id="row_${d.id}">
+                        <td>${d.id}</td>
+                        <td class="section">${d.section}</td>
+                        <td class="desc">${d.description ?? ''}</td>
+                        <td class="flag">${d.flag_del}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info btn-detail" data-id="${d.id}">Detail</button>
+                            <button class="btn btn-sm btn-warning btn-edit" data-id="${d.id}">Edit</button>
+                            <button class="btn btn-sm btn-danger btn-delete" data-id="${d.id}">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#materBody').html(html);
+            // render pager phan trang 2
+            //renderPager(res.total, res.page, res.pageSize);
+            //phan trang 3
+            // ---------------- RENDER PAGINATION ----------------
+            let totalPages = Math.max(1, Math.ceil(res.total / pageSize)); // luôn >=1
+            let pagHtml = '';
+
+            // Prev
+            if (page > 1) {
+                pagHtml += `<button class="btn btn-sm btn-outline-primary me-1" onclick="gotoPage(${page - 1})">Prev</button>`;
+            }
+
+            // Hiển thị tối đa 5 trang
+            let startPage = Math.max(1, page - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+            for (let i = startPage; i <= endPage; i++) {
+                pagHtml += `<button class="btn btn-sm me-1 ${i === page ? 'btn-primary' : 'btn-outline-primary'}" onclick="gotoPage(${i})">${i}</button>`;
+            }
+
+            // Next
+            if (page < totalPages) {
+                pagHtml += `<button class="btn btn-sm btn-outline-primary" onclick="gotoPage(${page + 1})">Next</button>`;
+            }
+
+            $('#pagination').html(pagHtml);
+        });
+    }
+
+        // Hàm chuyển trang
+    function gotoPage(p) {
+        page = p;
+        let keyword = $('input[name="keyword"]').val();
+        let dateFrom = $('input[name="dateFrom"]').val();
+        let dateTo = $('input[name="dateTo"]').val();
+        loadMater(keyword, dateFrom, dateTo);
+    }
+
+
+        // Mở modal tạo mới (ADD)
+    // =========================
+    $(document).on('click', '#btnAdd', function () {
+        $.get('@Url.Action("CreateMaterSection")', function (res) {
+            $('#modalBody').html(res);
+            $('#materModal').modal('show');
+            bindForm(); // bind form submit giống edit
+        });
+    });
+    // Mở modal chỉnh sửa
+    // =========================
+    $(document).on('click', '.btn-edit', function () {
+        var id = $(this).data('id');
+        $.get('@Url.Action("EditMaterSection")', { id: id }, function (res) {
+            $('#modalBody').html(res);
+            $('#materModal').modal('show');
+            bindForm(); // Gọi sau khi load partial
+        });
+    });
+
+    // =========================
+    // Chi tiết
+    // =========================
+    $(document).on('click', '.btn-detail', function () {
+        var id = $(this).data('id');
+        $.get('@Url.Action("MaterSectionDetail")', { id: id }, function (res) {
+            $('#modalBody').html(res);
+            $('#materModal').modal('show');
+        });
+    });
+
+    // =========================
+    // Xóa
+    // =========================
+    $(document).on('click', '.btn-delete', function () {
+        var id = $(this).data('id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This record will be deleted!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Delete'
+        }).then((result) => {
+            if (!result.isConfirmed) return;
+
+            $.post('@Url.Action("DeleteMaterSection")', { id: id }, function (res) {
+                if (res.success) {
+                    $('#row_' + res.id).remove();
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: 'Record deleted successfully',
+                        timer: 1200,
+                        showConfirmButton: false
+                    });
+                    loadMater(); // Tải lại danh sách
+                }
+            });
+        });
+    });
+
+    // =========================
+    // Submit form tạo hoặc chỉnh sửa
+    // =========================
+    function bindForm() {
+        $('#materForm').off('submit').on('submit', function (e) {
+            e.preventDefault();
+            var form = $(this);
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function (res) {
+                    // Nếu validation thất bại
+                    if (!res.success) {
+                        $('#modalBody').html(res);
+                        bindForm(); // Gọi lại để bind lại form mới
+                        return;
+                    }
+
+                    var d = res.data;
+                    var rowId = '#row_' + d.id;
+                    var isEdit = $(rowId).length > 0;
+
+                    // Thêm mới
+                    if (!isEdit) {
+                        $('#tblMater tbody').append(`
+                            <tr id="row_${d.id}">
+                                <td>${d.id}</td>
+                                <td class="section">${d.section}</td>
+                                <td class="desc">${d.description ?? ''}</td>
+                                <td class="flag">${d.flag_del}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning btn-edit" data-id="${d.id}">Edit</button>
+                                    <button class="btn btn-sm btn-danger btn-delete" data-id="${d.id}">Delete</button>
+                                </td>
+                            </tr>
+                        `);
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Added successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else {
+                        // Cập nhật
+                        var row = $(rowId);
+                        row.find('.section').text(d.section);
+                        row.find('.desc').text(d.description);
+                        row.find('.flag').text(d.flag_del);
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Updated successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+
+                    loadMater(); // Reload danh sách
+                    $('#materModal').modal('hide'); // Đóng modal
+                }
+            });
+        });
+    }
+
+</script>
