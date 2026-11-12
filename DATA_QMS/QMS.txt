@@ -39,22 +39,15 @@ stored:
 
 
 
-"DefaultConnection": "Server=10.92.184.242;Database=PSNV.QMS;User Id=sa;Password=Abcd@1234;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
-"WeightSys": "Server=192.168.128.115;Database=WeightSys;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
-"QMS": "Server=10.92.184.242;Database=PSNV.QMS;User Id=sa;Password=Abcd@1234;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
-"OQC": "Server=192.168.128.115;Database=OQC;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
-"SWMS": "Server=192.168.128.130;Database=SWMS_DEV;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
-"TestDB": "Server=192.168.128.115;Database=TestDB;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
-"EDISystem": "Server=192.168.128.1;Database=EDISystem;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
-"DP_TRACE": "Server=192.168.128.115;Database=DP_TRACE;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
-"SWMS_FINISH_GOODS": "Server=10.92.184.242;Database=SWMS_FINISH_GOODS_DEV;User Id=sa;Password=Abcd@1234;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;"
-
-
-
-select a.SerialNo, * from Log.TestRun a 
-    left join Log.TestStation b on a.StationId = b.StationId 
-    left join Log.ProductModel c on a.ModelId = c.ModelId 
-    where SerialNo = '6GACA356883'
+ "DefaultConnection": "Server=10.92.184.242;Database=PSNV.QMS;User Id=sa;Password=Abcd@1234;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
+ "WeightSys": "Server=192.168.128.115;Database=WeightSys;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
+ "QMS": "Server=10.92.184.242;Database=PSNV.QMS;User Id=sa;Password=Abcd@1234;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
+ "OQC": "Server=192.168.128.115;Database=OQC;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
+ "SWMS": "Server=192.168.128.130;Database=SWMS_DEV;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
+ "TestDB": "Server=192.168.128.115;Database=TestDB;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
+ "EDISystem": "Server=192.168.128.115;Database=EDISystem;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
+ "DP_TRACE": "Server=192.168.128.115;Database=DP_TRACE;User Id=sa;Password=Psnvdb2013;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
+ "SWMS_FINISH_GOODS": "Server=10.92.184.242;Database=SWMS_FINISH_GOODS_DEV;User Id=sa;Password=Abcd@1234;Encrypt=True;TrustServerCertificate=True;Pooling=true;Min Pool Size=10;Max Pool Size=100;Connection Lifetime=300;",
 
 
 ========== //Trace all //===========
@@ -84,7 +77,7 @@ TestDB		QMS_Trace_SMT_GetHeader
 TestDB		QMS_Trace_SMT_GetLineInOut
 TestDB		QMS_Trace_SMT_LaserMarking	(popup laze marking)
 TestDB		QMS_Trace_SMT_Mounting		(popup mounting)
-TestDB		QMS_Trace_PanacimCuttingReel	(show cat chia panacim)    --link sang SWMS --- if exists(SELECT * FROM [SWMS].[SWMS_DEV].[dbo].[tblDefine_SMT] WHERE sReelID = @ReelID)
+TestDB		QMS_Trace_PanacimCuttingReel	(show cat chia panacim)
 TestDB		QMS_Trace_PanacimOriginReel	(lay ID goc)
 
 SWMS_DEV	QMS_Trace_PanacimMCS		(lay thong tin vender va DA, invoice)
@@ -92,27 +85,6 @@ SWMS_DEV	QMS_Trace_PanacimMCS		(lay thong tin vender va DA, invoice)
 PSNV.QMS	QMS_Trace_FourMSummary
 PSNV.QMS	QMS_Trace_SMT_QualityHistory
 PSNV.QMS	QMS_Trace_SMT_RepairHistory
-
-
-========== //Trace DIP //===========  11/11/2026
-EDISystem 	usp_Trace_DIP_GetHeader
-EDISystem	usp_Trace_DIP_GetLineHistory
-SWMS_DEV	usp_Trace_DIP_MaterialDetails
-		
-
-========== //Trace FCT //===========  12/11/2026
-PSNV.QMS	trace.QMS_Trace_FCT_ProcessFlow		(show process step)
-PSNV.QMS	trace.QMS_Trace_FCT_GetHistory		(show history all day)
-		
-
-PSNV.QMS 	master_machine:
-		[trace].[QMS_MachineTypeMaster_Insert]
-		[trace].[QMS_MachineTypeMaster_Update]
-		[trace].[QMS_MachineTypeMaster_List]
-		trace.QMS_MachineTypeMaster_ImportRow		(upload excel)
-
-
-
 
 
 
